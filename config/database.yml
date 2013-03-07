@@ -1,0 +1,19 @@
+defaults: &defaults
+    adapter: postgresql
+    encoding: unicode
+    database: simple_development
+    pool: 5
+    username: <%= ENV['USERNAME'] %>
+    host: localhost
+    port: 5432
+
+development:
+    <<: *defaults
+
+test:
+    <<: *defaults
+    database: simple_test
+
+
+production:
+    <<: *defaults

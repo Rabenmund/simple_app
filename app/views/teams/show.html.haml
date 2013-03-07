@@ -1,0 +1,23 @@
+.row
+	.span12
+		= link_to "\u2190 "+ "Übersicht", teams_path
+		.page-header
+			%h1#title
+				= @team.name
+				%small
+					= Team.human_attribute_name('#') + " " + "#{@team.id}"
+.row
+	.span4
+		%legend
+			= "Attribute"
+		= show_for @team do |s|
+			= s.attribute :name
+	.span4
+	.span4
+
+%hr
+.btn-toolbar
+	.btn-group
+		= link_to edit_team_path(@team), class: 'btn' do
+			%i.icon-edit
+			= "Mannschaft bearbeiten"

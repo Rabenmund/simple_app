@@ -1,0 +1,93 @@
+$linkColor: #059898;
+$btnPrimaryBackground: #059898;
+$btnPrimaryBackgroundHighlight: #00717f;
+
+@import "bootstrap";
+body { padding-top: 54px; } 
+@import "bootstrap-responsive";
+
+$outerColor: #FCFCFC;
+
+h0 { font-size: 20px; }
+
+h1 { font-size: 28px; }
+h2 { font-size: 24px; }
+h3 { font-size: 21px; }
+h4 { font-size: 17px; }
+h5 { font-size: 14px; }
+h6 { font-size: 12px; }
+
+h1, h2, h3 {
+    line-height: 30px;
+}
+h0, h4, h5, h6 {
+    line-height: 20px;
+}
+
+small, .small {
+	font-size: smaller;
+}
+
+.navbar {
+	.brand {
+		font-size: 15px;
+		font-weight: bold;
+		padding-top: 10px;
+		padding-bottom: 13px;
+	}
+}
+
+.app-header{	
+	border-bottom: 1px solid #e5e5e5;
+	margin-bottom: 10px;
+	padding-bottom: 10px;
+	.container, .container-fluid {
+		text-align: bottom;
+	}
+	a.logo {
+		display: inline-block;
+		background-image: image_url('example.svg');
+		background-size: 147px 42px;
+		width: 147px;
+		height: 42px;
+		font-size: 29px;
+		line-height: 35px;
+		text-indent: -9999px;
+	}
+	a.logo.no_svg {
+		background-image: image_url('example.svg');		
+	}
+	a.logo_extension{
+		font-size: 29px;
+		line-height: 37px;
+		text-transform: uppercase;
+		color: $grayLight;		
+		text-decoration: none;
+		vertical-align: bottom;
+		&:hover {
+			color: $gray;
+		}
+	}
+	ul.nav {
+		margin-bottom: 0px;
+		padding-top: 5px;
+		li > a {
+			color: $grayLight;
+		}
+		li.active > a {
+			color: $white;
+			background-color: $grayDark;
+		}
+	}
+}
+
+.app-footer {
+	margin-top: 18px;
+	border-top: 1px solid #e5e5e5;
+	padding: 9px 0;
+	color: #9C9D9D;
+	text-align: center;
+	a, span {
+		margin-left: 10px;
+	}
+}

@@ -1,0 +1,7 @@
+- if @teams.any?
+	%ul
+		=  render partial: "team", collection: @teams
+- else
+	.well#noQuestions='Keine Teams vorhanden'
+.toolbar
+	= new_team_button
