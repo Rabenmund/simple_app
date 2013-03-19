@@ -1,0 +1,293 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang='en' xml:lang='en' xmlns='http://www.w3.org/1999/xhtml'>
+  <head>
+    <title>app/controllers/competitions_controller.rb</title>
+    <link href="./assets/0.2.3/screen.css" media="all" rel="stylesheet" type="text/css" />
+    <link href="./assets/0.2.3/print.css" media="print" rel="stylesheet" type="text/css" />
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+    <script type="text/javascript" src="./assets/0.2.3/rcov.js"></script>
+  </head>
+  <body>
+    <h1>Simple app C0 Coverage Information - Simploco - RCov</h1>
+    <h2>app/controllers/competitions_controller.rb</h2>
+
+    <div class="report_table_wrapper">
+      <table class='report' id='report_table'>
+        <thead>
+          <tr>
+            <th class="left_align">Name</th>
+            <th class="right_align">Total Lines</th>
+            <th class="right_align">Lines of Code</th>
+            <th class="left_align">Total Coverage</th>
+            <th class="left_align">Code Coverage</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="left_align"><a href="app-controllers-competitions_controller_rb.html">app/controllers/competitions_controller.rb</a></td>
+            <td class='right_align'><tt>78</tt></td>
+            <td class='right_align'><tt>44</tt></td>
+            <td class="left_align"><div class="percent_graph_legend"><tt class=''>89.74%</tt></div>
+      <div class="percent_graph">
+        <div class="covered" style="width:90px"></div>
+        <div class="uncovered" style="width:10px"></div>
+      </div></td>
+            <td class="left_align"><div class="percent_graph_legend"><tt class=''>81.82%</tt></div>
+      <div class="percent_graph">
+        <div class="covered" style="width:82px"></div>
+        <div class="uncovered" style="width:18px"></div>
+      </div></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Key</h3>
+
+    <div class="key"><pre><span class='marked'>Code reported as executed by Ruby looks like this...</span><span class='marked1'>and this: this line is also marked as covered.</span><span class='inferred'>Lines considered as run by rcov, but not reported by Ruby, look like this,</span><span class='inferred1'>and this: these lines were inferred by rcov (using simple heuristics).</span><span class='uncovered'>Finally, here's a line marked as not executed.</span></pre></div>
+
+    <h3>Coverage Details</h3>
+
+    <table class="details">
+      <tbody>
+        <tr class="inferred">
+          <td><pre><a name="line2">2</a> # coding: utf-8</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line3">3</a> </pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line4">4</a> class CompetitionsController &lt; ApplicationController</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line5">5</a>     </pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line6">6</a>   before_filter :load_competition, except: [:index, :new, :create]</pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line7">7</a>   before_filter :set_controller_title</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line8">8</a>     </pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line9">9</a> 	def index</pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line10">10</a>     @title = &quot;Wettbewerbe - Übersicht&quot;</pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line11">11</a>     @competitions = Competition.order(&quot;name ASC&quot;)</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line12">12</a> 	end</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line13">13</a>   </pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line14">14</a>   def show</pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line15">15</a>     @title = &quot;#{@competition.name} - Details&quot;</pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line16">16</a>     puts &quot;in :show&quot;</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line17">17</a>   end</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line18">18</a>   </pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line19">19</a>   def new</pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line20">20</a>     @title = &quot;Neuen Wettbewerb anlegen&quot;</pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line21">21</a>     @competition = Competition.new</pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line22">22</a>     @teams = Team.all</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line23">23</a>   end</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line24">24</a>   </pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line25">25</a>   def create </pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line26">26</a>     @competition = Competition.new(params[:competition])</pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line27">27</a>     if @competition.save</pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line28">28</a>       flash[:success] = &quot;Wettbewerb #{@competition.name} erfolgreich angelegt&quot;</pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line29">29</a>       redirect_to @competition</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line30">30</a>     else</pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line31">31</a>       render :new</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line32">32</a>     end</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line33">33</a>   end</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line34">34</a>   </pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line35">35</a>   def edit</pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line36">36</a>     @title = &quot;#{@competition.name} bearbeiten&quot;</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line37">37</a>   end</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line38">38</a>   </pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line39">39</a>   def update</pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line40">40</a>     puts &quot;in :update&quot;</pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line41">41</a>     if @competition.update_attributes(params[:competition])</pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line42">42</a>       flash[:success] = &quot;Wettbewerb #{@competition.name} erfolgreich bearbeitet&quot;</pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line43">43</a>       redirect_to @competition</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line44">44</a>     else</pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line45">45</a>       render :edit</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line46">46</a>     end</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line47">47</a>   end</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line48">48</a>   </pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line49">49</a>   def select_plan_position</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line50">50</a>     @competition.update_plan_position(params[:position], params[:selected_team].id )</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line51">51</a>     render :show</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line52">52</a>   end</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line53">53</a>   </pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line54">54</a>   def reset_plan_positions</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line55">55</a>     @competition.reset_plan_position</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line56">56</a>     render :show</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line57">57</a>   end</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line58">58</a>   </pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line59">59</a>   def randomize_plan_positions</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line60">60</a>     @competition.randomize_plan_position</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line61">61</a>     render :show</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line62">62</a>   end</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line63">63</a>   </pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line64">64</a>   def select_planned_matchday</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line65">65</a>     @planned_md = params[:planned_md]</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line66">66</a>     render :show</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line67">67</a>   end</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line68">68</a>   </pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line69">69</a>   private</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line70">70</a> </pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line71">71</a>   def load_competition</pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line72">72</a>     @competition = Competition.find(params[:id])</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line73">73</a>   end</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line74">74</a>   </pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line75">75</a>   def set_controller_title</pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line76">76</a>     @controller_title = &quot;Wettbewerbe&quot;</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line77">77</a>   end</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line78">78</a> </pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line79">79</a> end</pre></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>Generated on 2013-03-18 17:49:40 +0100 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
+
+  </body>
+</html>

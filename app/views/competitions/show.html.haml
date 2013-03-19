@@ -1,0 +1,51 @@
+.row
+	.span12
+		= link_to "\u2190 "+ "Übersicht", competitions_path
+		.page-header
+			%h1#title
+				= @competition.name
+				%small
+					= Competition.human_attribute_name('#') + " " + "#{@competition.id}"
+.row
+	.span3
+		%legend
+			= "Attribute"
+		= show_for @competition do |s|
+			= s.attribute :name
+	.span3
+		%legend
+			= "Teams"
+		%ul
+			- @competition.teams.each do |t|
+				%li
+					= t.name
+	.span3
+		%legend
+			= "Plan Position"
+		= render partial: "show_plan_positions", locals: { competition: @competition }
+	.span3
+		%legend
+			= "Letzter Spieltag"
+		= render partial: "show_matchday", locals: { md: @competition.no_of_matchdays-1 } # last matchday
+%hr
+.row
+	.span3
+		.btn-toolbar
+			.btn-group
+				= link_to edit_competition_path(@competition), class: 'btn' do
+					%i.icon-edit
+					= "Wettbewerb bearbeiten"
+	.span3
+	.span3
+		.btn-toolbar
+			= link_to randomize_competition_path(@competition), class: 'btn' do
+				%i.icon-random
+			= link_to reset_competition_path(@competition), class: 'btn' do
+				%i.icon-trash
+		= # select plan position #button => action
+	.span3
+%hr
+.row
+	- ((1..@competition.no_of_matchdays).to_a).each do |matchday|
+		.span3
+			= render partial: "show_plan", locals: { matchday: (matchday-1) }

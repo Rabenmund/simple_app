@@ -1,0 +1,7 @@
+= simple_form_for @competition do |f|
+	.row
+		.span12
+			= f.input :name, autofocus: true, input_html: { class: 'span12' }
+			= f.association :teams, as: :check_boxes
+	= f.submit "OK", class: 'btn btn-primary', id: "commit"
+	= f.submit "Cancel", type: :reset, class: 'btn'

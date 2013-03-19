@@ -1,0 +1,6 @@
+%h4
+	= "Spieltag #{matchday+1}"
+%br
+= render partial: "show_matchday", locals: { md: (matchday-1) }
+
+%br
