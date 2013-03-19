@@ -28,8 +28,8 @@ describe CompetitionsController do
   describe "#create" do
     context "with valid attributes" do
       before { post :create, competition: attributes_for(:competition)  }
-      it { should assign_to(:competition).with competition.last }
-      it { should redirect_to competition.last }
+      it { should assign_to(:competition).with Competition.last }
+      it { should redirect_to Competition.last }
     end
     context "with invalid attributes" do
       before { post :create, competition: {} }

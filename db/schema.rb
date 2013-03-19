@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130306153418) do
+ActiveRecord::Schema.define(:version => 20130318163610) do
 
   create_table "competitions", :force => true do |t|
     t.string   "name",       :null => false
@@ -26,10 +26,32 @@ ActiveRecord::Schema.define(:version => 20130306153418) do
 
   add_index "competitions_teams", ["competition_id", "team_id"], :name => "index_competitions_teams_on_competition_id_and_team_id"
 
+  create_table "games", :force => true do |t|
+    t.integer  "home_id",     :null => false
+    t.integer  "guest_id",    :null => false
+    t.integer  "home_goals"
+    t.integer  "guest_goals"
+    t.integer  "matchday_id", :null => false
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  add_index "games", ["guest_id"], :name => "index_games_on_guest_id"
+  add_index "games", ["home_id"], :name => "index_games_on_home_id"
+
+  create_table "matchdays", :force => true do |t|
+    t.integer  "number",         :null => false
+    t.integer  "competition_id", :null => false
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
+  end
+
   create_table "teams", :force => true do |t|
-    t.string   "name",       :null => false
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.string   "name",         :null => false
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+    t.string   "short_name",   :null => false
+    t.string   "abbreviation", :null => false
   end
 
 end

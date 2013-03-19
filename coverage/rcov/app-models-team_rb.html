@@ -25,8 +25,8 @@
         <tbody>
           <tr>
             <td class="left_align"><a href="app-models-team_rb.html">app/models/team.rb</a></td>
-            <td class='right_align'><tt>8</tt></td>
-            <td class='right_align'><tt>4</tt></td>
+            <td class='right_align'><tt>10</tt></td>
+            <td class='right_align'><tt>6</tt></td>
             <td class="left_align"><div class="percent_graph_legend"><tt class=''>100.00%</tt></div>
       <div class="percent_graph">
         <div class="covered" style="width:100px"></div>
@@ -54,30 +54,36 @@
           <td><pre><a name="line2">2</a> class Team &lt; ActiveRecord::Base</pre></td>
         </tr>
         <tr class="marked">
-          <td><pre><a name="line3">3</a>   attr_accessible :name</pre></td>
+          <td><pre><a name="line3">3</a>   attr_accessible :name, :short_name, :abbreviation</pre></td>
         </tr>
         <tr class="inferred">
           <td><pre><a name="line4">4</a>   </pre></td>
         </tr>
         <tr class="marked">
-          <td><pre><a name="line5">5</a>   validates :name, presence: true</pre></td>
-        </tr>
-        <tr class="inferred">
-          <td><pre><a name="line6">6</a>   </pre></td>
+          <td><pre><a name="line5">5</a>   validates :name, presence: true, length: { maximum: 30 }</pre></td>
         </tr>
         <tr class="marked">
-          <td><pre><a name="line7">7</a>   has_and_belongs_to_many :competitions</pre></td>
+          <td><pre><a name="line6">6</a>   validates :short_name, presence: true, length: { maximum: 8 }</pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line7">7</a>   validates :abbreviation, presence: true, length: { maximum: 3 }</pre></td>
         </tr>
         <tr class="inferred">
-          <td><pre><a name="line8">8</a> </pre></td>
+          <td><pre><a name="line8">8</a>   </pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line9">9</a>   has_and_belongs_to_many :competitions</pre></td>
         </tr>
         <tr class="inferred">
-          <td><pre><a name="line9">9</a> end</pre></td>
+          <td><pre><a name="line10">10</a> </pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line11">11</a> end</pre></td>
         </tr>
       </tbody>
     </table>
 
-    <p>Generated on 2013-03-06 16:54:34 +0100 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
+    <p>Generated on 2013-03-18 17:49:40 +0100 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
 
   </body>
 </html>

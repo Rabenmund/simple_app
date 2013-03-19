@@ -9,5 +9,8 @@
 		%div{class: "container" }
 			#flash_area= render "layouts/flash_messages"
 			.content
+				= link_to "\u2191 "+ "Dashboard", dashboard_path
+				%br
+				%br
 				= yield
 		= render "layouts/footer"

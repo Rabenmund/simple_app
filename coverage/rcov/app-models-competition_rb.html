@@ -25,17 +25,17 @@
         <tbody>
           <tr>
             <td class="left_align"><a href="app-models-competition_rb.html">app/models/competition.rb</a></td>
-            <td class='right_align'><tt>21</tt></td>
-            <td class='right_align'><tt>9</tt></td>
-            <td class="left_align"><div class="percent_graph_legend"><tt class=''>95.24%</tt></div>
+            <td class='right_align'><tt>75</tt></td>
+            <td class='right_align'><tt>37</tt></td>
+            <td class="left_align"><div class="percent_graph_legend"><tt class=''>81.33%</tt></div>
       <div class="percent_graph">
-        <div class="covered" style="width:95px"></div>
-        <div class="uncovered" style="width:5px"></div>
+        <div class="covered" style="width:81px"></div>
+        <div class="uncovered" style="width:19px"></div>
       </div></td>
-            <td class="left_align"><div class="percent_graph_legend"><tt class=''>88.89%</tt></div>
+            <td class="left_align"><div class="percent_graph_legend"><tt class=''>62.16%</tt></div>
       <div class="percent_graph">
-        <div class="covered" style="width:89px"></div>
-        <div class="uncovered" style="width:11px"></div>
+        <div class="covered" style="width:62px"></div>
+        <div class="uncovered" style="width:38px"></div>
       </div></td>
           </tr>
         </tbody>
@@ -50,73 +50,235 @@
 
     <table class="details">
       <tbody>
-        <tr class="marked">
-          <td><pre><a name="line2">2</a> class Competition &lt; ActiveRecord::Base</pre></td>
-        </tr>
-        <tr class="marked">
-          <td><pre><a name="line3">3</a>   attr_accessor :no_of_teams, :plan</pre></td>
-        </tr>
-        <tr class="marked">
-          <td><pre><a name="line4">4</a>   attr_accessible :name</pre></td>
+        <tr class="inferred">
+          <td><pre><a name="line2">2</a> # coding: utf-8</pre></td>
         </tr>
         <tr class="inferred">
-          <td><pre><a name="line5">5</a>   </pre></td>
+          <td><pre><a name="line3">3</a> </pre></td>
         </tr>
         <tr class="marked">
-          <td><pre><a name="line6">6</a>   validates :name, presence: true</pre></td>
-        </tr>
-        <tr class="inferred">
-          <td><pre><a name="line7">7</a>     </pre></td>
+          <td><pre><a name="line4">4</a> class Competition &lt; ActiveRecord::Base</pre></td>
         </tr>
         <tr class="marked">
-          <td><pre><a name="line8">8</a>   has_and_belongs_to_many :teams </pre></td>
-        </tr>
-        <tr class="inferred">
-          <td><pre><a name="line9">9</a>     </pre></td>
+          <td><pre><a name="line5">5</a>   attr_accessor :no_of_teams, :plan, :plan_position, :selected_matchday</pre></td>
         </tr>
         <tr class="marked">
-          <td><pre><a name="line10">10</a>   def no_of_teams</pre></td>
+          <td><pre><a name="line6">6</a>   attr_accessible :name, :team_ids, :selected_matchday</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line7">7</a>   </pre></td>
         </tr>
         <tr class="marked">
-          <td><pre><a name="line11">11</a>     @no_of_teams ||= 6</pre></td>
+          <td><pre><a name="line8">8</a>   validates :name, presence: true</pre></td>
         </tr>
         <tr class="inferred">
-          <td><pre><a name="line12">12</a>   end</pre></td>
-        </tr>
-        <tr class="inferred">
-          <td><pre><a name="line13">13</a>   </pre></td>
+          <td><pre><a name="line9">9</a>   </pre></td>
         </tr>
         <tr class="marked">
-          <td><pre><a name="line14">14</a>   def plan</pre></td>
+          <td><pre><a name="line10">10</a>   validate :not_more_than_no_of_teams</pre></td>
         </tr>
         <tr class="inferred">
-          <td><pre><a name="line15">15</a>     @plan ||= [</pre></td>
+          <td><pre><a name="line11">11</a>     </pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line12">12</a>   has_and_belongs_to_many :teams</pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line13">13</a>   has_many :matchdays, dependent: :destroy</pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line14">14</a>   has_many :games, through: :matchdays</pre></td>
         </tr>
         <tr class="inferred">
-          <td><pre><a name="line16">16</a>       [ [1,2], [3,4] ],</pre></td>
+          <td><pre><a name="line15">15</a>     </pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line16">16</a>   def no_of_teams</pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line17">17</a>     @no_of_teams ||= 4</pre></td>
         </tr>
         <tr class="inferred">
-          <td><pre><a name="line17">17</a>       [ [1,4], [2,3] ],</pre></td>
+          <td><pre><a name="line18">18</a>   end</pre></td>
         </tr>
         <tr class="inferred">
-          <td><pre><a name="line18">18</a>       [ [3,1], [4,2] ]</pre></td>
+          <td><pre><a name="line19">19</a>   </pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line20">20</a>   def no_of_games_per_matchday</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line19">19</a>     ]</pre></td>
+          <td><pre><a name="line21">21</a>     no_of_teams div 2</pre></td>
         </tr>
         <tr class="inferred">
-          <td><pre><a name="line20">20</a>   end</pre></td>
+          <td><pre><a name="line22">22</a>   end</pre></td>
         </tr>
         <tr class="inferred">
-          <td><pre><a name="line21">21</a>   </pre></td>
+          <td><pre><a name="line23">23</a>   </pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line24">24</a>   def no_of_matchdays</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line25">25</a>     (no_of_teams - 1) * 2</pre></td>
         </tr>
         <tr class="inferred">
-          <td><pre><a name="line22">22</a> end</pre></td>
+          <td><pre><a name="line26">26</a>   end</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line27">27</a>   </pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line28">28</a>   def plan</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line29">29</a>     @plan ||= first_half_plan.concat second_half_plan</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line30">30</a>   end</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line31">31</a>   </pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line32">32</a>   def plan_position</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line33">33</a>     @plan_position ||= reset_plan_position</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line34">34</a>   end</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line35">35</a>   </pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line36">36</a>   def update_plan_position(position=0, team_id=0) </pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line37">37</a>     plan_position[position] = team_id</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line38">38</a>   end</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line39">39</a>   </pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line40">40</a>   def reset_plan_position</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line41">41</a>     @plan_position = Array.new(no_of_teams, 0) # =&gt; [ 0, 0, 0, 0, 0, 0 ]</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line42">42</a>   end</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line43">43</a>   </pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line44">44</a>   def randomize_plan_position</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line45">45</a>     teams.each do |t|</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line46">46</a>       rand_position(t)</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line47">47</a>     end</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line48">48</a>   end</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line49">49</a>   </pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line50">50</a>   private</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line51">51</a>   </pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line52">52</a>   def first_half_plan</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line53">53</a>     [</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line54">54</a>       [ [1,2], [3,4] ],</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line55">55</a>       [ [1,4], [2,3] ],</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line56">56</a>       [ [3,1], [4,2] ]</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line57">57</a>     ]</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line58">58</a>   end</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line59">59</a>   </pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line60">60</a>   def second_half_plan</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line61">61</a>     first_half_plan.map! do |md| </pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line62">62</a>       md.map! do |g| </pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line63">63</a>         [g[1], g[0]]</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line64">64</a>       end</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line65">65</a>     end</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line66">66</a>   end</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line67">67</a> </pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line68">68</a>   def rand_position(team)</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line69">69</a>     rand_no = Random.rand(0...no_of_teams) - 1</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line70">70</a>     plan_position[rand_no] == 0 ? update_plan_position(rand_no, team.id) : rand_position(team) # hurra - eine rekursion</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line71">71</a>   end</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line72">72</a>   </pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line73">73</a>   def not_more_than_no_of_teams</pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line74">74</a>     errors.add(:teams, &quot;Es sind zuviele Mannschaften ausgewählt. Erlaubt: ##{no_of_teams}. Ausgewählt: ##{teams.length}&quot;) if teams.length &gt; no_of_teams</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line75">75</a>   end</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line76">76</a> end</pre></td>
         </tr>
       </tbody>
     </table>
 
-    <p>Generated on 2013-03-06 16:54:34 +0100 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
+    <p>Generated on 2013-03-18 17:49:40 +0100 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
 
   </body>
 </html>

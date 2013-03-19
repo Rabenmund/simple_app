@@ -1,12 +1,14 @@
 SimpleApp::Application.routes.draw do
   
-  root to: 'teams#index'
+  root to: 'statics#dashboard'
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
   # Sample of regular route:
   #   match 'products/:id' => 'catalog#view'
   # Keep in mind you can assign values other than :controller and :action
+  
+  match 'dashboard' => 'statics#dashboard'
 
   # Sample of named route:
   #   match 'products/:id/purchase' => 'catalog#purchase', :as => :purchase
@@ -16,6 +18,13 @@ SimpleApp::Application.routes.draw do
   #   resources :products
 
   resources :teams, only: [:index, :show, :new, :create, :edit, :update]
+  resources :competitions, only: [:index, :show, :new, :create, :edit, :update] do
+    member do
+      get :randomize_plan_positions, as: :randomize
+      get :reset_plan_positions, as: :reset
+    end
+  end
+  
   
   # Sample resource route with options:
   #   resources :products do
