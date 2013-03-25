@@ -1,0 +1,8 @@
+- if @seasons.any?
+	%ul
+		=  render partial: "season", collection: @seasons
+- else
+	.well#noQuestions
+		='Keine Saisons vorhanden'
+.toolbar
+	= new_season_button
