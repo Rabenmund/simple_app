@@ -2,6 +2,19 @@
 	.row
 		.span12
 			= f.input :name, autofocus: true, input_html: { class: 'span12' }
-			= f.association :teams, as: :check_boxes
+			- if @competition.games.any?
+				.row
+					.span3
+						= f.association :teams, as: :check_boxes, disabled: true
+					.span6
+						.text-warning
+							= "Teams können nicht bearbeitet werden, solange Spiele angelegt sind"
+							%br
+							%br
+							= link_to delete_matchdays_competition_path(@competition), class: 'btn btn-warning' do
+								%i.icon-trash
+								= "Spieltage/Spiele löschen"
+			- else
+				= f.association :teams, as: :check_boxes
 	= f.submit "OK", class: 'btn btn-primary', id: "commit"
 	= f.submit "Cancel", type: :reset, class: 'btn'

@@ -1,4 +1,20 @@
+%hr
+.row
+	.span6
+		%h4
+			= "Offene Saisons (derzeit noch alle - nicht gefiltert)"
+%br
+.row
+	- if Season.all.any? # TODO Season.running.any?
+		- Season.all.each do |season|
+			.span2
+				= link_to season_path(season), class: 'btn btn-success' do # TODO play-the-season-path fehlt
+					%i.icon-play
+					= season.name
+%hr
 %ul
+	%li
+		= link_to "Saisons", seasons_path
 	%li
 		= link_to "Wettbewerbe", competitions_path
 	%li

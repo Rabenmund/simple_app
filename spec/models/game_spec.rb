@@ -32,4 +32,14 @@ describe Game do
   it { should have_one(:competition).through :matchday }
   it { should belong_to :matchday }
   
+  it "is finished when all goals are valued" do
+    game.home_goals, game.guest_goals = 1 , 1 
+    should be_finished 
+  end
+  
+  it "is not finished when a goal value is missing" do
+    game.home_goals = 1 
+    should_not be_finished
+  end
+  
 end

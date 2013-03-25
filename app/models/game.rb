@@ -9,4 +9,10 @@ class Game < ActiveRecord::Base
   validates :home_goals, numericality: { only_integer: true }, allow_nil: true
   validates :guest_goals, numericality: { only_integer: true }, allow_nil: true
   
+  scope :not_finished, where("home_goals IS NULL OR guest_goals IS NULL")
+  scope :finished, where("home_goals IS NOT NULL AND guest_goals IS NOT NULL")
+  
+  def finished?
+    home_goals && guest_goals
+  end
 end

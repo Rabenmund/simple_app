@@ -28,24 +28,63 @@
 			= "Letzter Spieltag"
 		= render partial: "show_matchday", locals: { md: @competition.no_of_matchdays-1 } # last matchday
 %hr
-.row
-	.span3
-		.btn-toolbar
-			.btn-group
-				= link_to edit_competition_path(@competition), class: 'btn' do
-					%i.icon-edit
-					= "Wettbewerb bearbeiten"
-	.span3
-	.span3
-		.btn-toolbar
-			= link_to randomize_competition_path(@competition), class: 'btn' do
-				%i.icon-random
-			= link_to reset_competition_path(@competition), class: 'btn' do
-				%i.icon-trash
-		= # select plan position #button => action
-	.span3
+- unless @competition.started?
+	.row
+		.span3
+			.btn-toolbar
+				.btn-group
+					= link_to edit_competition_path(@competition), class: 'btn' do
+						%i.icon-edit
+						= "Wettbewerb bearbeiten"
+		.span3
+		.span3
+			.btn-toolbar
+				= link_to randomize_competition_path(@competition), class: 'btn' do
+					%i.icon-random
+				= link_to reset_competition_path(@competition), class: 'btn' do
+					%i.icon-trash
+			= # select plan position #button => action
+		.span3
+	%hr
+	.row
+		.span12
+			%h3
+				= "Geplante Spieltage"
+	.row
+		- ((1..@competition.no_of_matchdays).to_a).each do |matchday|
+			.span3
+				= render partial: "show_plan", locals: { matchday: (matchday-1) }
+	%hr
+	.row
+		.span6
+			.btn-toolbar
+				- if @competition.ready_to_persist?
+					= link_to persist_competition_path(@competition), class: 'btn btn-warning' do
+						%i.icon-ok
+						= "Wettbewerb speichern"
+				- else
+					%h5
+						.text-error
+							= "Dieser Wettbewerb kann nicht gespeichert werden."
+							%br
+							= "Anzahl teilnehmende Mannschaften: #{@competition.teams.size}."
+							%br
+							= "Anzahl erwartete Mannschaften: #{@competition.no_of_teams}."
+							%br
+	%hr
+- else
+	= "Wettbewerb bereits gestartet."
+	%br
+	= "Wettbewerb kann nicht bearbeitet werden."
 %hr
 .row
-	- ((1..@competition.no_of_matchdays).to_a).each do |matchday|
-		.span3
-			= render partial: "show_plan", locals: { matchday: (matchday-1) }
+	.span12
+		%h3
+			= "Gespeicherte Spieltage"
+.row
+	- if @competition.matchdays.any?
+		- @competition.matchdays.each do |matchday|
+			= render partial: "show_saved_matchday", locals: { md: (matchday) }
+	- else
+		.span12
+			= "Keine Spieltage vorhanden"
