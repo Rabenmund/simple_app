@@ -27,7 +27,11 @@ SimpleApp::Application.routes.draw do
     end
   end
   
-  resources :seasons, only: [:index, :show, :new, :create, :edit, :update]
+  resources :seasons, only: [:index, :show, :new, :create, :edit, :update] do
+    member do
+      get :current_schedule, as: :current
+    end
+  end
   
   
   # Sample resource route with options:

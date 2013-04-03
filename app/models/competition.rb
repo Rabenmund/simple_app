@@ -38,7 +38,7 @@ class Competition < ActiveRecord::Base
     @plan ||= first_half_plan.concat second_half_plan
   end
   
-  # TODO aufraeumen model und ersetzen des attributes plan_posítion durch plan_positions (db persistent) - controller einbeziehen
+  # TODO aufraeumen model und ersetzen des attributes plan_position durch plan_positions (db persistent) - controller einbeziehen
   
   def plan_position
     @plan_position ||= reset_plan_position

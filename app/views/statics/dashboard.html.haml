@@ -2,15 +2,17 @@
 .row
 	.span6
 		%h4
-			= "Offene Saisons (derzeit noch alle - nicht gefiltert)"
+			= "Offene Saisons"
 %br
 .row
 	- if Season.all.any? # TODO Season.running.any?
 		- Season.all.each do |season|
-			.span2
-				= link_to season_path(season), class: 'btn btn-success' do # TODO play-the-season-path fehlt
-					%i.icon-play
-					= season.name
+			- # TODO unhack the each for finished - what about associations or so???
+			- unless season.finished?
+				.span2
+					= link_to current_season_path(season), class: 'btn btn-success' do # TODO play-the-season-path fehlt
+						%i.icon-play
+						= season.name
 %hr
 %ul
 	%li

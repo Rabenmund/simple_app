@@ -2,7 +2,7 @@
 
 class SeasonsController < ApplicationController
     
-  before_filter :load_season, only: [:show, :edit, :update]
+  before_filter :load_season, only: [:show, :edit, :update, :current_schedule]
   before_filter :set_controller_title
     
 	def index
@@ -42,6 +42,10 @@ class SeasonsController < ApplicationController
     else
       render :edit
     end
+  end
+  
+  def current_schedule
+    @title = "Aktuell: #{@season.name}"
   end
   
   private
