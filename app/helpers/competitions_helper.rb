@@ -1,7 +1,7 @@
 module CompetitionsHelper
 
   def new_competition_button
-    link_to new_competition_path, class: 'btn' do
+    link_to new_season_competition_path(@season), class: 'btn' do
       content_tag('i', '', class: 'icon-plus') + " Neuer Wettbewerb".html_safe
     end
   end

@@ -1,7 +1,8 @@
 # coding: utf-8
 
 class CompetitionsController < ApplicationController
-    
+  
+  before_filter :load_season
   before_filter :load_competition, except: [:index, :new, :create]
   before_filter :set_controller_title
     
@@ -21,10 +22,11 @@ class CompetitionsController < ApplicationController
   end
   
   def create 
-    @competition = Competition.new(params[:competition])
+    @competition = @season.competitions.new(params[:competition])
     if @competition.save
       flash[:success] = "Wettbewerb #{@competition.name} erfolgreich angelegt"
-      redirect_to @competition
+      puts @competition.inspect
+      redirect_to season_competition_path(@season, @competition)
     else
       render :new
     end
@@ -35,10 +37,10 @@ class CompetitionsController < ApplicationController
   end
   
   def update
-    redirect_to @competiton if @competition.started?
+    season_competitions_path(@season) if @competition.started?
     if @competition.update_attributes(params[:competition])
       flash[:success] = "Wettbewerb #{@competition.name} erfolgreich bearbeitet"
-      redirect_to @competition
+      redirect_to season_competition_path(@season, @competition)
     else
       render :edit
     end
@@ -110,6 +112,10 @@ class CompetitionsController < ApplicationController
   
   def set_controller_title
     @controller_title = "Wettbewerbe"
+  end
+  
+  def load_season
+    @season = Season.find(params[:season_id])
   end
 
 end

@@ -7,6 +7,7 @@ class Competition < ActiveRecord::Base
   serialize :plan_positions
   
   validates :name, presence: true
+  validates :season, presence: true
   
   validate :not_more_than_no_of_teams
     
@@ -18,14 +19,17 @@ class Competition < ActiveRecord::Base
   scope :non_selected, where(season_id: nil)
 
   def finished?
-#    matchdays.not_finished.empty?
-# TODO Monster hack. mindestens abbrechen sobald der erste gefunden ist. geht das nicht besser?
-    return false if matchdays.empty?
-    @not_finished_mds = []
-    matchdays.each { |m| @not_finished_mds << m unless m.games.not_finished.empty? && m.games.any? }
-    @not_finished_mds.empty?
+    games.any? && games.not_finished.empty?
   end
-    
+  
+  def started?
+    games.any? && games.finished.any?
+  end
+  
+  def not_started?
+    !started?
+  end
+
   def no_of_teams
     @no_of_teams ||= 4
   end
@@ -63,11 +67,6 @@ class Competition < ActiveRecord::Base
   
   def ready_to_persist?
     correct_number_of_teams? && !started?
-  end
-  
-  def started?
-    # definition der Startbedingungen erweitern, wenn dates eingefuehrt werden
-    !matchdays.first.games.first.home_goals.nil? if matchdays.any?
   end
   
   private

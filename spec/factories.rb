@@ -8,7 +8,7 @@ FactoryGirl.define do
   
   factory :competition do
     sequence(:name) { |n| "Competition ##{n}" }
-    
+    season
     factory :competition_ready do      
       before :create do |c|
         c.no_of_teams.times do

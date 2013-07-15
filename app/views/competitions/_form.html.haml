@@ -1,8 +1,8 @@
-= simple_form_for @competition do |f|
+= simple_form_for competition, url: { action: action }, method: method, html: { class: 'form-horizontal' } do |f|
 	.row
 		.span12
 			= f.input :name, autofocus: true, input_html: { class: 'span12' }
-			- if @competition.games.any?
+			- if competition.games.any?
 				.row
 					.span3
 						= f.association :teams, as: :check_boxes, disabled: true
@@ -11,7 +11,7 @@
 							= "Teams können nicht bearbeitet werden, solange Spiele angelegt sind"
 							%br
 							%br
-							= link_to delete_matchdays_competition_path(@competition), class: 'btn btn-warning' do
+							= link_to delete_matchdays_season_competition_path(season, competition), class: 'btn btn-warning' do
 								%i.icon-trash
 								= "Spieltage/Spiele löschen"
 			- else

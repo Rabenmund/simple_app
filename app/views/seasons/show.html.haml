@@ -1,30 +1,35 @@
 .row
-	.span12
-		= link_to "\u2190 "+ "Übersicht", seasons_path
-		.page-header
-			%h1#title
-				= @season.name
-				%small
-					= Season.human_attribute_name('#') + " " + "#{@season.id}"
+  .span12
+    = link_to "\u2190 "+ "Übersicht", seasons_path
+    .page-header
+      %h1#title
+        = @season.name
+        %small
+          = Season.human_attribute_name('#') + " " + "#{@season.id}"
 .row
-	.span3
-		%legend
-			= "Attribute"
-		= show_for @season do |s|
-			= s.attribute :name
-	.span3
-		%legend
-			= "Wettbewerbe"
-		%ul
-			- @season.competitions.each do |t|
-				%li
-					= t.name
-	.span3
-	.span3
+  .span3
+    %legend
+      = "Attribute"
+    = show_for @season do |s|
+      = s.attribute :name
+  .span3
+    %legend
+      = "Wettbewerbe"
+    - if @season.competitions.any?
+      %ul
+        - @season.competitions.each do |competition|
+          %li
+            = link_to competition.name, season_competition_path(@season, competition)
+    - else
+      .well#noQuestions='Keine Wettbewerbe vorhanden'
+    .toolbar
+      = new_competition_button
+  .span3
+  .span3
 
 %hr
 .btn-toolbar
-	.btn-group
-		= link_to edit_season_path(@season), class: 'btn' do
-			%i.icon-edit
-			= "Saison bearbeiten"
+  .btn-group
+    = link_to edit_season_path(@season), class: 'btn' do
+      %i.icon-edit
+      = "Saison bearbeiten"

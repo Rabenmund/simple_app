@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+<head>
+  <title></title>
+
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" type="text/javascript"></script>
+
+  <script type="text/javascript">
+
+    $(document).ready(function() {
+        $("#error_indicator").hide()
+        $("#pw2").change(function() { 
+          otherPw = $("#pw1").val()
+          console.log(otherPw)
+          if($(this).val() != otherPw) {
+            $("#error_indicator").show();
+          } else {
+            $("#error_indicator").hide();
+          }
+        })
+      }
+    );
+
+  </script>
+</head>
+<body>
+  <form id="myform">
+    <input id="pw1" type="password"/><br/>
+    <input id="pw2" type="password"/> <span class="hidden_indicator" id="error_indicator">!!!</span>
+  </form>
+</body>
+</html>

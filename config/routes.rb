@@ -18,18 +18,19 @@ SimpleApp::Application.routes.draw do
   #   resources :products
 
   resources :teams, only: [:index, :show, :new, :create, :edit, :update]
-  resources :competitions, only: [:index, :show, :new, :create, :edit, :update] do
-    member do
-      get :randomize_plan_positions, as: :randomize
-      get :reset_plan_positions, as: :reset
-      get :persist_competition, as: :persist
-      get :delete_matchdays_and_games, as: :delete_matchdays
-    end
-  end
+
   
   resources :seasons, only: [:index, :show, :new, :create, :edit, :update] do
     member do
       get :current_schedule, as: :current
+    end
+    resources :competitions, only: [:index, :show, :new, :create, :edit, :update] do
+      member do
+        get :randomize_plan_positions, as: :randomize
+        get :reset_plan_positions, as: :reset
+        get :persist_competition, as: :persist
+        get :delete_matchdays_and_games, as: :delete_matchdays
+      end
     end
   end
   
