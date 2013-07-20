@@ -2,9 +2,9 @@
 
 class Matchday < ActiveRecord::Base
   attr_accessible :number
-  belongs_to :competition
+  belongs_to :league
   has_many :games, dependent: :destroy
-  validates :number, uniqueness: { scope: :competition_id }, presence: true, numericality: true
+  validates :number, uniqueness: { scope: :league_id }, presence: true, numericality: true
 
   def finished?
     games.any? && games.not_finished.empty?

@@ -5,6 +5,6 @@ class Team < ActiveRecord::Base
   validates :short_name, presence: true, length: { maximum: 8 }
   validates :abbreviation, presence: true, length: { maximum: 3 }
   
-  has_and_belongs_to_many :competitions
+  has_and_belongs_to_many :leagues
 
 end

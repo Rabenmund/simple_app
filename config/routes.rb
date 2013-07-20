@@ -1,6 +1,26 @@
 SimpleApp::Application.routes.draw do
   
-  root to: 'statics#dashboard'
+  root to: 'leagues#index'
+
+  #match 'dashboard' => 'statics#dashboard'
+
+  # resources :teams, only: [:index, :show, :new, :create, :edit, :update]
+  # 
+  # 
+  # resources :seasons, only: [:index, :show, :new, :create, :edit, :update] do
+  #   member do
+  #     get :current_schedule, as: :current
+  #   end
+  #   resources :competitions, only: [:index, :show, :new, :create, :edit, :update] do
+  #     member do
+  #       get :randomize_plan_positions, as: :randomize
+  #       get :reset_plan_positions, as: :reset
+  #       get :persist_competition, as: :persist
+  #       get :delete_matchdays_and_games, as: :delete_matchdays
+  #     end
+  #   end
+  # end
+  
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
@@ -8,32 +28,12 @@ SimpleApp::Application.routes.draw do
   #   match 'products/:id' => 'catalog#view'
   # Keep in mind you can assign values other than :controller and :action
   
-  match 'dashboard' => 'statics#dashboard'
-
   # Sample of named route:
   #   match 'products/:id/purchase' => 'catalog#purchase', :as => :purchase
   # This route can be invoked with purchase_url(:id => product.id)
 
   # Sample resource route (maps HTTP verbs to controller actions automatically):
   #   resources :products
-
-  resources :teams, only: [:index, :show, :new, :create, :edit, :update]
-
-  
-  resources :seasons, only: [:index, :show, :new, :create, :edit, :update] do
-    member do
-      get :current_schedule, as: :current
-    end
-    resources :competitions, only: [:index, :show, :new, :create, :edit, :update] do
-      member do
-        get :randomize_plan_positions, as: :randomize
-        get :reset_plan_positions, as: :reset
-        get :persist_competition, as: :persist
-        get :delete_matchdays_and_games, as: :delete_matchdays
-      end
-    end
-  end
-  
   
   # Sample resource route with options:
   #   resources :products do
