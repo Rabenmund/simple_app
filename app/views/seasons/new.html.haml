@@ -1,7 +1,7 @@
-.row
-	.span12
-		= @competitions.inspect
-		= link_to "\u2190 "+ "Übersicht", seasons_path
-		.page-header
-			%h1=@title
+= link_to "\u2190 "+ "Saisons", seasons_path
+%h2
+  = "Neue Saison erstellen"
+%hr
 = render 'form', locals: { competitions: @competitions }
+%br
+= "Pattern auswählen (muss noch erstellt werden)"

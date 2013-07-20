@@ -1,0 +1,34 @@
+* Season Pattern
+  - season -> create pattern
+            - 9 Ligen, 2 Pokale, etc...
+            - 11 Ligen, 1 Pokal...
+  - die pattern sollten eine eigene Tabelle sein und Art, Beziehung(Reihenfolge, Auf- Absteiger...) enthalten.
+  - der anschliessende create prozess sollte alles anlegfen.
+  - die freie verteilung der plan positionen sollte entfallen.
+  - Der create prozess sollte nach vollständiger beendigung einer season zur erzeugung der nächsten automatisch angestossen werden.
+  - die season untereinander sollten die mögichkeit einer beziehung zu anderen seasons haben (vorgänger, nachfolger)
+  
+* Ereignistabelle
+  - das herzstück der auswertbaren ereignisse pro spiel.
+  - was eigentragen werden sollte:
+      -- spiel, spieler, ereignis
+        --- ereignisse:
+            aufstellung
+            einwechselung
+            tor
+            vorlage
+            elfmeter
+            rote karte
+            (gelbe karte)
+            (verletzung)
+            (vergeigte chance)
+            (...)
+            
+    - die tabelle ist eine many-to-many verknüpfungstabelle
+    - geschätzte einträge: ca. 15000 pro Liga/Season
+    - Gesamtgrösse: 100 Millionen
+    - zunächst braucht es noch keine solche tabelle - erst wenn die spieler angelegt sind
+    
+* Neue Competition erstellen
+  gegenwärtig nicht möglich
+  

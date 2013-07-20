@@ -2,6 +2,7 @@
   .row
     .span12
       = f.input :name, autofocus: true, input_html: { class: 'span12' }
+      = "--> Patternauswahl (falls noch nicht gestartet) und (später)"
       - if @season.competitions.any?
         = f.association :competitions, as: :check_boxes, collection: @competitions
       - else

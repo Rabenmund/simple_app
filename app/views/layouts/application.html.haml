@@ -1,16 +1,13 @@
 !!! 5
 %html.no-js
-	%head
-		= render "layouts/head"
-		= javascript_include_tag "application"
-	%body
-		= render 'layouts/minibar'
-		= render "layouts/header"
-		%div{class: "container" }
-			#flash_area= render "layouts/flash_messages"
-			.content
-				= link_to "\u2191 "+ "Dashboard", dashboard_path
-				%br
-				%br
-				= yield
-		= render "layouts/footer"
+  %head
+    = render "layouts/head"
+    = javascript_include_tag "application"
+  %body
+    = render 'layouts/minibar'
+    %div{class: "container" }
+      #flash_area
+        = render "layouts/flash_messages"
+      .content
+        = yield
+      = render "layouts/footer"

@@ -1,11 +1,9 @@
-.row
-  .span12
-    = link_to "\u2190 "+ "Übersicht", seasons_path
-    .page-header
-      %h1#title
-        = @season.name
-        %small
-          = Season.human_attribute_name('#') + " " + "#{@season.id}"
+= link_to "\u2190 "+ "Saisons", teams_path
+%h2
+  = @season.name
+  %small
+    = Season.human_attribute_name('#') + " " + "#{@season.id}"
+%hr
 .row
   .span3
     %legend

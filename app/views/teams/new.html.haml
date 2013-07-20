@@ -1,6 +1,4 @@
-.row
-	.span12
-		= link_to "\u2190 "+ "Übersicht", teams_path
-		.page-header
-			%h1=@title
+= link_to "\u2190 "+ "Mannschaften", teams_path
+%h2
+  = "Neue Mannschaft erstellen"
 = render 'form'
