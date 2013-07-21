@@ -100,7 +100,8 @@ TEAMS =
     }
 }
 
-puts "Create teams:/n"
+puts ""
+puts "Mannschaften:"
 TEAMS.each_key do |team|
   parameters =
     { 
@@ -113,6 +114,8 @@ TEAMS.each_key do |team|
   puts team+": "+ errors
 end
 
+puts ""
+puts "Ligen:"
 LIGAS =
 {
   '1.Bundesliga' => 
@@ -130,3 +133,5 @@ LIGAS.each_key do |liga|
   errors = result.errors.messages.any? ? result.errors.messages.inspect : "ok"
   puts liga+": "+ errors
 end
+
+#CreateLeague.create(league: parameters, teams: Team.all)

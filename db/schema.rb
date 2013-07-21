@@ -13,6 +13,19 @@
 
 ActiveRecord::Schema.define(:version => 20130720152321) do
 
+  create_table "games", :force => true do |t|
+    t.integer  "home_id",     :null => false
+    t.integer  "guest_id",    :null => false
+    t.integer  "home_goals"
+    t.integer  "guest_goals"
+    t.integer  "matchday_id", :null => false
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  add_index "games", ["guest_id"], :name => "index_games_on_guest_id"
+  add_index "games", ["home_id"], :name => "index_games_on_home_id"
+
   create_table "leagues", :force => true do |t|
     t.string   "name",       :null => false
     t.datetime "created_at", :null => false
