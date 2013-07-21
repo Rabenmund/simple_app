@@ -129,9 +129,6 @@ LIGAS.each_key do |liga|
   {
     name: LIGAS[liga][:name]
   }
-  result = League.create(parameters)
-  errors = result.errors.messages.any? ? result.errors.messages.inspect : "ok"
-  puts liga+": "+ errors
+  result = CreateLeague.create(league: parameters, teams: Team.all)
+  puts liga+": ok"
 end
-
-#CreateLeague.create(league: parameters, teams: Team.all)
