@@ -18,3 +18,5 @@ class League < ActiveRecord::Base
   def not_started?
     !started?
   end
+  
+end

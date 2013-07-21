@@ -8,24 +8,125 @@
 
 TEAMS = 
 {
-  'MSV' => ['MSV Duisburg', 'Duisburg'],
-  'FCB' => ['FC Bayern München', 'Bayern'],
-  'HSV' => ['Hamburger SV', 'Hamburg'],
-  'S04' => ['FC Schalke 04 Gelsenkirchen', 'Schalke'],
-  'BVB' => ['Borussia Dortmund', 'Dortmund'],
-  'FCN' => ['1.FC Nürnberg', 'Nürnberg'],
-  'VfB' => ['VfB Stuttgart', 'Stuttgart'],
-  'BSC' => ['Hertha BSC Berlin', 'Berlin'],
-  'F95' => ['Fortuna Düsseldorf', 'Fortuna'],
-  'VfL' => ['VfL Bochum', 'Bochum'],
-  '1FC' => ['1.FC Köln', 'Köln'],
-  'FCK' => ['1.FC Kaiserlautern', 'Lautern'],
-  'BMg' => ['Borussia Mönchengladbach', 'Gladbach'],
-  'AAa' => ['Alemannia Aachen', 'Aachen'],
-  'SVW' => ['SV Werder Bremen', 'Bremen'],
-  'H96' => ['SV Hannover 96', 'Hannover'],
-  'Lok' => ['1.FC Lokomotive Leipzig', 'Leipzig'],
-  'KSV' => ['KSV Hessen Kassel', 'Kassel']
+  'MSV' => 
+    {
+      name: 'MSV Duisburg', 
+      short_name: 'Duisburg'
+    },
+  'FCB' => 
+    {
+      name:'FC Bayern München',  
+      short_name: 'Bayern'
+    },
+  'HSV' => 
+    {
+      name:'Hamburger SV', 
+      short_name: 'Hamburg'
+    },
+  'S04' => 
+    {
+      name:'FC Schalke 04 Gelsenkirchen', 
+      short_name: 'Schalke'
+    },
+  'BVB' => 
+    {
+      name:'Borussia Dortmund', 
+      short_name: 'Dortmund'
+    },
+  'FCN' => 
+    {
+      name:'1.FC Nürnberg', 
+      short_name: 'Nürnberg'
+    },
+  'VfB' => 
+    {
+      name:'VfB Stuttgart', 
+      short_name: 'Stuttg.'
+    },
+  'BSC' => 
+    {
+      name:'Hertha BSC Berlin', 
+      short_name: 'Berlin'
+    },
+  'F95' => 
+    {
+      name:'Fortuna Düsseldorf', 
+      short_name: 'Fortuna'
+    },
+  'VfL' => 
+    {
+      name:'VfL Bochum', 
+      short_name: 'Bochum'
+    },
+  '1FC' => 
+    {
+      name:'1.FC Köln', 
+      short_name: 'Köln'
+    },
+  'FCK' => 
+    {
+      name:'1.FC Kaiserlautern', 
+      short_name: 'Lautern'
+    },
+  'BMg' => 
+    {
+      name:'Borussia Mönchengladbach', 
+      short_name: 'Gladbach'
+    },
+  'AAa' => 
+    {
+      name:'Alemannia Aachen', 
+      short_name: 'Aachen'
+    },
+  'SVW' => 
+    {
+      name:'SV Werder Bremen', 
+      short_name: 'Bremen'
+    },
+  'H96' => 
+    {
+      name:'SV Hannover 96', 
+      short_name: 'Hannover'
+    },
+  'Lok' => 
+    {
+      name:'1.FC Lokomotive Leipzig', 
+      short_name: 'Leipzig'
+    },
+  'KSV' => 
+    {
+      name:'KSV Hessen Kassel', 
+      short_name: 'Kassel'
+    }
 }
 
-TEAMS.each_key { |team| Team.create(name: TEAMS[team][0], short_name: TEAMS[team][1], abbreviation: team )}
+puts "Create teams:/n"
+TEAMS.each_key do |team|
+  parameters =
+    { 
+      name: TEAMS[team][:name], 
+      short_name: TEAMS[team][:short_name], 
+      abbreviation: team 
+    }
+  result = Team.create(parameters)
+  errors = result.errors.messages.any? ? result.errors.messages.inspect : "ok"
+  puts team+": "+ errors
+end
+
+LIGAS =
+{
+  '1.Bundesliga' => 
+  {
+    name: "1.Bundesliga"
+  }
+}
+
+LIGAS.each_key do |liga|
+  parameters = 
+  {
+    name: LIGAS[liga][:name]
+  }
+  result = League.create(parameters)
+  errors = result.errors.messages.any? ? result.errors.messages.inspect : "ok"
+  puts liga+": "+ errors
+end
