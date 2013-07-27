@@ -19,4 +19,8 @@ class League < ActiveRecord::Base
     !started?
   end
   
+  def board
+    teams
+  end
+  
 end

@@ -1,6 +1,8 @@
 SimpleApp::Application.routes.draw do
   
   root to: 'leagues#index'
+  
+  resources :leagues, only: [:show, :index]
 
   #match 'dashboard' => 'statics#dashboard'
 

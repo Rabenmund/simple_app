@@ -132,3 +132,14 @@ LIGAS.each_key do |liga|
   result = CreateLeague.create(league: parameters, teams: Team.all)
   puts liga+": ok"
 end
+
+# finish first matchday
+GAMES = [1,2,3,4,5,6,7,8,9]
+GOALS = [0,0,2,2,1,1,1,0,2,1,0,1,1,2,0,2,3,0]
+GAMES.each do |n|
+  puts "Spiel: #{n} beendet."
+  g = Game.find(n)
+  g.home_goals = GOALS[n*2-2]
+  g.guest_goals = GOALS[n*2-1]
+  g.save
+end

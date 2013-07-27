@@ -8,7 +8,14 @@ class CreateLeague
     ActiveRecord::Base.transaction do
     
       league = League.create!(args[:league])
-      puts "-- Beginne Anlage Spieltage"
+      puts args[:teams].inspect
+      args[:teams].each do |team|
+        puts team.inspect
+        league.teams << team
+      end
+      
+      puts "liga teams ", league.teams.inspect
+      
       SPIELTAGE.each do |number, games|
         matchday = league.matchdays.create!(number: number)
         SPIELTAGE[number].each do |game|
