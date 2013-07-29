@@ -5,6 +5,8 @@ class CreateTableGame < ActiveRecord::Migration
       t.integer :guest_id, null: false
       t.integer :home_goals
       t.integer :guest_goals
+      t.integer :home_points
+      t.integer :guest_points
       t.references :matchday, null: false
 
       t.timestamps

@@ -141,5 +141,6 @@ GAMES.each do |n|
   g = Game.find(n)
   g.home_goals = GOALS[n*2-2]
   g.guest_goals = GOALS[n*2-1]
+  g.calculate_points
   g.save
 end

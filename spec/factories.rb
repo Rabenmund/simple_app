@@ -8,7 +8,6 @@ FactoryGirl.define do
   
   factory :league do
     sequence(:name) { |n| "Liga ##{n}" }
-    season
     factory :league_ready do      
       before :create do |c|
         c.no_of_teams.times do
