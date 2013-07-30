@@ -2,8 +2,13 @@
 
 class Game < ActiveRecord::Base
   attr_accessible :home_id, :guest_id, :home_goals, :guest_goals, :home_points, :guest_points
+  
   belongs_to :matchday
   has_one :league, through: :matchday
+  
+  belongs_to :home, class_name: "Team"
+  belongs_to :guest, class_name: "Team"
+  
   validates_presence_of :home_id, :guest_id
   validates_numericality_of :home_id, :guest_id
   validates :home_goals, numericality: { only_integer: true }, allow_nil: true
