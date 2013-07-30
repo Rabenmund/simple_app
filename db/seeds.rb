@@ -134,13 +134,15 @@ LIGAS.each_key do |liga|
 end
 
 # finish first matchday
-GAMES = [1,2,3,4,5,6,7,8,9]
-GOALS = [0,0,2,2,1,1,1,0,2,1,0,1,1,2,0,2,3,0]
-GAMES.each do |n|
-  puts "Spiel: #{n} beendet."
-  g = Game.find(n)
-  g.home_goals = GOALS[n*2-2]
-  g.guest_goals = GOALS[n*2-1]
-  g.calculate_points
-  g.save
+MDS = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18]
+MDS.each do |md|
+  matchday = Matchday.find(md)
+  matchday.games.each do |n|
+    puts "Spiel: #{n} beendet."
+    g = Game.find(n)
+    g.home_goals = rand(5)
+    g.guest_goals = rand(5)
+    g.calculate_points
+    g.save
+  end
 end

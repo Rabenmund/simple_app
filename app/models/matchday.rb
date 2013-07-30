@@ -6,6 +6,8 @@ class Matchday < ActiveRecord::Base
   has_many :games, dependent: :destroy
   validates :number, uniqueness: { scope: :league_id }, presence: true, numericality: true
   
+  default_scope order('number ASC')
+  
   def self.finished
     joins(:games).where("home_goals IS NOT NULL AND guest_goals IS NOT NULL").uniq
   end

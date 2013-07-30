@@ -12,7 +12,7 @@ class Game < ActiveRecord::Base
   
   scope :not_finished, where("home_goals IS NULL OR guest_goals IS NULL")
   scope :finished, where("home_goals IS NOT NULL AND guest_goals IS NOT NULL")
-  
+    
   def finished?
     home_goals && guest_goals
   end
