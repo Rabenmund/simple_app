@@ -1,1 +1,6 @@
-= @league.board
+- @league.board.each do |t|
+  .row
+    .span3
+      = t.name 
+    .span1
+      = t.points+" Punkte"

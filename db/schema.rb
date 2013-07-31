@@ -11,18 +11,16 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130720152321) do
+ActiveRecord::Schema.define(:version => 20130730185519) do
 
   create_table "games", :force => true do |t|
-    t.integer  "home_id",      :null => false
-    t.integer  "guest_id",     :null => false
+    t.integer  "home_id",     :null => false
+    t.integer  "guest_id",    :null => false
     t.integer  "home_goals"
     t.integer  "guest_goals"
-    t.integer  "home_points"
-    t.integer  "guest_points"
-    t.integer  "matchday_id",  :null => false
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
+    t.integer  "matchday_id", :null => false
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
   add_index "games", ["guest_id"], :name => "index_games_on_guest_id"
@@ -49,6 +47,14 @@ ActiveRecord::Schema.define(:version => 20130720152321) do
   end
 
   add_index "matchdays", ["number"], :name => "index_matchdays_on_number"
+
+  create_table "points", :force => true do |t|
+    t.integer  "points"
+    t.integer  "game_id",    :null => false
+    t.integer  "team_id",    :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "teams", :force => true do |t|
     t.string   "name",         :null => false

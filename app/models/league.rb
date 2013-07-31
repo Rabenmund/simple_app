@@ -20,7 +20,9 @@ class League < ActiveRecord::Base
   end
   
   def board
-    teams
+    # es braucht eine seperate tabelle teams <-> games mit points
+    
+#    teams.joins(:home_games).select("teams.name, sum(home_points) as h_points, sum(guest_points) as g_points as points").group("teams.name").order("points DESC")
   end
   
 end

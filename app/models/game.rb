@@ -1,13 +1,15 @@
 # coding: utf-8
 
 class Game < ActiveRecord::Base
-  attr_accessible :home_id, :guest_id, :home_goals, :guest_goals, :home_points, :guest_points
+  attr_accessible :home_id, :guest_id, :home_goals, :guest_goals
   
   belongs_to :matchday
   has_one :league, through: :matchday
   
   belongs_to :home, class_name: "Team"
   belongs_to :guest, class_name: "Team"
+  
+  has_many :points
   
   validates_presence_of :home_id, :guest_id
   validates_numericality_of :home_id, :guest_id
@@ -20,22 +22,6 @@ class Game < ActiveRecord::Base
     
   def finished?
     home_goals && guest_goals
-  end
-  
-  def calculate_points
-    return if !finished?
-    if home_goals > guest_goals
-      update_attributes(home_points: 3)
-      update_attributes(guest_points: 0)
-    end
-    if home_goals < guest_goals
-      update_attributes(home_points: 0)
-      update_attributes(guest_points: 3)
-    end
-    if home_goals == guest_goals
-      update_attributes(home_points: 1)
-      update_attributes(guest_points: 1)
-    end
   end
     
 end

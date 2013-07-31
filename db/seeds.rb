@@ -25,7 +25,7 @@ TEAMS =
     },
   'S04' => 
     {
-      name:'FC Schalke 04 Gelsenkirchen', 
+      name:'Schalke 04 Gelsenkirchen', 
       short_name: 'Schalke'
     },
   'BVB' => 
@@ -70,7 +70,7 @@ TEAMS =
     },
   'BMg' => 
     {
-      name:'Borussia Mönchengladbach', 
+      name:'Bor. Mönchengladbach', 
       short_name: 'Gladbach'
     },
   'AAa' => 
@@ -134,7 +134,7 @@ LIGAS.each_key do |liga|
 end
 
 # finish first matchday
-MDS = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18]
+MDS = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33]
 MDS.each do |md|
   matchday = Matchday.find(md)
   matchday.games.each do |n|
@@ -142,7 +142,7 @@ MDS.each do |md|
     g = Game.find(n)
     g.home_goals = rand(5)
     g.guest_goals = rand(5)
-    g.calculate_points
+    CalculatePoints.calculate(g)
     g.save
   end
 end

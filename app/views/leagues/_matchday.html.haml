@@ -1,1 +1,11 @@
-= matchday.inspect
+- matchday.games.each do |g|
+  .row
+    .span2
+      = g.home.name
+    .span2
+      = g.guest.name
+    .span1
+      - if g.finished?
+        = g.home_goals.to_s+" : "+g.guest_goals.to_s
+      - else
+        = "- : -"
