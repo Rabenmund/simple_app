@@ -50,8 +50,14 @@ ActiveRecord::Schema.define(:version => 20130730185519) do
 
   create_table "points", :force => true do |t|
     t.integer  "points"
+    t.integer  "goals"
+    t.integer  "against"
+    t.integer  "win"
+    t.integer  "draw"
+    t.integer  "lost"
     t.integer  "game_id",    :null => false
     t.integer  "team_id",    :null => false
+    t.integer  "league_id",  :null => false
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
