@@ -1,11 +1,16 @@
-- matchday.games.each do |g|
-  .row
-    .span2
-      = g.home.name
-    .span2
-      = g.guest.name
-    .span1
-      - if g.finished?
-        = g.home_goals.to_s+" : "+g.guest_goals.to_s
-      - else
-        = "- : -"
+%table.table.table-striped.table-bordered.table-condensed.table-hover
+  %thead
+    %legend
+      = matchday.number.to_s + ". Spieltag"
+  %tbody
+    - matchday.games.each do |g|
+      %tr
+        %td
+          = g.home.name
+        %td
+          = g.guest.name
+        %td
+          - if g.finished?
+            = g.home_goals.to_s+" : "+g.guest_goals.to_s
+          - else
+            = "- : -"
