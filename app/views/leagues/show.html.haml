@@ -2,15 +2,9 @@
   = @league.name
 .row
   .span6
-    %legend
-      = "Letzter Spieltag"
     = render partial: "matchday", locals: { matchday: @league.matchdays.finished.last}
-    %legend
-      = "Tabelle"
     = render partial: "board"
   .span6
-    %legend
-      = "Nächster Spieltag"
     = render partial: "matchday", locals: { matchday: @league.matchdays.not_finished.first}
-    %legend
-      = "Anpfiff"
+    %br
+    = button_to "Go", league_run_matchday_path(@league, @league.matchdays.not_finished.first)
