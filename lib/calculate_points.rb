@@ -21,10 +21,11 @@ class CalculatePoints
   def self.update_or_create_points(game, team_id, points, goals, against)
     p = game.points.find_by_team_id(team_id)
     win, draw, lost = self.set_wdl_count(points)
+    diff = goals - against
     if p
-      p.update_attributes!(points: points, goals: goals, against: against, win: win, draw: draw, lost: lost)
+      p.update_attributes!(points: points, goals: goals, against: against, diff: diff, win: win, draw: draw, lost: lost)
     else
-      game.points.create(league_id: game.league.id, team_id: team_id, points: points, goals: goals, against: against, win: win, draw: draw, lost: lost )
+      game.points.create(league_id: game.league.id, team_id: team_id, points: points, goals: goals, against: against, diff: diff, win: win, draw: draw, lost: lost )
     end
   end
   

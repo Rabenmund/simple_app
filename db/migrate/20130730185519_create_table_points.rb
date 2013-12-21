@@ -4,6 +4,7 @@ class CreateTablePoints < ActiveRecord::Migration
       t.integer :points
       t.integer :goals
       t.integer :against
+      t.integer :diff
       t.integer :win
       t.integer :draw
       t.integer :lost

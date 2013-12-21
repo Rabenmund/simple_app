@@ -11,6 +11,7 @@ class LeaguesController < ApplicationController
   
   def run_matchday
     @matchday = @league.matchdays.find(params[:matchday_id])
+    @games = @matchday.games
   end
   
   private

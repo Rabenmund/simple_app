@@ -1,1 +1,8 @@
-= @leagues.inspect
+- if @leagues.any?
+  %ul
+    =  render partial: "league", collection: @leagues
+- else
+  .well#noQuestions
+    ='Keine Wettbewerbe vorhanden'
+.toolbar
+  = #new_league_button

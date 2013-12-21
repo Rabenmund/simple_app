@@ -8,9 +8,7 @@ class CreateLeague
     ActiveRecord::Base.transaction do
     
       league = League.create!(args[:league])
-      puts args[:teams].inspect
       args[:teams].each do |team|
-        puts team.inspect
         league.teams << team
       end
       

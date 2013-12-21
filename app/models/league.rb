@@ -21,11 +21,12 @@ class League < ActiveRecord::Base
   end
   
   def live_board
-    # vielleicht macht es später Sinn eine Abschlusstabelle in Form von 18 Sätzen seperat zu speichern, statt 608 point-sätze pro Liga. das kann dann über eine board methode
+    # TODO vielleicht macht es später Sinn eine Abschlusstabelle in Form von 18 Sätzen seperat zu speichern, statt 608 point-sätze pro Liga. das kann dann über eine board methode
     
-    board = teams.joins(:points).select("teams.name, sum(points) as team_points, sum(goals) as team_goals, sum(against) as team_against, sum(win) as team_win, sum(draw) as team_draw, sum(lost) as team_lost").group("teams.name").order("team_points DESC, team_goals DESC, team_against ASC")
-    
-#    teams.joins(:home_games).select("teams.name, sum(home_points) as h_points, sum(guest_points) as g_points as points").group("teams.name").order("points DESC")
+    board = teams.joins(:points).select("teams.name, sum(points) as team_points, sum(goals) as team_goals, sum(against) as team_against, sum(diff) as team_diff, sum(win) as team_win, sum(draw) as team_draw, sum(lost) as team_lost").group("teams.name").order("team_points DESC, team_diff DESC, team_goals DESC")
+
   end
+  
+  
   
 end

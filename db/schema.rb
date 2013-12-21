@@ -52,6 +52,7 @@ ActiveRecord::Schema.define(:version => 20130730185519) do
     t.integer  "points"
     t.integer  "goals"
     t.integer  "against"
+    t.integer  "diff"
     t.integer  "win"
     t.integer  "draw"
     t.integer  "lost"
