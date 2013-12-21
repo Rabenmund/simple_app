@@ -1,28 +1,28 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.12'
+gem 'rails'
 
 gem 'pg'
-gem 'bcrypt-ruby', '~> 3.0.0'
-gem 'validates_timeliness', '~> 3.0'
+gem 'bcrypt-ruby'
+gem 'validates_timeliness'
 gem 'jquery-rails'
-gem "haml", "~> 3.1.7"
+gem "haml"
 gem "haml-rails"
-gem "bootstrap-sass", "~> 2.2.2.0"
+gem "bootstrap-sass", "~> 2.2"
 gem "will_paginate"   
 gem "bootstrap-will_paginate"
-gem "jquery-ui-rails", "~> 2.0.1"
+gem "jquery-ui-rails"
 gem "simple_form"
 gem "show_for"
 
 group :assets do
-  gem 'sass-rails',   '~> 3.2.3'
-  gem 'coffee-rails', '~> 3.2.1'
-  gem 'uglifier', '>= 1.0.3'
+  gem 'sass-rails'
+  gem 'coffee-rails'
+  gem 'uglifier'
 end
 
 group :test, :development do
-  gem 'rspec-rails', '~> 2.0'
+  gem 'rspec-rails'
 end
 
 group :development do
@@ -35,7 +35,7 @@ group :test do
   gem 'simplecov'
   gem 'simplecov-rcov'
   gem 'shoulda-matchers'
-  gem 'factory_girl_rails', '~> 4.0'
+  gem 'factory_girl_rails'
   gem 'database_cleaner'
   gem 'capybara'
   gem 'launchy'
