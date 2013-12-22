@@ -8,7 +8,7 @@ gem 'validates_timeliness'
 gem 'jquery-rails'
 gem "haml"
 gem "haml-rails"
-gem "bootstrap-sass", "~> 2.2"
+gem "bootstrap-sass"
 gem "will_paginate"   
 gem "bootstrap-will_paginate"
 gem "jquery-ui-rails"
