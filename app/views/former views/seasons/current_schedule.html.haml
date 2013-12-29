@@ -1,0 +1,7 @@
+%h2
+	= @title
+- if @season.competitions.any?
+	= render partial: 'current_competition', collection: @season.competitions
+- else
+	%h3
+		.well#noQuestions="Keine Wettbewerbe zugeordnet"

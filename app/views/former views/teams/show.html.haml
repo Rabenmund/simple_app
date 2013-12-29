@@ -1,0 +1,16 @@
+= link_to "\u2190 "+ "Mannschaften", teams_path
+%h2
+  = @team.name
+  %small
+    = Team.human_attribute_name('#') + " " + "#{@team.id}"
+%hr
+= show_for @team do |s|
+  = s.attribute :name
+  = s.attribute :short_name
+  = s.attribute :abbreviation
+%hr
+.btn-toolbar
+  .btn-group
+    = link_to edit_team_path(@team), class: 'btn' do
+      %i.icon-edit
+      = "Mannschaft bearbeiten"

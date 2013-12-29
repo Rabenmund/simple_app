@@ -1,0 +1,4 @@
+%ol
+	- competition.plan_position.each do |team_id|
+		%li
+			= team_id == 0 ? "Unbekannte Mannschaft" : Team.find(team_id).name

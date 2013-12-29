@@ -1,0 +1,44 @@
+%table.table.table-striped.table-bordered.table-condensed.table-hover
+  %thead
+    %tr
+      %td
+        = "#"
+      %td
+        = "Verein"
+      %td
+        = "P"
+      %td
+        = "D"
+      %td
+        = "+"
+      %td
+        = "-"
+      %td
+        = "S"
+      %td
+        = "U"
+      %td
+        = "N"
+  %tbody
+    - row = 0 
+    - @league.live_board.each do |t|
+      %tr
+        - row += 1
+        %td
+          = row
+        %td
+          = t.name
+        %td
+          = t.team_points
+        %td
+          = t.team_diff
+        %td
+          = t.team_goals
+        %td
+          = t.team_against
+        %td
+          = t.team_win
+        %td
+          = t.team_draw
+        %td
+          = t.team_lost

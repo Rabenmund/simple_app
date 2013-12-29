@@ -1,0 +1,10 @@
+= link_to "\u2190 "+ "Dashboard", dashboard_path
+%h2= "Mannschaften"
+%hr
+- if @teams.any?
+	%ul
+		=  render partial: "team", collection: @teams
+- else
+	.well#noQuestions='Keine Teams vorhanden'
+.toolbar
+	= new_team_button

@@ -1,0 +1,10 @@
+.span3
+	%h4
+		= "Spieltag #{md.number}"
+	%br
+	- md.games.each do |game|
+		= @competition.teams.find(game.home_id).short_name
+		= " - "
+		= @competition.teams.find(game.guest_id).short_name
+		%br
+	%br

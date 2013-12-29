@@ -1,0 +1,13 @@
+%table.table.table-striped.table-bordered.table-condensed.table-hover
+  %thead
+    %legend
+      = @matchday.number.to_s + ". Spieltag"
+  %tbody
+    - @matchday.games.each do |g|
+      %tr
+        %td
+          = g.home.name
+        %td
+          = g.guest.name
+        %td
+          = g.home_goals.to_s+" : "+g.guest_goals.to_s

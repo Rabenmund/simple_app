@@ -29,7 +29,6 @@ describe Game do
   it { should validate_numericality_of :home_goals }
   it { should validate_numericality_of :guest_goals }
   
-  it { should have_one(:competition).through :matchday }
   it { should belong_to :matchday }
   
   it "is finished when all goals are valued" do
@@ -40,6 +39,29 @@ describe Game do
   it "is not finished when a goal value is missing" do
     game.home_goals = 1 
     should_not be_finished
+  end
+  
+  it "calculates points for home team winning" do
+    game.home_goals = 1
+    game.guest_goals = 0
+    game.calculate_points
+    expect(game.home_points).to eq 3
+    expect(game.guest_points).to eq 0
+  end
+  
+  it "calculates points for guest team winning" do
+    game.home_goals = 1
+    game.guest_goals = 2
+    game.calculate_points
+    expect(game.home_points).to eq 0
+    expect(game.guest_points).to eq 3
+  end
+  
+  it "calculates points for a draw" do
+    game.home_goals, game.guest_goals = 1,1
+    game.calculate_points
+    expect(game.home_points).to eq 1
+    expect(game.guest_points).to eq 1
   end
   
 end

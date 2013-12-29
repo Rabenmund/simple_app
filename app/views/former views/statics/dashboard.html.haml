@@ -1,0 +1,23 @@
+= link_to "\u2190 "+ "Login (später)", dashboard_path
+%h2
+  = "Dashboard"
+%hr
+%h5
+  = "Administration"
+%ul
+  %li
+    = link_to "Saisons", seasons_path
+  %li
+    = link_to "Mannschaften", teams_path
+%hr
+%h5
+  = "Offene Saisons"
+.row
+  - if Season.all.any? # TODO Season.running.any?
+    - Season.all.each do |season|
+      - # TODO unhack the each for finished - what about associations or so???
+      - unless season.finished?
+        .span2
+          = link_to current_season_path(season), class: 'btn btn-success' do # TODO play-the-season-path fehlt
+            %i.icon-play
+            = season.name

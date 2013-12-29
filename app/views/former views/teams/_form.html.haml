@@ -1,0 +1,8 @@
+= simple_form_for @team do |f|
+	.row
+		.span12
+			= f.input :name, autofocus: true, input_html: { class: 'span12' }
+			= f.input :short_name, autofocus: true, input_html: { class: 'span12' }
+			= f.input :abbreviation, autofocus: true, input_html: { class: 'span12' }
+	= f.submit "OK", class: 'btn btn-primary', id: "commit"
+	= f.submit "Cancel", type: :reset, class: 'btn'
