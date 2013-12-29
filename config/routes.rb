@@ -4,7 +4,7 @@ SimpleApp::Application.routes.draw do
   
   resources :leagues, only: [:show, :index] do
     member do
-      get 'run_matchday/:matchday_id' => 'leagues#run_matchday', as: :run_matchday
+      get 'matchday/:matchday_id/run' => 'matchdays#run', as: :run_matchday
     end
   end
 

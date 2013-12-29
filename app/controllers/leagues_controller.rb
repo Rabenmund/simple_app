@@ -1,6 +1,6 @@
 class LeaguesController < ApplicationController
   
-  before_filter :load_league, only: [:show, :run_matchday] 
+  before_action :load_league, only: [:show, :run_matchday] 
   
   def index
     @leagues = League.all
@@ -8,12 +8,7 @@ class LeaguesController < ApplicationController
   
   def show
   end
-  
-  # move to matchday controller
-  def run_matchday
-    @matchday = @league.matchdays.find(params[:matchday_id])
-  end
-  
+
   private
   
   def load_league
