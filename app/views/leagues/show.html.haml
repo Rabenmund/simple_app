@@ -7,4 +7,5 @@
   .span6
     = render partial: "matchday", locals: { matchday: @league.matchdays.not_finished.first}
     %br
-    = button_to "Go", run_matchday_league_path(@league, @league.matchdays.not_finished.first)
+    - # move @league.matchdays.not_finished.first to league model
+    = button_to "Go", run_matchday_league_path(@league, @league.matchdays.not_finished.first), method: :get

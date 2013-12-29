@@ -1,25 +1,26 @@
 source 'https://rubygems.org'
 
 gem 'rails'
-
 gem 'pg'
 gem 'bcrypt-ruby'
 gem 'validates_timeliness'
 gem 'jquery-rails'
 gem "haml"
 gem "haml-rails"
-gem "bootstrap-sass"
+gem "bootstrap-sass", '~> 2.0'
 gem "will_paginate"   
 gem "bootstrap-will_paginate"
 gem "jquery-ui-rails"
 gem "simple_form"
+gem 'sass-rails'
+gem 'coffee-rails'
+gem 'uglifier'
+gem 'authority'
+
 gem "show_for"
 
-group :assets do
-  gem 'sass-rails'
-  gem 'coffee-rails'
-  gem 'uglifier'
-end
+#just use this for updating to Rails4, later switch to secure params
+gem 'protected_attributes'
 
 group :test, :development do
   gem 'rspec-rails'
@@ -27,8 +28,6 @@ end
 
 group :development do
   gem 'better_errors'
-  gem 'binding_of_caller'
-#  gem 'meta_request'
 end
 
 group :test do

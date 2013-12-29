@@ -9,9 +9,9 @@ class LeaguesController < ApplicationController
   def show
   end
   
+  # move to matchday controller
   def run_matchday
     @matchday = @league.matchdays.find(params[:matchday_id])
-    @games = @matchday.games
   end
   
   private
