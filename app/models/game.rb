@@ -12,16 +12,43 @@ class Game < ActiveRecord::Base
   has_many :points
   
   validates_presence_of :home_id, :guest_id
-  validates_numericality_of :home_id, :guest_id
-  validates :home_goals, numericality: { only_integer: true }, allow_nil: true
-  validates :guest_goals, numericality: { only_integer: true }, allow_nil: true
   validates :matchday, presence: true
   
-  scope :not_finished, where("home_goals IS NULL OR guest_goals IS NULL")
-  scope :finished, where("home_goals IS NOT NULL AND guest_goals IS NOT NULL")
-    
-  def finished?
-    home_goals && guest_goals
+  scope :not_finished, -> { where(finished: false) }
+  scope :finished, -> { where(finished: true) }
+
+  def finish!
+    update_attributes(finished: true)
+  end
+  
+  def step
+    return if finished
+    update_attributes(home_goals: 0, guest_goals: 0) unless home_goals || guest_goals
+    perform_event
+    update_second
+    save
+    finish! if to_be_finished?
+  end
+  
+  private
+  
+  def perform_event
+    if Random.new.rand(30) == 1
+      if Random.new.rand(3) == 1
+        self.guest_goals += 1
+      else
+        self.home_goals += 1
+      end
+    end
+  end
+  
+  def update_second
+    puts "second: ", second
+    self.second += 60
+  end
+  
+  def to_be_finished?
+    second >= 5400
   end
     
 end

@@ -5,9 +5,10 @@ SimpleApp::Application.routes.draw do
   resources :leagues, only: [:show, :index] do
     member do
       get 'matchday/:matchday_id/run' => 'matchdays#run', as: :run_matchday
+      put 'matchday/:matchday_id/step' => 'matchdays#step', as: :step_matchday
     end
   end
-
+  
   #match 'dashboard' => 'statics#dashboard'
 
   # resources :teams, only: [:index, :show, :new, :create, :edit, :update]

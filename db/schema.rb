@@ -9,46 +9,51 @@
 # from scratch. The latter is a flawed and unsustainable approach (the more migrations
 # you'll amass, the slower it'll run and the greater likelihood for issues).
 #
-# It's strongly recommended to check this file into your version control system.
+# It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130730185519) do
+ActiveRecord::Schema.define(version: 20131230162358) do
 
-  create_table "games", :force => true do |t|
-    t.integer  "home_id",     :null => false
-    t.integer  "guest_id",    :null => false
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
+  create_table "games", force: true do |t|
+    t.integer  "home_id",                     null: false
+    t.integer  "guest_id",                    null: false
     t.integer  "home_goals"
     t.integer  "guest_goals"
-    t.integer  "matchday_id", :null => false
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.integer  "matchday_id",                 null: false
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+    t.boolean  "finished",    default: false
+    t.integer  "second",      default: 0
   end
 
-  add_index "games", ["guest_id"], :name => "index_games_on_guest_id"
-  add_index "games", ["home_id"], :name => "index_games_on_home_id"
+  add_index "games", ["guest_id"], name: "index_games_on_guest_id", using: :btree
+  add_index "games", ["home_id"], name: "index_games_on_home_id", using: :btree
 
-  create_table "leagues", :force => true do |t|
-    t.string   "name",       :null => false
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+  create_table "leagues", force: true do |t|
+    t.string   "name",       null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
-  create_table "leagues_teams", :id => false, :force => true do |t|
+  create_table "leagues_teams", id: false, force: true do |t|
     t.integer "league_id"
     t.integer "team_id"
   end
 
-  add_index "leagues_teams", ["league_id", "team_id"], :name => "index_leagues_teams_on_league_id_and_team_id"
+  add_index "leagues_teams", ["league_id", "team_id"], name: "index_leagues_teams_on_league_id_and_team_id", using: :btree
 
-  create_table "matchdays", :force => true do |t|
-    t.integer  "number",     :null => false
-    t.integer  "league_id",  :null => false
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+  create_table "matchdays", force: true do |t|
+    t.integer  "number",     null: false
+    t.integer  "league_id",  null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
-  add_index "matchdays", ["number"], :name => "index_matchdays_on_number"
+  add_index "matchdays", ["number"], name: "index_matchdays_on_number", using: :btree
 
-  create_table "points", :force => true do |t|
+  create_table "points", force: true do |t|
     t.integer  "points"
     t.integer  "goals"
     t.integer  "against"
@@ -56,19 +61,19 @@ ActiveRecord::Schema.define(:version => 20130730185519) do
     t.integer  "win"
     t.integer  "draw"
     t.integer  "lost"
-    t.integer  "game_id",    :null => false
-    t.integer  "team_id",    :null => false
-    t.integer  "league_id",  :null => false
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.integer  "game_id",    null: false
+    t.integer  "team_id",    null: false
+    t.integer  "league_id",  null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
-  create_table "teams", :force => true do |t|
-    t.string   "name",         :null => false
-    t.string   "short_name",   :null => false
-    t.string   "abbreviation", :null => false
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
+  create_table "teams", force: true do |t|
+    t.string   "name",         null: false
+    t.string   "short_name",   null: false
+    t.string   "abbreviation", null: false
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
   end
 
 end

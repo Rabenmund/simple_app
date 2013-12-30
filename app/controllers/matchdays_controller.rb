@@ -5,6 +5,11 @@ class MatchdaysController < ApplicationController
   def run
   end
   
+  def step
+    @matchday.step
+    render :run
+  end
+  
   private
   
   def load_matchday
