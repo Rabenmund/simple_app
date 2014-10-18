@@ -10,12 +10,14 @@ gem "haml-rails"
 gem "bootstrap-sass", '~> 2.0'
 gem "will_paginate"   
 gem "bootstrap-will_paginate"
-gem "jquery-ui-rails"
+#gem "jquery-ui-rails"
 gem "simple_form"
 gem 'sass-rails'
 gem 'coffee-rails'
 gem 'uglifier'
 gem 'authority'
+gem 'turbolinks'
+gem 'jbuilder', '~> 2.0'
 
 gem "show_for"
 
@@ -29,6 +31,9 @@ end
 group :development do
   gem 'better_errors'
   gem 'binding_of_caller'
+  gem 'awesome_print'
+  gem 'hirb'
+  gem 'interactive_editor'
 end
 
 group :test do
