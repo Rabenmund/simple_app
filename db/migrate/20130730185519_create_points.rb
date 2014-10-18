@@ -1,4 +1,4 @@
-class CreateTablePoints < ActiveRecord::Migration
+class CreatePoints < ActiveRecord::Migration
   def change
     create_table :points do |t|
       t.integer :points
@@ -8,7 +8,7 @@ class CreateTablePoints < ActiveRecord::Migration
       t.integer :win
       t.integer :draw
       t.integer :lost
-      
+
       t.references :game, null: false
       t.references :team, null: false
       t.references :league, null: false

@@ -2,20 +2,20 @@
 
 class Matchday < ActiveRecord::Base
   attr_accessible :number
-  belongs_to :league
+  belongs_to :competition
   has_many :games, -> { order "id ASC" }, dependent: :destroy
-  validates :number, uniqueness: { scope: :league_id }, presence: true, numericality: true
-    
+  validates :number, uniqueness: { scope: :competition_id }, presence: true, numericality: true
+
   def step
     games.each do |game|
       game.step
     end
-  end 
-  
+  end
+
   def self.finished
     joins(:games).where(games: {finished: true}).uniq
   end
-  
+
   def self.not_finished
     joins(:games).where(games: {finished: false}).uniq
   end
@@ -23,11 +23,11 @@ class Matchday < ActiveRecord::Base
   def finished?
     games.any? && games.not_finished.empty?
   end
-  
+
   def started?
     games.any? && games.finished.any?
   end
-  
+
   def not_started?
     !started?
   end

@@ -1,0 +1,2 @@
+class Relegation < Competition
+end
