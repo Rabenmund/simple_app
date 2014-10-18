@@ -1,7 +1,6 @@
 # coding: utf-8
 
 class Game < ActiveRecord::Base
-  attr_accessible :home_id, :guest_id, :home_goals, :guest_goals
   
   belongs_to :matchday
   has_one :league, through: :matchday
@@ -27,7 +26,10 @@ class Game < ActiveRecord::Base
     perform_event
     update_second
     save
-    finish! if to_be_finished?
+    if to_be_finished?
+      finish!
+      CalculatePoints.calculate(self)
+    end
   end
   
   private

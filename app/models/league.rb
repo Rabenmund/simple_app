@@ -4,9 +4,9 @@ class League < ActiveRecord::Base
   validates :name, presence: true
 
   has_and_belongs_to_many :teams
-  has_many :matchdays, dependent: :destroy, order: "number ASC"
+  has_many :matchdays, -> { order "number ASC" }, dependent: :destroy
   has_many :games, through: :matchdays
-  has_many :points
+  has_many :points, through: :games
   
   def finished?
     games.any? && games.not_finished.empty?
@@ -23,10 +23,7 @@ class League < ActiveRecord::Base
   def live_board
     # TODO vielleicht macht es später Sinn eine Abschlusstabelle in Form von 18 Sätzen seperat zu speichern, statt 608 point-sätze pro Liga. das kann dann über eine board methode
     
-    board = teams.joins(:points).select("teams.name, sum(points) as team_points, sum(goals) as team_goals, sum(against) as team_against, sum(diff) as team_diff, sum(win) as team_win, sum(draw) as team_draw, sum(lost) as team_lost").group("teams.name").order("team_points DESC, team_diff DESC, team_goals DESC")
-
+    board = teams.joins(:points).select("teams.name, sum(points) as team_points, sum(goals) as team_goals, sum(against) as team_against, sum(diff) as team_diff, sum(win) as team_win, sum(draw) as team_draw, sum(lost) as team_lost").group("teams.name").where("points.league_id = #{self.id}").order("team_points DESC, team_diff DESC, team_goals DESC")
   end
-  
-  
-  
+
 end

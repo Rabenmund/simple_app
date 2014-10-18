@@ -1,0 +1,21 @@
+#running-games
+  %table.table.table-striped.table-bordered.table-condensed.table-hover
+    %thead
+      %legend
+        = @matchday.number.to_s + ". Spieltag, #{(@matchday.games.first.second/60)}. Minute"
+    %tbody
+      #games-list
+        - @matchday.games.each do |g|
+          %tr
+            %td
+              = g.home.name
+            %td
+              = g.guest.name
+            %td
+              = g.home_goals.to_s+" : "+g.guest_goals.to_s
+  - unless @matchday.finished?
+    .step_link
+      = link_to "Start", step_league_matchday_path(@matchday.league, @matchday), remote: true, class: "btn"
+  - else
+    = link_to "Zurück", league_path(@matchday.league), id: "Back"
+  = link_to "", step_league_matchday_path(@matchday.league, @matchday), remote: true, id: "Step"

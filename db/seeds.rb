@@ -120,7 +120,11 @@ LIGAS =
 {
   '1.Bundesliga' => 
   {
-    name: "1.Bundesliga"
+    name: "1.Bundesliga",
+  },
+  '2.Bundesliga' => 
+  {
+    name: "2.Bundesliga",
   }
 }
 
@@ -134,14 +138,14 @@ LIGAS.each_key do |liga|
 end
 
 # finish first matchday
-MDS = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33]
-MDS.each do |md|
-  matchday = Matchday.find(md)
-  matchday.games.each do |n|
+
+League.first.matchdays.each do |md|
+  md.games.each do |n|
     puts "Spiel: #{n} beendet."
     g = Game.find(n)
     g.home_goals = rand(5)
     g.guest_goals = rand(5)
+    g.finished = true
     CalculatePoints.calculate(g)
     g.save
   end

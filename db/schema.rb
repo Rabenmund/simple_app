@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131230162358) do
+ActiveRecord::Schema.define(version: 20131230162323) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,8 +22,8 @@ ActiveRecord::Schema.define(version: 20131230162358) do
     t.integer  "home_goals"
     t.integer  "guest_goals"
     t.integer  "matchday_id",                 null: false
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.boolean  "finished",    default: false
     t.integer  "second",      default: 0
   end
@@ -33,8 +33,8 @@ ActiveRecord::Schema.define(version: 20131230162358) do
 
   create_table "leagues", force: true do |t|
     t.string   "name",       null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "leagues_teams", id: false, force: true do |t|
@@ -47,8 +47,8 @@ ActiveRecord::Schema.define(version: 20131230162358) do
   create_table "matchdays", force: true do |t|
     t.integer  "number",     null: false
     t.integer  "league_id",  null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "matchdays", ["number"], name: "index_matchdays_on_number", using: :btree
@@ -64,16 +64,16 @@ ActiveRecord::Schema.define(version: 20131230162358) do
     t.integer  "game_id",    null: false
     t.integer  "team_id",    null: false
     t.integer  "league_id",  null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "teams", force: true do |t|
     t.string   "name",         null: false
     t.string   "short_name",   null: false
     t.string   "abbreviation", null: false
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
 end

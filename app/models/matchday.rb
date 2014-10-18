@@ -3,11 +3,9 @@
 class Matchday < ActiveRecord::Base
   attr_accessible :number
   belongs_to :league
-  has_many :games, dependent: :destroy, order: :id
+  has_many :games, -> { order "id ASC" }, dependent: :destroy
   validates :number, uniqueness: { scope: :league_id }, presence: true, numericality: true
-  
-#  default_scope order('number ASC')
-  
+    
   def step
     games.each do |game|
       game.step
@@ -15,11 +13,11 @@ class Matchday < ActiveRecord::Base
   end 
   
   def self.finished
-    joins(:games).where("home_goals IS NOT NULL AND guest_goals IS NOT NULL").uniq
+    joins(:games).where(games: {finished: true}).uniq
   end
   
   def self.not_finished
-    joins(:games).where("home_goals IS NULL OR guest_goals IS NULL").uniq
+    joins(:games).where(games: {finished: false}).uniq
   end
 
   def finished?

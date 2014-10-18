@@ -2,10 +2,12 @@ SimpleApp::Application.routes.draw do
   
   root to: 'leagues#index'
   
-  resources :leagues, only: [:show, :index] do
-    member do
-      get 'matchday/:matchday_id/run' => 'matchdays#run', as: :run_matchday
-      put 'matchday/:matchday_id/step' => 'matchdays#step', as: :step_matchday
+  resources :leagues, only: [:index, :show] do
+    resources :matchdays, only: [:index] do
+      member do
+        get 'run'
+        get 'step'
+      end
     end
   end
   

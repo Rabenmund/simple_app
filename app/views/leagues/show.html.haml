@@ -2,10 +2,15 @@
   = @league.name
 .row
   .span6
-    = render partial: "matchday", locals: { matchday: @league.matchdays.finished.last}
-    = render partial: "board"
+    - if @league.matchdays.finished.any?
+      = render partial: "matchday", locals: { matchday: @league.matchdays.finished.last }
+      = render partial: "board"
+    - else
+      = "Noch kein Spieltag gespielt."
   .span6
-    = render partial: "matchday", locals: { matchday: @league.matchdays.not_finished.first}
-    %br
-    - # move @league.matchdays.not_finished.first to league model
-    = button_to "Go", run_matchday_league_path(@league, @league.matchdays.not_finished.first), method: :get
+    - if @league.matchdays.not_finished.any?
+      = render partial: "matchday", locals: { matchday: @league.matchdays.not_finished.first}
+      %br
+      = button_to "Go", run_league_matchday_path(@league, @league.matchdays.not_finished.first), method: :get
+    - else
+      = "Saison beendet"

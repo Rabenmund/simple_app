@@ -1,14 +1,2 @@
-%table.table.table-striped.table-bordered.table-condensed.table-hover
-  %thead
-    %legend
-      = @matchday.number.to_s + ". Spieltag, #{(@matchday.games.first.second/60)}. Minute"
-  %tbody
-    - @matchday.games.each do |g|
-      %tr
-        %td
-          = g.home.name
-        %td
-          = g.guest.name
-        %td
-          = g.home_goals.to_s+" : "+g.guest_goals.to_s
-= button_to "Step", step_matchday_league_path(@matchday.league, @matchday), method: :put
+#running-matchday
+  = render partial: "run"
