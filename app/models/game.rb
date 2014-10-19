@@ -4,11 +4,13 @@ class Game < ActiveRecord::Base
 
   belongs_to :matchday
   has_one :competition, through: :matchday
+  has_one :season, through: :competition
 
   belongs_to :home, class_name: "Team"
   belongs_to :guest, class_name: "Team"
 
   has_many :points
+  has_one :event, as: :eventable
 
   validates_presence_of :home_id, :guest_id
   validates :matchday, presence: true

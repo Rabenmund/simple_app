@@ -3,6 +3,8 @@ class League < Competition
 
   has_many :points, through: :games
 
+  default_scope { where competable_type: "League" }
+
   def finished?
     games.any? && games.not_finished.empty?
   end
