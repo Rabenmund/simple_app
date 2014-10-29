@@ -1,18 +1,15 @@
 class Cup < Competition
   default_scope { where competable_type: "Cup" }
   has_many :draws
+
   MATCHDAYS = {6=> [21,81,130,207,249,287]}
   DRAWS = {6=> [1,22,82,131,208,250]}
   DRAW_TEXTS = ["Finale", "Halbfinale", "Viertelfinale", "Achtelfinale"]
 
   def prepare!
     number_of_matchdays.times do |number|
-      m = matchdays.create(number: number+1, start: start_date(MATCHDAYS, number))
-      puts m.inspect
-      d = draws.create(name: "Auslosung DFB Pokal #{draw_text(number)}")
-      puts d.inspect
-      a = Appointment.create(appointable: d, appointed_at: start_date(DRAWS, number))
-      puts a.inspect
+      matchdays.create(number: number+1, start: start_date(MATCHDAYS, number))
+      draw = draws.create(name: "Auslosung DFB Pokal #{draw_text(number)}", start_date: start_date(DRAWS, number))
     end
   end
 

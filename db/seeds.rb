@@ -365,46 +365,11 @@ c = f.cups.create(name: "DFB Pokal")
 c.teams << f.teams.where(id: [1..64])
 s.cups << c
 c.prepare!
+
 puts c.inspect
+c.matchdays.map! {|m|puts m.inspect}
+c.draws.map! {|d|puts d.inspect}
+c.appointments.map! {|a|puts a.inspect}
 
 puts ""
 puts "Liga"
-
-
-
-# puts ""
-# puts "Ligen:"
-# LIGAS =
-# {
-#   '1.Bundesliga' =>
-#   {
-#     name: "1.Bundesliga",
-#   },
-#   '2.Bundesliga' =>
-#   {
-#     name: "2.Bundesliga",
-#   }
-# }
-
-# LIGAS.each_key do |liga|
-#   parameters =
-#   {
-#     name: LIGAS[liga][:name]
-#   }
-#   result = CreateLeague.create(league: parameters, teams: Team.all)
-#   puts liga+": ok"
-# end
-
-# # finish first matchday
-
-# League.first.matchdays.each do |md|
-#   md.games.each do |n|
-#     puts "Spiel: #{n} beendet."
-#     g = Game.find(n)
-#     g.home_goals = rand(5)
-#     g.guest_goals = rand(5)
-#     g.finished = true
-#     CalculatePoints.calculate(g)
-#     g.save
-#   end
-# end

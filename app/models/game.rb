@@ -2,6 +2,8 @@
 
 class Game < ActiveRecord::Base
 
+  include Appointable
+
   belongs_to :matchday
   has_one :competition, through: :matchday
   has_one :season, through: :competition
@@ -10,7 +12,6 @@ class Game < ActiveRecord::Base
   belongs_to :guest, class_name: "Team"
 
   has_many :points
-  has_one :appointment, as: :appointable
 
   validates_presence_of :home_id, :guest_id
   validates :matchday, presence: true
@@ -35,6 +36,10 @@ class Game < ActiveRecord::Base
   end
 
   private
+
+  def start_date
+    matchday.start
+  end
 
   def perform_event
     if Random.new.rand(30) == 1

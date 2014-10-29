@@ -19,6 +19,7 @@ ActiveRecord::Schema.define(version: 20141019070648) do
   create_table "appointments", force: true do |t|
     t.integer  "appointable_id",   null: false
     t.string   "appointable_type", null: false
+    t.integer  "competition_id"
     t.datetime "appointed_at",     null: false
   end
 
@@ -37,8 +38,9 @@ ActiveRecord::Schema.define(version: 20141019070648) do
   end
 
   create_table "draws", force: true do |t|
-    t.string  "name",   null: false
-    t.integer "cup_id"
+    t.string   "name",         null: false
+    t.datetime "performed_at"
+    t.integer  "cup_id"
   end
 
   create_table "federations", force: true do |t|
@@ -53,13 +55,21 @@ ActiveRecord::Schema.define(version: 20141019070648) do
   end
 
   create_table "games", force: true do |t|
-    t.integer  "home_id",                     null: false
-    t.integer  "guest_id",                    null: false
+    t.integer  "home_id",                          null: false
+    t.integer  "guest_id",                         null: false
     t.integer  "home_goals"
     t.integer  "guest_goals"
-    t.integer  "second",      default: 0
-    t.boolean  "finished",    default: false
-    t.integer  "matchday_id",                 null: false
+    t.integer  "home_half_goals"
+    t.integer  "guest_half_goals"
+    t.integer  "home_full_goals"
+    t.integer  "guest_full_goals"
+    t.integer  "home_xtra_goals"
+    t.integer  "guest_xtra_goals"
+    t.boolean  "shoot_out"
+    t.integer  "second",           default: 0
+    t.datetime "performed_at"
+    t.boolean  "finished",         default: false
+    t.integer  "matchday_id",                      null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

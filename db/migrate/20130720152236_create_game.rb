@@ -5,7 +5,15 @@ class CreateGame < ActiveRecord::Migration
       t.integer :guest_id, null: false
       t.integer :home_goals
       t.integer :guest_goals
+      t.integer :home_half_goals
+      t.integer :guest_half_goals
+      t.integer :home_full_goals
+      t.integer :guest_full_goals
+      t.integer :home_xtra_goals
+      t.integer :guest_xtra_goals
+      t.boolean :shoot_out
       t.integer :second, default: 0
+      t.datetime :performed_at
       t.boolean :finished, default: false
       t.references :matchday, null: false
       t.timestamps
