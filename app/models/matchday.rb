@@ -1,7 +1,7 @@
 # coding: utf-8
 
 class Matchday < ActiveRecord::Base
-  attr_accessible :number
+  attr_accessible :number, :start
   belongs_to :competition
   has_many :games, -> { order "id ASC" }, dependent: :destroy
   validates :number, uniqueness: { scope: :competition_id }, presence: true, numericality: true

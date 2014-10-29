@@ -10,7 +10,7 @@ class Game < ActiveRecord::Base
   belongs_to :guest, class_name: "Team"
 
   has_many :points
-  has_one :event, as: :eventable
+  has_one :appointment, as: :appointable
 
   validates_presence_of :home_id, :guest_id
   validates :matchday, presence: true

@@ -16,9 +16,14 @@ ActiveRecord::Schema.define(version: 20141019070648) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "appointments", force: true do |t|
+    t.integer  "appointable_id",   null: false
+    t.string   "appointable_type", null: false
+    t.datetime "appointed_at",     null: false
+  end
+
   create_table "competitions", force: true do |t|
     t.string   "name",            null: false
-    t.decimal  "year",            null: false
     t.string   "competable_type", null: false
     t.integer  "federation_id"
     t.integer  "season_id"
@@ -34,12 +39,6 @@ ActiveRecord::Schema.define(version: 20141019070648) do
   create_table "draws", force: true do |t|
     t.string  "name",   null: false
     t.integer "cup_id"
-  end
-
-  create_table "events", force: true do |t|
-    t.integer  "eventable_id",   null: false
-    t.string   "eventable_type", null: false
-    t.datetime "perform_at",     null: false
   end
 
   create_table "federations", force: true do |t|
@@ -70,6 +69,7 @@ ActiveRecord::Schema.define(version: 20141019070648) do
 
   create_table "matchdays", force: true do |t|
     t.integer  "number",         null: false
+    t.datetime "start",          null: false
     t.integer  "competition_id", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -94,14 +94,16 @@ ActiveRecord::Schema.define(version: 20141019070648) do
 
   create_table "seasons", force: true do |t|
     t.integer  "year",       null: false
+    t.datetime "start"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "teams", force: true do |t|
-    t.string   "name",         null: false
-    t.string   "short_name",   null: false
-    t.string   "abbreviation", null: false
+    t.string   "name",          null: false
+    t.string   "short_name",    null: false
+    t.string   "abbreviation",  null: false
+    t.integer  "federation_id", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

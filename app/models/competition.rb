@@ -1,6 +1,5 @@
 class Competition < ActiveRecord::Base
   validates :name, presence: true
-  validates :year, presence: true, numericality: true
   belongs_to :federation
   belongs_to :season
   has_and_belongs_to_many :teams
