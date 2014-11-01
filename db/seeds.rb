@@ -6,9 +6,27 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
+def create_games(c,m,games)
+  puts ["1.Runde", "2.Runde", "Achtelfinale", "Viertelfinale", "Halbfinale", "Finale"][m.number.to_i-1]
+  games.each do |g|
+    options = {home: c.teams.find_by(abbreviation: g[0].to_s), guest: c.teams.find_by(abbreviation: g[1].to_s), home_goals: g[2], guest_goals: g[3], home_half_goals: g[4], guest_half_goals: g[5], performed_at: m.start, finished: true}
+    options.merge! home_full_goals: g[6], guest_full_goals: g[7]  if g[6]
+    options.merge!(home_xtra_goals: g[8], guest_xtra_goals: g[9]) if g[8]
+    game = m.games.create(options)
+    puts "#{game.home.name} - #{game.guest.name} (#{game.home_half_goals}:#{game.guest_half_goals}) #{game.home_goals}:#{game.guest_goals} #{addition(game)}"
+  end
+  puts " "
+end
+
+def addition(game)
+  return "n.E." if game.home_xtra_goals
+  return "n.V." if game.home_full_goals
+  ""
+end
+
 puts ""
 puts "Saison"
-s = Season.create(year: 2010, start: "11.08.2010".to_datetime)
+s = Season.create(year: 2010, start: "08.08.2009".to_datetime)
 puts s.inspect
 
 puts ""
@@ -239,7 +257,7 @@ TEAMS =
       short_name: 'Wuppertal'
     },
     {
-      abbr: 'SCP',
+      abbr: 'PrM',
       name:'SC Preußen Münster',
       short_name: 'Münster'
     },
@@ -314,6 +332,41 @@ TEAMS =
       short_name: 'Reinicken.'
     },
     {
+      abbr: 'WaM',
+      name:'SV Waldhof Mannheim',
+      short_name: 'Mannheim'
+    },
+    {
+      abbr: 'PrB',
+      name:'Preußen Bochum',
+      short_name: 'Pr.Bochum'
+    },
+    {
+      abbr: 'SGU',
+      name:'SG Union Solingen',
+      short_name: 'Solingen'
+    },
+    {
+      abbr: 'SVB',
+      name:'SV Babelsberg 03',
+      short_name: 'Potsdam'
+    },
+    {
+      abbr: 'RWA',
+      name:'Rot-Weiß Ahlen',
+      short_name: 'Ahlen'
+    },
+    {
+      abbr: 'BSV',
+      name:'BSV Kickers Emden',
+      short_name: 'Emden'
+    },
+    {
+      abbr: 'SCC',
+      name:'SC Charlottenburg',
+      short_name: 'Charlot.'
+    },
+    {
       abbr: 'SCJ',
       name:'SC Jülich 1910',
       short_name: 'Jülich'
@@ -322,26 +375,6 @@ TEAMS =
       abbr: 'FCH',
       name:'FC Heilbronn',
       short_name: 'Heilbronn'
-    },
-    {
-      abbr: 'WaM',
-      name:'SV Waldhof Mannheim',
-      short_name: 'Mannheim'
-    },
-    {
-      abbr: 'BSV',
-      name:'BSV Kickers Emden',
-      short_name: 'Emden'
-    },
-    {
-      abbr: 'PrB',
-      name:'Preußen Bochum',
-      short_name: 'Pr.Bochum'
-    },
-    {
-      abbr: 'SCC',
-      name:'SC Charlottenburg',
-      short_name: 'Charlot.'
     },
 ]
 
@@ -366,10 +399,162 @@ c.teams << f.teams.where(id: [1..64])
 s.cups << c
 c.prepare!
 
+GAMES1 = [
+  [:FCU,:CZJ,0,1,0,1],
+  [:WSV,:VfL,0,2,0,1],
+  [:Lüb,:VfB,1,2,1,1,1,1],
+  [:UtM,:SGE,0,6,0,2],
+  [:BMg,:RWF,0,2,0,0],
+  [:FSV,:BVB,0,1,0,0,0,0],
+  [:FCE,:SCF,0,2,0,1],
+  [:Kob,:FCN,3,4,1,3],
+  [:FCL,:SSV,5,6,0,0,0,0,1,1],
+  [:FVD,:WOL,2,1,1,1],
+  [:PrB,:S04,2,4,2,1,2,2],
+  [:BFC,:DSC,0,1,0,1],
+  [:KFC,:RWO,4,1,3,1],
+  [:SGU,:F95,2,1,1,0],
+  [:FCM,:KSV,4,2,2,2],
+  [:WaM,:M05,1,4,1,3],
+  [:FCA,:AAa,0,3,0,0],
+  [:SSR,:MSV,4,5,1,1,1,1,1,1],
+  [:KOf,:SVW,1,3,1,3],
+  [:SGW,:HRo,1,5,1,2],
+  [:FCK,:EBs,7,6,2,2,3,3,3,3],
+  [:AUE,:RWE,0,2,0,2],
+  [:PrM,:TSV,1,4,1,1],
+  [:SGD,:TSG,3,0,2,0],
+  [:SVB,:Lok,3,2,3,0],
+  [:UnB,:KSC,1,5,1,3],
+  [:GrF,:FCS,0,1,0,0],
+  ["1FC",:StK,1,0,0,0,0,0],
+  [:Erf,:SVD,1,2,1,0],
+  [:RWA,:H96,0,1,0,0],
+  [:B04,:BSC,2,0,0,0],
+  [:FCB,:HSV,2,0,1,0],
+]
+
+GAMES2 = [
+  [:SSV,:VfL,1,2,1,1],
+  [:FCB,:M05,4,5,0,0,0,0,0,0],
+  [:H96,:SGD,2,3,1,2],
+  [:HRo,:SGE,0,1,0,1],
+  [:MSV,:RWE,3,5,0,0,1,1,2,2],
+  [:VfB,:TSV,0,2,0,1],
+  ["1FC",:CZJ,1,0,0,0],
+  [:RWF,:DSC,2,4,2,2,2,2,2,2],
+  [:AAa,:FCN,2,3,1,3],
+  [:BVB,:B04,1,0,1,0],
+  [:FCM,:KSC,2,1,1,1],
+  [:KFC,:SCF,1,2,0,2],
+  [:FCK,:SVW,2,3,1,1],
+  [:SGU,:S04,3,2,2,2,2,2],
+  [:SVD,:FCS,2,1,0,1],
+  [:FVD,:SVB,3,1,2,1]
+]
+
+GAMES3 = [
+  [:FCM,:RWE,0,3,0,2],
+  [:FVD,:SCF,2,1,2,1],
+  [:FCN,:SGD,3,1,1,1,1,1],
+  [:M05,:SGE,1,0,1,0],
+  [:SVW,:DSC,4,3,0,0,0,0,0,0],
+  [:SGU,:VfL,1,2,1,0],
+  ["1FC",:TSV,4,3,0,0,0,0,0,0],
+  [:SVD,:BVB,3,4,0,0,0,0,0,0]
+]
+
+GAMES4 = [
+  [:SVW,:VfL,0,3,0,2],
+  ["1FC",:BVB,1,3,0,0,1,1],
+  [:M05,:RWE,2,1,0,1],
+  [:FVD,:FCN,1,3,1,1]
+]
+
+GAMES5 = [
+  [:BVB,:FCN,6,4,2,2,3,3,3,3],
+  [:VfL,:M05,1,2,0,1]
+]
+
+GAMES6 = [
+  [:M05,:BVB,0,1,0,0,0,0]
+]
+
+
+create_games(c, c.matchdays[0], GAMES1)
+create_games(c, c.matchdays[1], GAMES2)
+create_games(c, c.matchdays[2], GAMES3)
+create_games(c, c.matchdays[3], GAMES4)
+create_games(c, c.matchdays[4], GAMES5)
+create_games(c, c.matchdays[5], GAMES6)
+
 puts c.inspect
+puts ""
 c.matchdays.map! {|m|puts m.inspect}
+puts ""
 c.draws.map! {|d|puts d.inspect}
-c.appointments.map! {|a|puts a.inspect}
 
 puts ""
 puts "Liga"
+
+l = f.leagues.create(name: "Bundesliga")
+[7,10,3,6,19,9,15,12,2,8,14,13,20,5,11,4,1,21].each do |id|
+  l.teams << f.teams.find(id)
+end
+s.leagues << l
+l.prepare!
+
+puts l.inspect
+
+RESULTS = [
+  [2,1,2,3,3,0,4,0,0,1,0,1,0,0,0,2,2,0,2,3,0,1,1,1,1,0,2,0,2,1,2,2,2,1,3,1],
+  [1,0,1,1,2,0,3,0,0,2,0,3,1,0,1,1,2,0,3,1,2,0,2,2,1,1,1,2,0,0,0,2,0,0,0,2],
+  [0,0,2,1,1,1,1,1,1,0,3,2,1,0,2,0,0,0,0,1,0,0,0,1,3,1,3,1,0,1,0,1,1,1,2,1],
+  [0,0,1,1,0,3,1,4,0,1,1,2,0,0,1,1,1,2,1,2,0,2,1,3,1,0,1,0,0,0,0,0,2,1,4,1],
+  [0,2,0,2,1,0,1,1,0,1,0,1,0,2,0,3,0,0,2,1,2,1,2,2,0,0,1,0,2,0,2,0,3,0,5,0],
+  [0,0,0,0,0,0,1,0,1,1,1,1,0,0,2,0,0,2,1,2,1,0,1,3,2,0,3,0,0,0,2,2,0,0,0,3],
+  [1,2,2,2,1,2,1,3,1,2,2,3,2,0,2,1,1,0,2,2,1,2,2,2,1,0,1,1,1,0,1,0,0,1,0,1],
+  [1,2,2,2,1,0,0,0,1,0,1,1,0,1,1,3,0,2,1,3,0,0,0,0,0,3,1,6,0,1,0,2,0,0,3,0],
+  [1,0,2,1,1,0,1,1,0,1,3,1,3,1,3,2,0,1,1,3,1,1,1,1,1,1,1,1,0,1,1,2,0,0,2,0],
+  [1,1,1,2,1,0,1,1,1,2,2,2,1,0,2,0,0,1,0,1,1,0,2,0,1,1,1,1,1,0,1,1,1,1,1,1],
+  [0,1,1,2,0,1,1,2,1,1,3,2,1,1,2,1,1,2,1,2,0,0,0,4,2,0,2,2,2,0,2,0,2,2,3,3],
+  [1,1,2,1,1,0,2,0,1,0,1,0,2,1,2,2,1,0,1,1,0,0,1,1,1,1,2,2,0,0,0,1,2,2,3,2],
+  [1,1,3,1,1,1,3,2,1,0,1,1,0,0,0,2,1,0,1,0,0,0,0,1,0,0,2,0,0,1,1,1,0,0,1,0],
+  [0,0,0,1,0,1,0,2,2,0,2,1,1,0,1,2,2,0,3,0,1,0,1,1,1,0,1,1,0,0,0,0,4,2,6,2],
+  [0,0,1,0,0,2,0,4,1,1,2,1,0,0,0,0,1,2,1,2,1,0,1,1,0,0,1,1,0,3,0,3,1,0,1,0],
+  [1,0,2,1,0,0,1,1,2,1,2,2,2,1,2,1,0,0,0,1,0,1,1,1,0,1,0,2,0,1,2,1,2,0,4,1],
+  [0,0,1,1,0,1,0,1,0,2,2,3,0,0,0,0,0,1,2,1,0,1,0,2,0,1,1,2,0,3,0,3,1,1,2,1],
+  [2,0,2,0,1,1,1,1,0,0,2,0,2,0,3,0,0,0,1,2,2,0,4,0,0,0,0,0,0,0,1,0,0,0,0,0],
+  [1,0,1,0,1,3,1,3,0,1,1,1,1,0,2,0,3,0,3,2,0,0,1,0,1,0,3,3,1,2,1,4,3,1,3,3],
+  [3,0,5,1,1,1,1,3,0,2,0,5,0,0,0,1,0,1,1,1,0,1,1,2,2,2,4,2,0,2,0,2,0,0,0,0],
+  [1,0,1,1,2,2,2,4,0,2,0,3,2,1,2,3,1,1,1,1,1,2,2,3,2,0,3,1,1,0,2,3,0,0,0,0],
+  [0,0,0,0,0,1,2,1,1,1,1,1,1,0,2,0,0,1,2,2,0,1,1,2,1,0,1,1,0,1,1,1,0,2,0,4],
+  [1,1,1,1,0,0,0,0,0,0,0,1,0,0,0,0,2,1,4,1,1,0,1,1,0,0,0,0,2,0,2,0,0,0,1,0],
+  [0,0,1,0,0,2,0,2,0,0,0,0,0,0,0,0,1,2,1,4,2,2,2,2,0,0,1,0,1,0,2,0,0,2,2,3],
+  [0,1,2,2,1,4,1,4,0,0,0,2,0,0,1,1,2,1,2,2,0,0,0,0,0,0,1,0,3,0,3,0,0,0,0,1],
+  [0,0,1,0,1,0,1,0,0,1,1,2,0,0,2,0,1,0,1,0,1,0,1,1,1,0,2,1,1,0,1,3,0,0,0,2],
+  [4,1,4,2,3,2,3,4,1,0,1,0,1,0,1,0,0,0,0,1,1,0,1,0,3,0,4,0,2,0,2,0,0,2,0,2],
+  [0,1,1,2,0,2,0,2,1,2,2,3,0,0,0,0,1,1,2,1,0,0,0,0,0,0,1,0,1,0,2,1,0,3,0,3],
+  [0,1,2,1,1,0,1,0,2,1,3,2,1,1,2,1,0,0,2,1,0,0,0,0,0,1,2,2,1,1,1,1,0,0,0,1],
+  [1,0,1,2,2,1,2,2,1,1,1,1,1,0,1,1,1,1,3,1,1,0,1,0,1,1,2,2,0,0,4,2,1,0,2,1],
+  [0,0,0,0,0,0,2,1,0,2,1,3,0,0,0,2,0,2,0,2,0,0,0,2,0,1,0,1,0,0,1,0,0,1,0,1],
+  [0,0,0,0,2,1,3,1,1,0,2,2,0,0,1,1,0,1,0,1,1,0,1,0,0,1,0,2,0,1,0,2,0,1,0,1],
+  [1,2,3,2,1,1,2,1,1,2,1,2,1,0,1,0,2,0,3,0,1,0,2,0,0,1,1,3,0,0,1,0,1,0,2,0],
+  [0,0,0,0,0,0,1,0,1,0,1,1,2,0,2,0,0,0,1,0,0,3,0,3,2,0,3,0,1,0,1,1,0,0,0,1],
+]
+  RESULTS.each do |m|
+  number = (RESULTS.index(m))+1
+  md = l.matchdays.find_by(number: number)
+  9.times do |g|
+    rel = g*4
+    md.games[g].update_attributes(home_half_goals: m[rel], guest_half_goals: m[rel+1], home_goals: m[rel+2], guest_goals: m[rel+3])
+    md.games[g].finish!
+  end
+end
+
+puts ""
+l.matchdays.each do |m|
+  puts "#{m.number}. Spieltag: #{m.start}"
+  m.games.order(:id).map! {|g|puts "#{Team.find(g.home_id).name} - #{Team.find(g.guest_id).name} (#{g.home_half_goals}:#{g.guest_half_goals}) #{g.home_goals}:#{g.guest_goals}" }
+  puts ""
+end

@@ -1,5 +1,5 @@
 class CalculatePoints
-  
+
   def self.calculate(game)
     return unless game.finished?
     if game.home_goals > game.guest_goals
@@ -15,9 +15,9 @@ class CalculatePoints
       self.update_or_create_points(game, game.guest_id, 1, game.guest_goals, game.home_goals)
     end
   end
-  
+
   private
-  
+
   def self.update_or_create_points(game, team_id, points, goals, against)
     p = game.points.find_by_team_id(team_id)
     win, draw, lost = self.set_wdl_count(points)
@@ -25,10 +25,10 @@ class CalculatePoints
     if p
       p.update_attributes!(points: points, goals: goals, against: against, diff: diff, win: win, draw: draw, lost: lost)
     else
-      game.points.create(league_id: game.league.id, team_id: team_id, points: points, goals: goals, against: against, diff: diff, win: win, draw: draw, lost: lost )
+      game.points.create(league_id: game.competition.id, team_id: team_id, points: points, goals: goals, against: against, diff: diff, win: win, draw: draw, lost: lost )
     end
   end
-  
+
   def self.set_wdl_count(points)
     win, draw, lost = 0,0,0
     case points
@@ -41,5 +41,5 @@ class CalculatePoints
     end
     return win, draw, lost
   end
-  
+
 end

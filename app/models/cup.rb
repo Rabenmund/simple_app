@@ -8,31 +8,24 @@ class Cup < Competition
 
   def prepare!
     number_of_matchdays.times do |number|
-      matchdays.create(number: number+1, start: start_date(MATCHDAYS, number))
+      create_matchdays!(number)
       draw = draws.create(name: "Auslosung DFB Pokal #{draw_text(number)}", start_date: start_date(DRAWS, number))
     end
   end
 
   private
 
+  def matchday_schema
+    MATCHDAYS
+  end
+
   def draw_text(number)
     positive_number = number + 1
     DRAW_TEXTS[number_of_matchdays-positive_number] || "#{(positive_number).to_s}. Runde"
   end
 
-  def members
-    @members ||= teams.pluck :id
-  end
-
-  def start_date(dates, number)
-    season.start + days_since_season_start(dates, number).days
-  end
-
-  def days_since_season_start(dates, number)
-    dates[number_of_matchdays][number]
-  end
-
   def number_of_matchdays
     {64=> 6}[members.size] || 0
   end
+
 end

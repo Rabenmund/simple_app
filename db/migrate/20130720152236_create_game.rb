@@ -11,7 +11,6 @@ class CreateGame < ActiveRecord::Migration
       t.integer :guest_full_goals
       t.integer :home_xtra_goals
       t.integer :guest_xtra_goals
-      t.boolean :shoot_out
       t.integer :second, default: 0
       t.datetime :performed_at
       t.boolean :finished, default: false
