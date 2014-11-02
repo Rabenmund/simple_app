@@ -6,6 +6,7 @@ class Team < ActiveRecord::Base
   has_many :home_games, class_name: "Game", foreign_key: "home_id"
   has_many :guest_games, class_name: "Game", foreign_key: "guest_id"
   has_many :points
+  has_many :results
 
   validates :name, presence: true, length: { maximum: 30 }, uniqueness: true
   validates :short_name, presence: true, length: { maximum: 10 }, uniqueness: true

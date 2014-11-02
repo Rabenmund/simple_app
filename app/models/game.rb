@@ -21,7 +21,7 @@ class Game < ActiveRecord::Base
 
   def finish!
     update_attributes(finished: true)
-    CalculatePoints.calculate(self)
+    CalculatePoints.new(self).update!
   end
 
   def step

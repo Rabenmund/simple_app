@@ -9,7 +9,7 @@
 def create_games(c,m,games)
   puts ["1.Runde", "2.Runde", "Achtelfinale", "Viertelfinale", "Halbfinale", "Finale"][m.number.to_i-1]
   games.each do |g|
-    options = {home: c.teams.find_by(abbreviation: g[0].to_s), guest: c.teams.find_by(abbreviation: g[1].to_s), home_goals: g[2], guest_goals: g[3], home_half_goals: g[4], guest_half_goals: g[5], performed_at: m.start, finished: true}
+    options = {home: c.teams.find_by(abbreviation: g[0].to_s), guest: c.teams.find_by(abbreviation: g[1].to_s), home_goals: g[2], guest_goals: g[3], home_half_goals: g[4], guest_half_goals: g[5], performed_at: m.start, finished: true, level: c.level}
     options.merge! home_full_goals: g[6], guest_full_goals: g[7]  if g[6]
     options.merge!(home_xtra_goals: g[8], guest_xtra_goals: g[9]) if g[8]
     game = m.games.create(options)
@@ -394,7 +394,7 @@ end
 
 puts ""
 puts "Cup"
-c = f.cups.create(name: "DFB Pokal")
+c = f.cups.create(name: "DFB Pokal", level: 1)
 c.teams << f.teams.where(id: [1..64])
 s.cups << c
 c.prepare!
@@ -497,7 +497,7 @@ c.draws.map! {|d|puts d.inspect}
 puts ""
 puts "Liga"
 
-l = f.leagues.create(name: "Bundesliga")
+l = f.leagues.create(name: "Bundesliga", level: 1)
 [7,10,3,6,19,9,15,12,2,8,14,13,20,5,11,4,1,21].each do |id|
   l.teams << f.teams.find(id)
 end
@@ -558,3 +558,7 @@ l.matchdays.each do |m|
   m.games.order(:id).map! {|g|puts "#{Team.find(g.home_id).name} - #{Team.find(g.guest_id).name} (#{g.home_half_goals}:#{g.guest_half_goals}) #{g.home_goals}:#{g.guest_goals}" }
   puts ""
 end
+
+puts l.inspect
+puts c.inspect
+puts Competition.all.inspect

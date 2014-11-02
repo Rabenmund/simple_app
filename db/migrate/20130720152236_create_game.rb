@@ -12,6 +12,7 @@ class CreateGame < ActiveRecord::Migration
       t.integer :home_xtra_goals
       t.integer :guest_xtra_goals
       t.integer :second, default: 0
+      t.integer :level
       t.datetime :performed_at
       t.boolean :finished, default: false
       t.references :matchday, null: false

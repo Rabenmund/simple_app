@@ -8,9 +8,8 @@ gem 'jquery-rails'
 gem "haml"
 gem "haml-rails"
 gem "bootstrap-sass", '~> 2.0'
-gem "will_paginate"   
+gem "will_paginate"
 gem "bootstrap-will_paginate"
-#gem "jquery-ui-rails"
 gem "simple_form"
 gem 'sass-rails'
 gem 'coffee-rails'

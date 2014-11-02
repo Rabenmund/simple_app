@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141019070648) do
+ActiveRecord::Schema.define(version: 20141102065603) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,6 +26,7 @@ ActiveRecord::Schema.define(version: 20141019070648) do
   create_table "competitions", force: true do |t|
     t.string   "name",            null: false
     t.string   "competable_type", null: false
+    t.integer  "level"
     t.integer  "federation_id"
     t.integer  "season_id"
     t.datetime "created_at"
@@ -66,6 +67,7 @@ ActiveRecord::Schema.define(version: 20141019070648) do
     t.integer  "home_xtra_goals"
     t.integer  "guest_xtra_goals"
     t.integer  "second",           default: 0
+    t.integer  "level"
     t.datetime "performed_at"
     t.boolean  "finished",         default: false
     t.integer  "matchday_id",                      null: false
@@ -94,9 +96,25 @@ ActiveRecord::Schema.define(version: 20141019070648) do
     t.integer  "win"
     t.integer  "draw"
     t.integer  "lost"
+    t.integer  "level"
     t.integer  "game_id",    null: false
     t.integer  "team_id",    null: false
     t.integer  "league_id",  null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "results", force: true do |t|
+    t.integer  "points",     default: 0
+    t.integer  "goals",      default: 0
+    t.integer  "against",    default: 0
+    t.integer  "diff",       default: 0
+    t.integer  "win",        default: 0
+    t.integer  "draw",       default: 0
+    t.integer  "lost",       default: 0
+    t.integer  "team_id",                null: false
+    t.integer  "league_id",              null: false
+    t.integer  "level"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

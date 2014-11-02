@@ -8,6 +8,7 @@ class CreatePoints < ActiveRecord::Migration
       t.integer :win
       t.integer :draw
       t.integer :lost
+      t.integer :level
 
       t.references :game, null: false
       t.references :team, null: false

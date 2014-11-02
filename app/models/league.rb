@@ -1,7 +1,7 @@
 class League < Competition
-  # attr_accessible :name, :team_ids
   default_scope { where competable_type: "League" }
   has_many :points, through: :games
+  has_one :result
 
   MATCHDAYS = {34 => [0,7,14,36,39,46,53,67,74,81,88,95,109,116,123,130,137,172,179,183,186,193,200,207,214,221,228,242,249,256,263,270,277,284]}
 
@@ -45,9 +45,11 @@ class League < Competition
   end
 
   def live_board
-    # TODO vielleicht macht es später Sinn eine Abschlusstabelle in Form von 18 Sätzen seperat zu speichern, statt 608 point-sätze pro Liga. das kann dann über eine board methode
-
     board = teams.joins(:points).select("teams.name, sum(points) as team_points, sum(goals) as team_goals, sum(against) as team_against, sum(diff) as team_diff, sum(win) as team_win, sum(draw) as team_draw, sum(lost) as team_lost").group("teams.name").where("points.league_id = #{self.id}").order("team_points DESC, team_diff DESC, team_goals DESC")
+  end
+
+  def result_board
+    board = teams.joins(:results).select("teams.name, sum(points) as team_points, sum(goals) as team_goals, sum(against) as team_against, sum(diff) as team_diff, sum(win) as team_win, sum(draw) as team_draw, sum(lost) as team_lost").group("teams.name").where("results.league_id = #{self.id}").order("team_points DESC, team_diff DESC, team_goals DESC")
   end
 
   private
@@ -59,7 +61,7 @@ class League < Competition
       if number <= number_of_matchdays / 2
         matchday.games.create(home: ordered_teams[PLAN[number_of_matchdays][number-1][(game+1)*2-2]-1], guest: ordered_teams[PLAN[number_of_matchdays][number-1][(game+1)*2-1]-1])
       else
-        matchday.games.create(home: ordered_teams[PLAN[number_of_matchdays][number-18][(game+1)*2-1]-1], guest: ordered_teams[PLAN[number_of_matchdays][number-18][(game+1)*2-2]-1])
+        matchday.games.create(home: ordered_teams[PLAN[number_of_matchdays][number-18][(game+1)*2-1]-1], guest: ordered_teams[PLAN[number_of_matchdays][number-18][(game+1)*2-2]-1], level: level)
       end
     end
   end
