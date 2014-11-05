@@ -115,6 +115,8 @@ ActiveRecord::Schema.define(version: 20141102065603) do
     t.integer  "team_id",                null: false
     t.integer  "league_id",              null: false
     t.integer  "level"
+    t.integer  "year"
+    t.integer  "rank"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

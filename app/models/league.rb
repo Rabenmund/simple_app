@@ -1,7 +1,7 @@
 class League < Competition
   default_scope { where competable_type: "League" }
   has_many :points, through: :games
-  has_one :result
+  has_many :results
 
   MATCHDAYS = {34 => [0,7,14,36,39,46,53,67,74,81,88,95,109,116,123,130,137,172,179,183,186,193,200,207,214,221,228,242,249,256,263,270,277,284]}
 
@@ -45,11 +45,28 @@ class League < Competition
   end
 
   def live_board
-    board = teams.joins(:points).select("teams.name, sum(points) as team_points, sum(goals) as team_goals, sum(against) as team_against, sum(diff) as team_diff, sum(win) as team_win, sum(draw) as team_draw, sum(lost) as team_lost").group("teams.name").where("points.league_id = #{self.id}").order("team_points DESC, team_diff DESC, team_goals DESC")
+    Point.joins(:team).select("teams.name, sum(points) as team_points, sum(goals) as team_goals, sum(against) as team_against, sum(diff) as team_diff, sum(win) as team_win, sum(draw) as team_draw, sum(lost) as team_lost").group("teams.name").where("points.league_id = #{self.id}").order("team_points DESC, team_diff DESC, team_goals DESC")
+  end
+
+  def finish!
+    # TODO gegenwärtig nicht aufgerufen im programmablauf, nur in den seeds. Sollte im Rahmen eines End-of-Season aus dem live board calculiert werden.
+    rank = 0
+    live_board.each do |row|
+      rank += 1
+      team = Team.find_by(name: row.name)
+      attributes = {team: team, level: level, year: season.year, points: row.team_points, goals: row.team_goals, against: row.team_against, diff: row.team_diff, win: row.team_win, draw: row.team_draw, lost: row.team_lost, rank: rank}
+      result = results.find_by(team: team)
+      result ?  result.update_attributes(attributes) : results.create(attributes)
+    end
   end
 
   def result_board
-    board = teams.joins(:results).select("teams.name, sum(points) as team_points, sum(goals) as team_goals, sum(against) as team_against, sum(diff) as team_diff, sum(win) as team_win, sum(draw) as team_draw, sum(lost) as team_lost").group("teams.name").where("results.league_id = #{self.id}").order("team_points DESC, team_diff DESC, team_goals DESC")
+    Result.joins(:team).select("teams.name, results.rank, results.year, results.points, results.goals, results.against, results.diff, results.win, results.draw, results.lost").where("results.league_id = #{self.id}").order("results.points DESC, results.diff DESC, results.goals DESC, results.rank ASC")
+  end
+
+  def rank_of_team(id: id)
+    team = Team.find(id)
+    (result_board.find_index {|r| r.name == team.name}) +1
   end
 
   private

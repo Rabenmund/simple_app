@@ -18,6 +18,17 @@ def create_games(c,m,games)
   puts " "
 end
 
+def create_league_results(league, fed, results)
+  rank = 0
+  results.each do |row|
+    rank += 1
+    team = fed.teams.find_by(abbreviation: row[0].to_s)
+    puts row[0].to_s
+    league.teams << team
+    Result.create(team: team, league: league, level: league.level, rank: rank, year: league.season.year, points: row[1], goals: row[2], against: row[3], diff: ((row[2]-row[3]) if row[2] && row[3]), win: row[4], draw: row[5], lost: row[6])
+  end
+end
+
 def addition(game)
   return "n.E." if game.home_xtra_goals
   return "n.V." if game.home_full_goals
@@ -227,7 +238,7 @@ TEAMS =
       short_name: 'Oberhausen'
     },
     {
-      abbr: 'WOL',
+      abbr: 'Wol',
       name:'VfL Wolfsburg',
       short_name: 'Wolfsburg'
     },
@@ -267,7 +278,7 @@ TEAMS =
       short_name: 'Erfurt'
     },
     {
-      abbr: 'AUE',
+      abbr: 'Aue',
       name:'FC Erzgebirge Aue',
       short_name: 'Aue'
     },
@@ -372,9 +383,299 @@ TEAMS =
       short_name: 'Jülich'
     },
     {
-      abbr: 'FCH',
+      abbr: 'Osn',
+      name:'VfL Osnabrück',
+      short_name: 'Osnabr.'
+    },
+    {
+      abbr: 'StP',
+      name:'FC St.Pauli',
+      short_name: 'St.Pauli'
+    },
+    {
+      abbr: 'WeW',
+      name:'SV Wehen-Wiesbaden',
+      short_name: 'Weh.Wbd.'
+    },
+    {
+      abbr: 'FCI',
+      name:'FC Ingolstadt',
+      short_name: 'Ingolst.'
+    },
+    {
+      abbr: 'Hol',
+      name:'KSV Holstein Kiel',
+      short_name: 'Kiel'
+    },
+    {
+      abbr: 'SpU',
+      name:'SpVgg Unterhaching',
+      short_name: 'Unterh.'
+    },
+    {
+      abbr: 'SCK',
+      name:'SC Fortuna Köln',
+      short_name: 'SCF Köln'
+    },
+    {
+      abbr: 'VfR',
+      name:'VfR Aalen',
+      short_name: 'Aalen'
+    },
+    {
+      abbr: 'SxL',
+      name:'FC Sachsen Leipzig',
+      short_name: 'S.Leipz.'
+    },
+    {
+      abbr: 'CFC',
+      name:'Chemnitzer FC',
+      short_name: 'Chemnitz'
+    },
+    {
+      abbr: 'SpE',
+      name:'SpVgg Erkenschwick',
+      short_name: 'Erkens.'
+    },
+    {
+      abbr: 'SCP',
+      name:'SC Paderborn 07',
+      short_name: 'Paderb.'
+    },
+    {
+      abbr: 'StB',
+      name:'FC Stahl Brandenburg',
+      short_name: 'Stahl'
+    },
+    {
+      abbr: 'SpB',
+      name:'SpVgg Bayreuth',
+      short_name: 'Bayreuth'
+    },
+    {
+      abbr: 'Old',
+      name:'VfB Oldenburg',
+      short_name: 'Oldenb.'
+    },
+    {
+      abbr: 'H08',
+      name:'FC 08 Homburg',
+      short_name: 'Homburg'
+    },
+    {
+      abbr: 'Neu',
+      name:'VfR Neumünster',
+      short_name: 'Neumüns.'
+    },
+    {
+      abbr: 'Wil',
+      name:'SV Wilhelmshaven',
+      short_name: 'Wilhelm.'
+    },
+    {
+      abbr: 'Xan',
+      name:'TuS Xanten',
+      short_name: 'Xanten'
+    },
+    {
+      abbr: 'Hbr',
       name:'FC Heilbronn',
       short_name: 'Heilbronn'
+    },
+    {
+      abbr: 'Zwi',
+      name:'FSV Zwickau',
+      short_name: 'Zwickau'
+    },
+    {
+      abbr: 'Con',
+      name:'Concordia Hamburg',
+      short_name: 'Concord.'
+    },
+    {
+      abbr: 'FCP',
+      name:'1.FC Pforzheim',
+      short_name: 'Pforzh.'
+    },
+    {
+      abbr: 'SVE',
+      name:'SV Eintracht Trier',
+      short_name: 'Trier'
+    },
+    {
+      abbr: 'SpL',
+      name:'SpVgg Landshut',
+      short_name: 'Landsh.'
+    },
+    {
+      abbr: 'SpN',
+      name:'SpVgg Neuss',
+      short_name: 'Neuss'
+    },
+    {
+      abbr: 'OSC',
+      name:'OSC Bremerhaven',
+      short_name: 'Bremerh.'
+    },
+    {
+      abbr: 'HSp',
+      name:'Hammer SpVgg',
+      short_name: 'Hamm'
+    },
+    {
+      abbr: 'StE',
+      name:'FC Stahl Eisenhüttenstadt',
+      short_name: 'Eisenh.'
+    },
+    {
+      abbr: 'WKi',
+      name:'Würzburger Kickers',
+      short_name: 'Würzburg'
+    },
+    {
+      abbr: 'Dre',
+      name:'Dresdner SC',
+      short_name: 'Dresd.SC'
+    },
+    {
+      abbr: 'SCB',
+      name:'Bonner SC',
+      short_name: 'Bonn'
+    },
+    {
+      abbr: 'VtA',
+      name:'Viktoria Aschaffenburg',
+      short_name: 'Aschaff.'
+    },
+    {
+      abbr: 'WoW',
+      name:'VfR Wormatia Worms',
+      short_name: 'Worms'
+    },
+    {
+      abbr: 'Ful',
+      name:'SC Borussia Fulda',
+      short_name: 'Fulda'
+    },
+    {
+      abbr: 'FBi',
+      name:'VfB Fichte Bielefeld',
+      short_name: 'Fichte'
+    },
+    {
+      abbr: 'Pas',
+      name:'1.FC Passau',
+      short_name: 'Passau'
+    },
+    {
+      abbr: 'HFC',
+      name:'Hallescher FC',
+      short_name: 'Halle'
+    },
+    {
+      abbr: 'WBu',
+      name:'Wacker Burghausen',
+      short_name: 'Wacker'
+    },
+    {
+      abbr: 'Kle',
+      name:'1.FC Kleve',
+      short_name: 'Kleve'
+    },
+    {
+      abbr: 'Boc',
+      name:'1.FC Bocholt',
+      short_name: 'Bocholt'
+    },
+    {
+      abbr: 'VkK',
+      name:'SCB Viktoria Köln',
+      short_name: 'Vik.Köln'
+    },
+    {
+      abbr: 'Bre',
+      name:'Bremer SV',
+      short_name: 'Brem.SV'
+    },
+    {
+      abbr: 'IdO',
+      name:'SC 07 Idar-Oberstein',
+      short_name: 'Idar-O.'
+    },
+    {
+      abbr: 'FCR',
+      name:'FC Remscheid',
+      short_name: 'Remsch.'
+    },
+    {
+      abbr: 'Lfd',
+      name:'VfB Langenfeld',
+      short_name: 'Langenf.'
+    },
+    {
+      abbr: 'HKi',
+      name:'VfL Heidelberg-Kirchheim',
+      short_name: 'Heidelb.'
+    },
+    {
+      abbr: 'Mar',
+      name:'VfB Marburg',
+      short_name: 'Marburg'
+    },
+    {
+      abbr: 'May',
+      name:'TuS Mayen',
+      short_name: 'Mayen'
+    },
+    {
+      abbr: 'RWL',
+      name:'Rot-Weiß Lüdenscheid',
+      short_name: 'Lüden.'
+    },
+    {
+      abbr: 'KJu',
+      name:'FC Köln-Junkersdorf 1946',
+      short_name: 'Junkers.'
+    },
+    {
+      abbr: 'SCV',
+      name:'SC Verl',
+      short_name: 'SC Verl'
+    },
+    {
+      abbr: 'WEi',
+      name:'DSC Wanne-Eickel',
+      short_name: 'Wanne-E.'
+    },
+    {
+      abbr: 'SVM',
+      name:'SV Meppen',
+      short_name: 'Meppen'
+    },
+    {
+      abbr: 'Pei',
+      name:'VfB Peine',
+      short_name: 'Peine'
+    },
+    {
+      abbr: 'VkG',
+      name:'SC Viktoria Griesheim',
+      short_name: 'Griesh.'
+    },
+    {
+      abbr: 'Des',
+      name:'SV Dessau',
+      short_name: 'Dessau'
+    },
+    {
+      abbr: 'Slw',
+      name:'VfR Schleswig',
+      short_name: 'Schlesw.'
+    },
+    {
+      abbr: 'Swt',
+      name:'VfL Schwerte',
+      short_name: 'Schwerte'
     },
 ]
 
@@ -409,7 +710,7 @@ GAMES1 = [
   [:FCE,:SCF,0,2,0,1],
   [:Kob,:FCN,3,4,1,3],
   [:FCL,:SSV,5,6,0,0,0,0,1,1],
-  [:FVD,:WOL,2,1,1,1],
+  [:FVD,:Wol,2,1,1,1],
   [:PrB,:S04,2,4,2,1,2,2],
   [:BFC,:DSC,0,1,0,1],
   [:KFC,:RWO,4,1,3,1],
@@ -421,7 +722,7 @@ GAMES1 = [
   [:KOf,:SVW,1,3,1,3],
   [:SGW,:HRo,1,5,1,2],
   [:FCK,:EBs,7,6,2,2,3,3,3,3],
-  [:AUE,:RWE,0,2,0,2],
+  [:Aue,:RWE,0,2,0,2],
   [:PrM,:TSV,1,4,1,1],
   [:SGD,:TSG,3,0,2,0],
   [:SVB,:Lok,3,2,3,0],
@@ -558,7 +859,71 @@ l.matchdays.each do |m|
   m.games.order(:id).map! {|g|puts "#{Team.find(g.home_id).name} - #{Team.find(g.guest_id).name} (#{g.home_half_goals}:#{g.guest_half_goals}) #{g.home_goals}:#{g.guest_goals}" }
   puts ""
 end
+l.finish!
 
-puts l.inspect
-puts c.inspect
-puts Competition.all.inspect
+RESULTS2 = [
+  [:EBs,65,76,42,20,5,9],
+  [:HRo,64,62,36,18,10,6],
+  [:M05,61,53,34,16,13,5],
+  ["1FC",57,45,27,17,6,11],
+  [:DSC,57,52,37,17,6,11],
+  [:AAa,56,47,48,16,8,10],
+  [:SGD,52,54,37,14,10,10],
+  [:HSV,50,47,40,14,8,12],
+  [:TSV,47,46,50,14,5,15],
+  [:F95,47,31,41,11,14,9],
+  [:TSG,46,31,39,12,10,12],
+  [:SSV,41,39,44,9,14,11],
+  [:B04,39,47,59,10,9,15],
+  [:MSV,35,39,55,10,5,19],
+  [:SVD,32,36,52,8,8,18],
+  [:FCS,32,44,66,8,8,18],
+  [:RWO,31,38,64,9,4,21],
+  [:Wol,30,27,43,7,9,18]
+]
+RESULTS3 = [
+  [:FCK,77,58,24,24,5,5],
+  [:FVD,67,57,25,19,10,5],
+  [:FCU,64,48,27,17,13,4],
+  [:BMg,61,43,25,18,7,9],
+  [:FCM,56,51,35,16,8,10],
+  [:GrF,52,40,33,15,7,12],
+  [:FCE,52,41,36,13,13,8],
+  [:WSV,42,41,51,13,3,18],
+  [:PrM,42,39,52,10,12,12],
+  [:Erf,41,41,41,11,8,15],
+  [:Aue,40,29,32,10,10,14],
+  [:FSV,39,37,40,10,9,15],
+  [:UnB,38,30,39,9,11,14],
+  [:FCA,37,25,35,9,10,15],
+  [:KFC,36,33,48,9,9,16],
+  [:Kob,33,39,56,8,9,17],
+  [:Lüb,33,35,59,9,6,19],
+  [:KOf,30,30,59,8,6,20],
+]
+RESULTS4 = [
+  [:BFC],[:FCL],[:SGW],[:UtM],[:SSR],[:SCJ],[:Hbr],[:WaM],[:BSV],[:PrB],[:SCC],[:SGU],[:RWA],[:Osn],[:StP],[:FCI],[:SVB],[:WeW]
+]
+RESULTS5 = [
+  [:Hol],[:SpU],[:SCK],[:VfR],[:SxL],[:CFC],[:SpE],[:SCP],[:StB],[:SpB],[:Old],[:H08],[:Neu],[:Wil],[:Xan],[:Zwi],[:Con],[:FCP]
+]
+RESULTS6A = [
+  [:SVE],[:SpL],[:SpN],[:OSC],[:HSp],[:StE],[:WKi],[:Dre],[:SCB],[:VtA],[:WoW],[:Ful],[:FBi],[:Pas],[:HFC],[:WBu],[:Kle],[:Boc]
+]
+RESULTS6B = [
+  [:SVB],[:Bre],[:IdO],[:FCR],[:Lfd],[:HKi],[:Mar],[:May],[:RWL],[:KJu],[:SCV],[:WEi],[:SVM],[:Pei],[:VkG],[:Des],[:Slw],[:Swt]
+]
+l2 = League.create(name: "2.Bundesliga", level: 2, federation: f, season: s)
+create_league_results(l2, f, RESULTS2)
+l3 = League.create(name: "3.Bundesliga", level: 3, federation: f, season: s)
+create_league_results(l3, f, RESULTS3)
+l4 = League.create(name: "4.Bundesliga", level: 4, federation: f, season: s)
+create_league_results(l4, f, RESULTS4)
+l5 = League.create(name: "5.Bundesliga", level: 5, federation: f, season: s)
+create_league_results(l5, f, RESULTS5)
+l6a = League.create(name: "6.Bundesliga A", level: 6, federation: f, season: s)
+create_league_results(l6a, f, RESULTS6A)
+l6b = League.create(name: "6.Bundesliga B", level: 6, federation: f, season: s)
+create_league_results(l6b, f, RESULTS6B)
+
+

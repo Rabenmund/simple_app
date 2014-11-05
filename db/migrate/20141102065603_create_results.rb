@@ -11,6 +11,8 @@ class CreateResults < ActiveRecord::Migration
       t.belongs_to :team, null: false
       t.belongs_to :league, null: false
       t.integer :level
+      t.integer :year
+      t.integer :rank
       t.timestamps
     end
   end
