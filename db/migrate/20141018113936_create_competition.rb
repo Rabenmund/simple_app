@@ -6,6 +6,7 @@ class CreateCompetition < ActiveRecord::Migration
       t.integer :level
       t.belongs_to :federation
       t.belongs_to :season
+      t.datetime :start
       t.timestamps
     end
   end

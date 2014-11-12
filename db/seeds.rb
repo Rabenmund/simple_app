@@ -695,7 +695,7 @@ end
 
 puts ""
 puts "Cup"
-c = f.cups.create(name: "DFB Pokal", level: 1)
+c = f.cups.create(name: "DFB Pokal", level: 1, start: s.start)
 c.teams << f.teams.where(id: [1..64])
 s.cups << c
 c.prepare!
@@ -798,7 +798,7 @@ c.draws.map! {|d|puts d.inspect}
 puts ""
 puts "Liga"
 
-l = f.leagues.create(name: "Bundesliga", level: 1)
+l = f.leagues.create(name: "Bundesliga", level: 1, start: s.start)
 [7,10,3,6,19,9,15,12,2,8,14,13,20,5,11,4,1,21].each do |id|
   l.teams << f.teams.find(id)
 end
@@ -926,4 +926,12 @@ create_league_results(l6a, f, RESULTS6A)
 l6b = League.create(name: "6.Bundesliga B", level: 6, federation: f, season: s)
 create_league_results(l6b, f, RESULTS6B)
 
+puts ""
+puts "-"*120
+puts "Erschaffe eine neue Spielzeit"
+puts "-"*120
+puts ""
 
+s = Season.create_next
+dfb = DFBPattern.new(season: s)
+dfb.prepare!

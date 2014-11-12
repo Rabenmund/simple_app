@@ -28,7 +28,7 @@ class Competition < ActiveRecord::Base
   end
 
   def start_date(dates, number)
-    season.start + days_since_season_start(dates, number).days
+    start + days_since_season_start(dates, number).days
   end
 
   def days_since_season_start(dates, number)

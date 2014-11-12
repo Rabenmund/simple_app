@@ -69,6 +69,26 @@ class League < Competition
     (result_board.find_index {|r| r.name == team.name}) +1
   end
 
+  def remaining_teams(up, down)
+    teams.joins(:results).where("results.league_id = #{self.id}").where("results.rank" => (1+up)..(teams.size-down)).order("results.rank")
+  end
+
+  def promoted_teams(up)
+    teams.joins(:results).where("results.league_id = #{self.id}").where("results.rank" => 1..up).order("results.rank")
+  end
+
+  def demoted_teams(down)
+    teams.joins(:results).where("results.league_id = #{self.id}").where("results.rank" => (teams.size-down+1)..(teams.size)).order("results.rank")
+  end
+
+  def sub_leagues
+    season.leagues.where(level: level+1)
+  end
+
+  def super_leagues
+    season.leagues.where(level: level-1)
+  end
+
   private
 
   def create_games!(iteration)

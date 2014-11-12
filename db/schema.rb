@@ -29,6 +29,7 @@ ActiveRecord::Schema.define(version: 20141102065603) do
     t.integer  "level"
     t.integer  "federation_id"
     t.integer  "season_id"
+    t.datetime "start"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
