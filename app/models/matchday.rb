@@ -5,6 +5,8 @@ class Matchday < ActiveRecord::Base
   belongs_to :competition
   has_many :games, -> { order "id ASC" }, dependent: :destroy
   validates :number, uniqueness: { scope: :competition_id }, presence: true, numericality: true
+  validates :start, presence: true
+  validates :competition, presence: true
 
   def step
     games.each do |game|

@@ -5,46 +5,6 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
-
-def create_games(c,m,games)
-  puts ["1.Runde", "2.Runde", "Achtelfinale", "Viertelfinale", "Halbfinale", "Finale"][m.number.to_i-1]
-  games.each do |g|
-    options = {home: c.teams.find_by(abbreviation: g[0].to_s), guest: c.teams.find_by(abbreviation: g[1].to_s), home_goals: g[2], guest_goals: g[3], home_half_goals: g[4], guest_half_goals: g[5], performed_at: m.start, finished: true, level: c.level}
-    options.merge! home_full_goals: g[6], guest_full_goals: g[7]  if g[6]
-    options.merge!(home_xtra_goals: g[8], guest_xtra_goals: g[9]) if g[8]
-    game = m.games.create(options)
-    puts "#{game.home.name} - #{game.guest.name} (#{game.home_half_goals}:#{game.guest_half_goals}) #{game.home_goals}:#{game.guest_goals} #{addition(game)}"
-  end
-  puts " "
-end
-
-def create_league_results(league, fed, results)
-  rank = 0
-  results.each do |row|
-    rank += 1
-    team = fed.teams.find_by(abbreviation: row[0].to_s)
-    puts row[0].to_s
-    league.teams << team
-    Result.create(team: team, league: league, level: league.level, rank: rank, year: league.season.year, points: row[1], goals: row[2], against: row[3], diff: ((row[2]-row[3]) if row[2] && row[3]), win: row[4], draw: row[5], lost: row[6])
-  end
-end
-
-def addition(game)
-  return "n.E." if game.home_xtra_goals
-  return "n.V." if game.home_full_goals
-  ""
-end
-
-puts ""
-puts "Saison"
-s = Season.create(year: 2010, start: "08.08.2009".to_datetime)
-puts s.inspect
-
-puts ""
-puts "Verband"
-f = s.federations.create(name: "DFB")
-puts f.inspect
-
 TEAMS =
 [
     {
@@ -678,6 +638,47 @@ TEAMS =
       short_name: 'Schwerte'
     },
 ]
+
+def create_games(c,m,games)
+  puts ["1.Runde", "2.Runde", "Achtelfinale", "Viertelfinale", "Halbfinale", "Finale"][m.number.to_i-1]
+  games.each do |g|
+    puts g.inspect
+    options = {home: c.teams.find_by(abbreviation: g[0].to_s), guest: c.teams.find_by(abbreviation: g[1].to_s), home_goals: g[2], guest_goals: g[3], home_half_goals: g[4], guest_half_goals: g[5], performed_at: m.start, finished: true, level: c.level}
+    options.merge! home_full_goals: g[6], guest_full_goals: g[7]  if g[6]
+    options.merge!(home_xtra_goals: g[8], guest_xtra_goals: g[9]) if g[8]
+    game = m.games.create(options)
+    game.finish!
+    puts "#{game.home.name} - #{game.guest.name} (#{game.home_half_goals}:#{game.guest_half_goals}) #{game.home_goals}:#{game.guest_goals} #{addition(game)}"
+  end
+  puts " "
+end
+
+def create_league_results(league, fed, results)
+  rank = 0
+  results.each do |row|
+    rank += 1
+    team = fed.teams.find_by(abbreviation: row[0].to_s)
+    puts row[0].to_s
+    league.teams << team
+    Result.create(team: team, league: league, level: league.level, rank: rank, year: league.season.year, points: row[1], goals: row[2], against: row[3], diff: ((row[2]-row[3]) if row[2] && row[3]), win: row[4], draw: row[5], lost: row[6])
+  end
+end
+
+def addition(game)
+  return "n.E." if game.home_xtra_goals
+  return "n.V." if game.home_full_goals
+  ""
+end
+
+puts ""
+puts "Saison"
+s = Season.create(year: 2010, start: "08.08.2009".to_datetime + 930.minutes)
+puts s.inspect
+
+puts ""
+puts "Verband"
+f = s.federations.create(name: "DFB")
+puts f.inspect
 
 puts ""
 puts "Mannschaften:"

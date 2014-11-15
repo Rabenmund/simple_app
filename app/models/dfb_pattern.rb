@@ -1,7 +1,7 @@
 class DFBPattern
 
   LEAGUES = [
-    {level: 1, name: "Bundesliga", teams: 18, days_off: 0, time_off: 0,down: 3, up: 0},
+    {level: 1, name: "Bundesliga", teams: 18, days_off: 0, time_off: 0, down: 3, up: 0},
     {level: 2, name: "2.Bundesliga", teams: 18, days_off: 1, time_off: 0, down: 3, up: 3},
     {level: 3, name: "3.Bundesliga", teams: 18, days_off: 1, time_off: -150.minutes, down: 3, up: 3},
   ]

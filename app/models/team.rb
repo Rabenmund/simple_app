@@ -11,6 +11,7 @@ class Team < ActiveRecord::Base
   validates :name, presence: true, length: { maximum: 30 }, uniqueness: true
   validates :short_name, presence: true, length: { maximum: 10 }, uniqueness: true
   validates :abbreviation, presence: true, length: { maximum: 3 }, uniqueness: true
+  validates :federation, presence: true
 
   def games
     home_games + guest_games

@@ -9,11 +9,15 @@ class Cup < Competition
   def prepare!
     number_of_matchdays.times do |number|
       create_matchdays!(number)
-      draw = draws.create(name: "Auslosung DFB Pokal #{draw_text(number)}", start_date: start_date(DRAWS, number))
+      draw = draws.create(name: "Auslosung DFB Pokal #{draw_text(number)}", appoint_date: StartDate.new(start, draw_days_since_start(number)))
     end
   end
 
   private
+
+  def draw_days_since_start(number)
+    DRAWS[number_of_matchdays][number].days
+  end
 
   def matchday_schema
     MATCHDAYS
