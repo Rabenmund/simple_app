@@ -1,5 +1,5 @@
 class League < Competition
-  default_scope { where competable_type: "League" }
+  before_create { self.competable_type = "League" }
   has_many :points, through: :games
   has_many :results
 

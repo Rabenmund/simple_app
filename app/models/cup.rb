@@ -1,5 +1,5 @@
 class Cup < Competition
-  default_scope { where competable_type: "Cup" }
+  before_create { self.competable_type = "Cup" }
   has_many :draws
 
   MATCHDAYS = {6=> [21,81,130,207,249,287]}

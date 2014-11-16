@@ -7,7 +7,6 @@ class Competition < ActiveRecord::Base
   has_many :games, through: :matchdays
   has_many :appointments
 
-  before_save { self.competable_type = self.class.name }
 
   def ordered_teams
     teams.order("competitions_teams.id")
