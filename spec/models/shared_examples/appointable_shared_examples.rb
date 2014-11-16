@@ -8,11 +8,17 @@ shared_examples_for Appointable do
   end
 
   context "#ensure_appointment" do
-    let!(:new_testable) {build testable.class.name.downcase.to_s}
 
     it "creates an appointment after save" do
+      new_testable = build testable.class.name.downcase.to_s
       expect{new_testable.save}.to change{Appointment.count}.by(1)
       expect(new_testable.appointment).to eq Appointment.last
+    end
+
+    it "deletes an appointment when appointable is finish!" do
+      allow(CalculatePoints).to receive(:new).and_return double(update!: :updated)
+      testable.finish!
+      expect(testable.reload.appointment).to be_nil
     end
 
   end

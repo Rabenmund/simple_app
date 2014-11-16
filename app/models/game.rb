@@ -22,6 +22,7 @@ class Game < ActiveRecord::Base
   def finish!
     update_attributes(finished: true)
     CalculatePoints.new(self).update!
+    appointment.destroy
   end
 
   def step
