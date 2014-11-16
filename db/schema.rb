@@ -24,8 +24,8 @@ ActiveRecord::Schema.define(version: 20141102065603) do
   end
 
   create_table "competitions", force: true do |t|
-    t.string   "name",            null: false
-    t.string   "competable_type", null: false
+    t.string   "name",          null: false
+    t.string   "type",          null: false
     t.integer  "level"
     t.integer  "federation_id"
     t.integer  "season_id"

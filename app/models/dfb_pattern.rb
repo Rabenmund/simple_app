@@ -22,7 +22,7 @@ class DFBPattern
 
   def create_cups
     @dfb_pokal = @dfb.cups.create(name: "DFB Pokal", level: 1, season: @season, start: @season.start)
-    @dfb_pokal.teams << @dfb.teams.joins(:competitions).where("competitions.level" => 1..3, "competitions.competable_type" => "League", "competitions.season_id" => @previous.previous.id)
+    @dfb_pokal.teams << @dfb.teams.joins(:competitions).where("competitions.level" => 1..3, "competitions.type" => "League", "competitions.season_id" => @previous.previous.id)
     fill_with_random_teams(10, @dfb.teams, @dfb_pokal.teams)
     @dfb_pokal.prepare!
   end
