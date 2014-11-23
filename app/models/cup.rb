@@ -1,15 +1,29 @@
 class Cup < Competition
-  # before_create { self.competable_type = "Cup" }
   has_many :draws
 
   MATCHDAYS = {6=> [21,81,130,207,249,287]}
   DRAWS = {6=> [1,22,82,131,208,250]}
   DRAW_TEXTS = ["Finale", "Halbfinale", "Viertelfinale", "Achtelfinale"]
 
+  def winning_teams_at(matchday)
+    return teams unless matchday.number > 1
+    teams.joins("JOIN games ON games.home_id=teams.id")
+      .where("games.matchday_id = #{matchday.id}")
+      .where("games.home_goals > games.guest_goals") +
+    teams.joins("JOIN games ON games.guest_id=teams.id")
+      .where("games.matchday_id = #{matchday.id}")
+      .where("games.home_goals < games.guest_goals")
+  end
+
+  def drawed_teams_at(matchday)
+    teams.joins("JOIN games ON (games.home_id=teams.id OR games.guest_id=teams.id)")
+      .where("games.matchday_id = #{matchday.id}")
+  end
+
   def prepare!
     number_of_matchdays.times do |number|
-      create_matchdays!(number)
-      draw = draws.create(name: "Auslosung DFB Pokal #{draw_text(number)}", appoint_date: StartDate.new(start, draw_days_since_start(number)))
+      matchday = create_matchday!(number)
+      draws.create(name: "Auslosung DFB Pokal #{draw_text(number)}", performed_at: StartDate.new(start, draw_days_since_start(number)).start_date_extra_time(180), matchday: matchday)
     end
   end
 

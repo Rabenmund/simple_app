@@ -9,7 +9,7 @@ module Appointable
   private
 
   def create_appointment
-    Appointment.create(appointable: self, appointed_at: appoint_date || start_date)
+    a = Appointment.create(appointable: self, appointed_at: appoint_date || performed_at)
   end
 
 end

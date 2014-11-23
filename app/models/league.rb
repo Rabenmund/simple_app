@@ -27,7 +27,7 @@ class League < Competition
 
   def prepare!
     number_of_matchdays.times do |number|
-      create_matchdays! number
+      create_matchday! number
       create_games! number
     end
   end
@@ -96,9 +96,9 @@ class League < Competition
     matchday = matchdays.find_by(number: number)
     (teams.size / 2).times do |game|
       if number <= number_of_matchdays / 2
-        matchday.games.create(home: ordered_teams[PLAN[number_of_matchdays][number-1][(game+1)*2-2]-1], guest: ordered_teams[PLAN[number_of_matchdays][number-1][(game+1)*2-1]-1])
+        matchday.games.create(home: ordered_teams[PLAN[number_of_matchdays][number-1][(game+1)*2-2]-1], guest: ordered_teams[PLAN[number_of_matchdays][number-1][(game+1)*2-1]-1], performed_at: matchday.start)
       else
-        matchday.games.create(home: ordered_teams[PLAN[number_of_matchdays][number-18][(game+1)*2-1]-1], guest: ordered_teams[PLAN[number_of_matchdays][number-18][(game+1)*2-2]-1], level: level)
+        matchday.games.create(home: ordered_teams[PLAN[number_of_matchdays][number-18][(game+1)*2-1]-1], guest: ordered_teams[PLAN[number_of_matchdays][number-18][(game+1)*2-2]-1], level: level, performed_at: matchday.start)
       end
     end
   end

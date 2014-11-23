@@ -8,6 +8,10 @@ FactoryGirl.define do
   factory :appointable, class: Game do
   end
 
+  factory :season do
+   year 2010
+  end
+
   factory :federation do
     name 'DFB'
   end
@@ -24,6 +28,7 @@ FactoryGirl.define do
   end
 
   factory :game do
+    performed_at DateTime.now
     home
     guest
     matchday
@@ -36,7 +41,23 @@ FactoryGirl.define do
   end
 
   factory :competition do
+    season
+    federation
     name 'Bundesliga'
-    competable_type 'League'
+    type 'League'
+    start DateTime.now
+  end
+
+  factory :cup do
+    season
+    federation
+    name 'DFB Pokal'
+    start DateTime.now
+  end
+
+  factory :draw do
+    name 'Auslosung'
+    performed_at DateTime.now
+    cup
   end
 end

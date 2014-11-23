@@ -4,8 +4,16 @@ class StartDate
     @start = season_start + since_start_days
   end
 
-  def start_date
-    @start + (add_extra_time_at_different_wday || 0)
+  def start_date_auto_shift
+    @start += (add_extra_time_at_different_wday || 0)
+  end
+
+  def start_date_extra_days(extra_days=0)
+    @start += extra_days.days
+  end
+
+  def start_date_extra_time(extra_time=0)
+    @start += extra_time.minutes
   end
 
   private

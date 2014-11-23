@@ -40,9 +40,11 @@ ActiveRecord::Schema.define(version: 20141102065603) do
   end
 
   create_table "draws", force: true do |t|
-    t.string   "name",         null: false
+    t.string   "name",                         null: false
     t.datetime "performed_at"
+    t.boolean  "finished",     default: false
     t.integer  "cup_id"
+    t.integer  "matchday_id"
   end
 
   create_table "federations", force: true do |t|

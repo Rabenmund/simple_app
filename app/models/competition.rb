@@ -7,6 +7,8 @@ class Competition < ActiveRecord::Base
   has_many :games, through: :matchdays
   has_many :appointments
 
+  validates :name, presence: true
+  validates :start, presence: true
 
   def ordered_teams
     teams.order("competitions_teams.id")
@@ -22,8 +24,8 @@ class Competition < ActiveRecord::Base
     {} # to be defined in child
   end
 
-  def create_matchdays!(number)
-    matchdays.create(number: number+1, start: StartDate.new(start, days_since_season_start(number)).start_date)
+  def create_matchday!(number)
+    matchdays.create(number: number+1, start: StartDate.new(start, days_since_season_start(number)).start_date_auto_shift)
   end
 
   def days_since_season_start(number)

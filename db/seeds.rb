@@ -655,6 +655,8 @@ end
 
 def create_league_results(league, fed, results)
   rank = 0
+  league.valid?
+  puts "league: ", league.errors.inspect
   results.each do |row|
     rank += 1
     team = fed.teams.find_by(abbreviation: row[0].to_s)
@@ -914,17 +916,17 @@ RESULTS6A = [
 RESULTS6B = [
   [:SVB],[:Bre],[:IdO],[:FCR],[:Lfd],[:HKi],[:Mar],[:May],[:RWL],[:KJu],[:SCV],[:WEi],[:SVM],[:Pei],[:VkG],[:Des],[:Slw],[:Swt]
 ]
-l2 = League.create(name: "2.Bundesliga", level: 2, federation: f, season: s)
+l2 = League.create(name: "2.Bundesliga", level: 2, federation: f, season: s, start: s.start)
 create_league_results(l2, f, RESULTS2)
-l3 = League.create(name: "3.Bundesliga", level: 3, federation: f, season: s)
+l3 = League.create(name: "3.Bundesliga", level: 3, federation: f, season: s, start: s.start)
 create_league_results(l3, f, RESULTS3)
-l4 = League.create(name: "4.Bundesliga", level: 4, federation: f, season: s)
+l4 = League.create(name: "4.Bundesliga", level: 4, federation: f, season: s, start: s.start)
 create_league_results(l4, f, RESULTS4)
-l5 = League.create(name: "5.Bundesliga", level: 5, federation: f, season: s)
+l5 = League.create(name: "5.Bundesliga", level: 5, federation: f, season: s, start: s.start)
 create_league_results(l5, f, RESULTS5)
-l6a = League.create(name: "6.Bundesliga A", level: 6, federation: f, season: s)
+l6a = League.create(name: "6.Bundesliga A", level: 6, federation: f, season: s, start: s.start)
 create_league_results(l6a, f, RESULTS6A)
-l6b = League.create(name: "6.Bundesliga B", level: 6, federation: f, season: s)
+l6b = League.create(name: "6.Bundesliga B", level: 6, federation: f, season: s, start: s.start)
 create_league_results(l6b, f, RESULTS6B)
 
 puts ""
