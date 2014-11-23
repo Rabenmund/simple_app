@@ -19,9 +19,9 @@ class CalculatePoints
 
   def update_points(id, points, goals, against, win, draw, lost)
     attr = {points: points, goals: goals, against: against, diff: (goals-against), win: win, draw: draw, lost: lost, league_id: @league.id, level: @league.level, team_id: id}
-    p = @game.points.find_by(team_id: id)
-    if p
-      p.update_attributes(attr)
+    points = @game.points.find_by(team_id: id)
+    if points
+      points.update_attributes(attr)
     else
       @game.points.create(attr)
     end

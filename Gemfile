@@ -38,7 +38,6 @@ end
 group :test do
   gem 'simplecov'
   gem 'simplecov-rcov'
-  gem 'shoulda-matchers'
   gem 'factory_girl_rails'
   gem 'database_cleaner'
   gem 'capybara'

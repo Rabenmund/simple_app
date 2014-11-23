@@ -17,6 +17,7 @@ shared_examples_for Appointable do
 
     it "deletes an appointment when appointable is finish!" do
       allow(CalculatePoints).to receive(:new).and_return double(update!: :updated)
+      allow(testable).to receive_messages(home_goals: 1, guest_goals: 1)
       testable.finish!
       expect(testable.reload.appointment).to be_nil
     end

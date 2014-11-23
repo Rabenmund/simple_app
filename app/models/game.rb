@@ -20,9 +20,16 @@ class Game < ActiveRecord::Base
   scope :finished, -> { where(finished: true) }
 
   def finish!
-    update_attributes(finished: true)
+    return false unless home_goals && guest_goals
     CalculatePoints.new(self).update!
-    appointment.destroy
+    appointment.destroy if appointment
+    update_attributes(finished: true)
+  end
+
+  def perform!
+    return false if finished?
+    update_attributes(performed_at: performed_at+1.minute)
+
   end
 
   def step

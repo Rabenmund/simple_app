@@ -8,6 +8,4 @@ describe Team do
 
   it { should be_valid }
 
-  it { should have_and_belong_to_many :competitions }
-
 end
