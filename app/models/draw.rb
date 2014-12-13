@@ -19,11 +19,12 @@ class Draw < ActiveRecord::Base
   end
 
   def perform!
+    undrawed = undrawed_teams
+    finish! if undrawed.size < 2
     return false if finished?
     update_attributes(performed_at: performed_at + 1.minute)
-    home, guest = random_teams
-    matchday.games.create(home: home, guest: guest, performed_at: matchday.start)
-    finish! if undrawed_teams.size < 2
+    home, guest = random_teams(undrawed)
+    matchday.games.create(home: home, guest: guest, performed_at: matchday.start, decision: true, level: cup.level)
     return home, guest
   end
 
@@ -33,16 +34,20 @@ class Draw < ActiveRecord::Base
 
   private
 
-  def random_teams
-    home_position = random_until(undrawed_teams.size)
-    home = undrawed_teams[home_position-1]
-    guest_position = random_until(undrawed_teams.size, home_position)
-    guest = undrawed_teams[guest_position-1]
+  def random_teams(undrawed)
+    home_position = random_until(undrawed.size)
+    home = undrawed[home_position-1]
+    guest_position = random_until(undrawed.size, home_position)
+    guest = undrawed[guest_position-1]
     return home, guest
   end
 
   def undrawed_teams
-    cup.winning_teams_at(matchday) - cup.drawed_teams_at(matchday)
+    winning_teams - cup.drawed_teams_at(matchday)
+  end
+
+  def winning_teams
+    @winning_teams ||= matchday.number == 1 ? cup.teams : cup.winning_teams_at(matchday.previous)
   end
 
   def random_until(size, ignore=nil)

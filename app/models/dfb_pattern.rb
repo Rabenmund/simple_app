@@ -51,6 +51,13 @@ class DFBPattern
     fill_with_random_teams((members-@league.teams.size), @dfb.teams, @league.teams)
   end
 
+  def previous_teams
+    if @previous.previous.id == 1
+      return @dfb.teams.where(id: 1..57)
+    end
+    Team.joins(:competitions).where("competitions.season_id = #{@previous.previous.id}").where("competitions.type = 'League'").order(:id)
+  end
+
   def teams_from_sub_league(league, up)
     sub_league = league.sub_leagues.first
     return [] unless sub_league
@@ -65,7 +72,8 @@ class DFBPattern
 
   def fill_with_random_teams(no, all_teams, selected_teams)
     no.times do
-      rest = all_teams - selected_teams
+      puts "-> #{@dfb.teams.count} - #{selected_teams.size} - #{previous_teams.count}"
+      rest = @dfb.teams - selected_teams - previous_teams
       selected_teams << rest[Random.rand(1...rest.count)-1]
     end
   end

@@ -6,7 +6,6 @@ class Cup < Competition
   DRAW_TEXTS = ["Finale", "Halbfinale", "Viertelfinale", "Achtelfinale"]
 
   def winning_teams_at(matchday)
-    return teams unless matchday.number > 1
     teams.joins("JOIN games ON games.home_id=teams.id")
       .where("games.matchday_id = #{matchday.id}")
       .where("games.home_goals > games.guest_goals") +

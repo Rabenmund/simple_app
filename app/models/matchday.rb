@@ -36,4 +36,8 @@ class Matchday < ActiveRecord::Base
   def not_started?
     !started?
   end
+
+  def previous
+    competition.matchdays.find_by(number: number-1)
+  end
 end

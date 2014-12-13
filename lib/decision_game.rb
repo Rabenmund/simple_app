@@ -1,0 +1,3 @@
+class DecisionGame < Game
+
+end

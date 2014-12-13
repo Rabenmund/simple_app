@@ -1,6 +1,4 @@
 class Team < ActiveRecord::Base
-  attr_accessible :name, :short_name, :abbreviation
-
   belongs_to :federation
   has_and_belongs_to_many :competitions
   has_many :home_games, class_name: "Game", foreign_key: "home_id"
@@ -14,7 +12,7 @@ class Team < ActiveRecord::Base
   validates :federation, presence: true
 
   def games
-    home_games + guest_games
+    Game.where("games.home_id = #{id} OR games.guest_id = #{id}")
   end
 
 #   def games_by(league)

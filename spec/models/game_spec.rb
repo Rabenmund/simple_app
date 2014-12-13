@@ -27,13 +27,86 @@ describe Game do
   end
 
   context "#perform!" do
-    it "updates the performed_at time" do
-      expect{game.perform!}.to change{game.performed_at}.by(1.minute)
-    end
-
     it "does not perform an already finished game" do
       game.finish!
       expect(game.perform!).to eq false
     end
+
+    it "updates the seconds" do
+      expect{game.perform!}.to change{game.second}.by(60)
+    end
+
+    it "calls the Eventer" do
+      expect(GameEventer).to receive(:new).and_return double(perform!: :evented)
+      game.perform!
+    end
+
+    it "does not call the Eventer is the is paused in first half" do
+      game.update_attributes(second: 3300, half_second: 2700)
+      expect(GameEventer).to_not receive(:new)
+      game.perform!
+    end
+
+    it "finishes first half" do
+      game.update_attributes(second:2700)
+      5.times {game.perform!}
+      expect(game.half_second).to_not be_nil
+    end
+
+    it "does not finish the first half if it is already finished" do
+      game.finish!
+      game.update_attributes(second: 2700)
+      5.times {game.perform!}
+      expect(game.half_second).to be_nil
+    end
+
+    it "does not finish the first half if there is still additional time" do
+      game.update_attributes(second: 2760)
+      allow(game).to receive(:additional_time?).and_return true
+      game.perform!
+      expect(game.half_second).to be_nil
+    end
+
+    it "finishes second half" do
+      game.update_attributes(second: 6300)
+      10.times {game.perform!}
+      expect(game.full_second).to_not be_nil
+    end
+
+    it "does not finish the second half if it is already finished" do
+      game.finish!
+      game.update_attributes(second: 6300)
+      10.times {game.perform!}
+      expect(game.full_second).to be_nil
+    end
+
+    it "does not finish the second half if there is still additional time" do
+      game.update_attributes(second: 6360)
+      allow(game).to receive(:additional_time?).and_return true
+      game.perform!
+      expect(game.full_second).to be_nil
+    end
+
+    it "finished a game" do
+      game.update_attributes(second: 7000)
+      game.perform!
+      expect(game.finished).to eq true
+      expect(game.reload.appointment).to be_nil
+    end
+
+    it "does not finish a game that's second half is not finished" do
+      game.update_attributes(second: 6300)
+      allow(game).to receive(:additional_time?).and_return true
+      game.perform!
+      expect(game.finished).to eq false
+      expect(game.reload.appointment).to_not be_nil
+
+    end
+
+    # it "finishes a game if needed" do
+    #   120.times {game.perform!}
+    #   expect(game.perform!).to eq false
+    # end
+
   end
 end

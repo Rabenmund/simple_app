@@ -17,6 +17,7 @@ gem 'uglifier'
 gem 'authority'
 gem 'turbolinks'
 gem 'jbuilder', '~> 2.0'
+gem 'smarter_csv'
 
 gem "show_for"
 
