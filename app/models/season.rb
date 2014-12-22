@@ -3,6 +3,9 @@ class Season < ActiveRecord::Base
   has_and_belongs_to_many :federations
   has_many :appointments, through: :competitions
   has_many :competitions
+  has_many :matchdays, through: :competitions
+  has_many :games, through: :matchdays
+  has_many :results, through: :leagues
   has_many :leagues
   has_many :cups
   has_many :relegations

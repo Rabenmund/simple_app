@@ -23,7 +23,7 @@ Dir[Rails.root.join("spec/models/shared_examples/**/*.rb")].each {|f| require f}
 
 RSpec.configure do |config|
   config.include Capybara::DSL
-  config.include FactoryGirl::Syntax::Methods
+  #config.include FactoryGirl::Syntax::Methods
 
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
   config.use_transactional_fixtures = false

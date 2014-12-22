@@ -12,6 +12,7 @@ SimpleApp::Application.routes.draw do
   end
 
   get 'api/base_data' => 'api#base_data'
+  get 'api/season/:year' => 'api#season'
   #match 'dashboard' => 'statics#dashboard'
 
   # resources :teams, only: [:index, :show, :new, :create, :edit, :update]

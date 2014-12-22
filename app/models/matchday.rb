@@ -1,7 +1,6 @@
 # coding: utf-8
 
 class Matchday < ActiveRecord::Base
-  attr_accessible :number, :start
 
   belongs_to :competition
   has_many :games, -> { order "id ASC" }, dependent: :destroy

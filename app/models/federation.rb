@@ -7,4 +7,6 @@ class Federation < ActiveRecord::Base
   has_many :cups
   has_many :relegations
   has_many :leagues
+
+  validates :name, uniqueness: true
 end
