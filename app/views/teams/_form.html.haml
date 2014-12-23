@@ -1,0 +1,9 @@
+.placeholder
+  = simple_form_for([team.federation, team]) do |f|
+    = f.input :name
+    = f.input :short_name
+    = f.input :abbreviation
+    .primary_button
+      = link_to "Cancel", federations_path, class: "btn btn-link"
+    = f.submit "Speichern", class: 'btn btn-primary'
+

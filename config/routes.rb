@@ -11,7 +11,9 @@ SimpleApp::Application.routes.draw do
   # end
 
   root to: 'federations#index'
-  resources :federations
+  resources :federations, except: [:destroy] do
+    resources :teams, except: [:index, :destroy]
+  end
 
   get 'api/base_data' => 'api#base_data'
   get 'api/season/:year' => 'api#season'

@@ -1,0 +1,5 @@
+%h1= @team.name
+%h3= @team.short_name
+%h3= @team.abbreviation
+= link_to "zurück", federation_path(@team.federation)
+= link_to "Bearbeiten", edit_federation_team_path(@team.federation, @team), class: 'btn btn-primary'

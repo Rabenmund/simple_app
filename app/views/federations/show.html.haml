@@ -1,3 +1,5 @@
 %h1= @federation.name
+%ul
+  = render partial: 'teams/team', collection: @federation.teams.order(:name)
 = link_to "Übersicht", federations_path
 = link_to "Ändern", edit_federation_path(@federation), class: 'btn btn-primary'
