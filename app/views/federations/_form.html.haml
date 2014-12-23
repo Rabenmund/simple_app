@@ -1,0 +1,6 @@
+= simple_form_for federation do |f|
+  = f.input :name
+  .primary_button
+    = link_to "Cancel", federations_path, class: "btn btn-link"
+    = f.submit "Speichern", class: 'btn btn-primary'
+

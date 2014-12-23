@@ -1,15 +1,17 @@
 SimpleApp::Application.routes.draw do
 
-  root to: 'leagues#index'
+  # root to: 'leagues#index'
+  # resources :leagues, only: [:index, :show] do
+  #   resources :matchdays, only: [:index] do
+  #     member do
+  #       get 'run'
+  #       get 'step'
+  #     end
+  #   end
+  # end
 
-  resources :leagues, only: [:index, :show] do
-    resources :matchdays, only: [:index] do
-      member do
-        get 'run'
-        get 'step'
-      end
-    end
-  end
+  root to: 'federations#index'
+  resources :federations
 
   get 'api/base_data' => 'api#base_data'
   get 'api/season/:year' => 'api#season'

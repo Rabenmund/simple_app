@@ -27,11 +27,11 @@ class ApiController < ApplicationController
       federation: {
         create: season.federations
       },
-      league: {
-        create: season.leagues,
-      },
       cup: {
         create: season.cups,
+      },
+      league: {
+        create: season.leagues,
       },
       matchday: {
         create: season.matchdays

@@ -1,0 +1,4 @@
+%h1= 'Verbände'
+
+= render partial: 'federation', collection: @federations
+= link_to "Neuer Verband", new_federation_path, class: 'btn'
