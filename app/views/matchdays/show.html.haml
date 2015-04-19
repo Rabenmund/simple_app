@@ -1,0 +1,3 @@
+%h1= "#{@matchday.number}. Spieltag, #{@matchday.competition.name}, #{@matchday.start}"
+%hr
+= render partial: 'game', collection: @matchday.games

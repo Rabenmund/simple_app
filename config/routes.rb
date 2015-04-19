@@ -15,9 +15,10 @@ SimpleApp::Application.routes.draw do
     resources :teams, except: [:index, :destroy]
   end
 
-  resources :seasons, only: [:index, :show] do
-    resources :leagues, only: [:show]
-  end
+  resources :seasons, only: [:index, :show]
+  resources :leagues, only: [:show]
+  resources :cups, only: [:show]
+  resources :matchdays, only: [:show]
 
   get 'api/base_data' => 'api#base_data'
   get 'api/season/:year' => 'api#season'

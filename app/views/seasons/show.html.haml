@@ -1,4 +1,7 @@
 %h1= @season.year
-%br
+%h3= "Ligen"
 %ul
-  = render partial: 'leagues/league', collection: @season.leagues
+  = render partial: 'league', collection: @season.leagues
+%h3= "Pokale"
+%ul
+  = render partial: 'cup', collection: @season.cups
