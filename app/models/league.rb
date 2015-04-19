@@ -3,6 +3,8 @@ class League < Competition
   has_many :points, through: :games
   has_many :results
 
+  validates :season, presence: true
+
   MATCHDAYS = {34 => [0,7,14,36,39,46,53,67,74,81,88,95,109,116,123,130,137,172,179,183,186,193,200,207,214,221,228,242,249,256,263,270,277,284]}
 
   PLAN = {34 =>[

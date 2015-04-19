@@ -2,10 +2,6 @@ $linkColor: #059898;
 $btnPrimaryBackground: #059898;
 $btnPrimaryBackgroundHighlight: #00717f;
 
-@import "bootstrap";
-body { padding-top: 54px; } 
-@import "bootstrap-responsive";
-
 $outerColor: #FCFCFC;
 
 h0 { font-size: 20px; }
@@ -28,58 +24,63 @@ small, .small {
 	font-size: smaller;
 }
 
-.navbar {
-	.brand {
-		font-size: 15px;
-		font-weight: bold;
-		padding-top: 10px;
-		padding-bottom: 13px;
-	}
+.navbar-brand {
+  padding: 5px 5px 5px 5px;
+
 }
 
-.app-header{	
-	border-bottom: 1px solid #e5e5e5;
-	margin-bottom: 10px;
-	padding-bottom: 10px;
-	.container, .container-fluid {
-		text-align: bottom;
-	}
-	a.logo {
-		display: inline-block;
-		background-image: image_url('example.svg');
-		background-size: 147px 42px;
-		width: 147px;
-		height: 42px;
-		font-size: 29px;
-		line-height: 35px;
-		text-indent: -9999px;
-	}
-	a.logo.no_svg {
-		background-image: image_url('example.svg');		
-	}
-	a.logo_extension{
-		font-size: 29px;
-		line-height: 37px;
-		text-transform: uppercase;
-		color: $grayLight;		
-		text-decoration: none;
-		vertical-align: bottom;
-		&:hover {
-			color: $gray;
-		}
-	}
-	ul.nav {
-		margin-bottom: 0px;
-		padding-top: 5px;
-		li > a {
-			color: $grayLight;
-		}
-		li.active > a {
-			color: $white;
-			background-color: $grayDark;
-		}
-	}
-}
+// .navbar {
+// 	.brand {
+// 		font-size: 15px;
+// 		font-weight: bold;
+// 		padding-top: 10px;
+// 		padding-bottom: 13px;
+// 	}
+// }
+
+// .app-header{	
+// 	border-bottom: 1px solid #e5e5e5;
+// 	margin-bottom: 10px;
+// 	padding-bottom: 10px;
+// 	.container, .container-fluid {
+// 		text-align: bottom;
+// 	}
+// 	a.logo {
+// 		display: inline-block;
+// 		background-image: image_url('example.svg');
+// 		background-size: 147px 42px;
+// 		width: 147px;
+// 		height: 42px;
+// 		font-size: 29px;
+// 		line-height: 35px;
+// 		text-indent: -9999px;
+// 	}
+// 	a.logo.no_svg {
+// 		background-image: image_url('example.svg');		
+// 	}
+// 	a.logo_extension{
+// 		font-size: 29px;
+// 		line-height: 37px;
+// 		text-transform: uppercase;
+// 		color: gray;		
+// 		text-decoration: none;
+// 		vertical-align: bottom;
+// 		&:hover {
+// 			color: gray;
+// 		}
+// 	}
+// 	ul.nav {
+// 		margin-bottom: 0px;
+// 		padding-top: 5px;
+// 		li > a {
+// 			color: gray;
+// 		}
+// 		li.active > a {
+// 			color: white;
+// 			background-color: gray;
+// 		}
+// 	}
+// }
 
 .app-footer {
 	margin-top: 18px;

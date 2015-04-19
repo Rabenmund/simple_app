@@ -1,5 +1,12 @@
 %h1= @federation.name
+.row
+  .span6
+    = link_to "Übersicht", federations_path
+    = link_to "Ändern", edit_federation_path(@federation), class: 'btn btn-primary'
+%hr
+.row
+  .span2
+    = link_to "Neuer Verein", new_federation_team_path(@federation), class: "btn"
+%br
 %ul
   = render partial: 'teams/team', collection: @federation.teams.order(:name)
-= link_to "Übersicht", federations_path
-= link_to "Ändern", edit_federation_path(@federation), class: 'btn btn-primary'

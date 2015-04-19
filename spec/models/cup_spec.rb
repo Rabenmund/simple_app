@@ -22,14 +22,14 @@ describe Cup do
 
   context "#scopes " do
     before do
-      @matchday = create :matchday, competition: cup, number: 2
-      @team1 = create :team
-      game1 = create :game, home_goals: 1, guest_goals: 0, matchday: @matchday
+      game1 = create :game, home_goals: 1, guest_goals: 0
+      @matchday = game1.matchday
       @team2 = game1.home
       @team3 = game1.guest
       game2 = create :game, home_goals: 2, guest_goals: 3, matchday: @matchday
       @team4 = game2.home
       @team5 = game2.guest
+      @team1 = create :team, federation: @matchday.competition.federation
       cup.teams << Team.all
     end
 

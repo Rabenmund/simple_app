@@ -9,11 +9,11 @@ FactoryGirl.define do
   end
 
   factory :season do
-   year 2010
+    sequence(:year) { |n| 2009+n }
   end
 
   factory :federation do
-    name 'DFB'
+    sequence(:name) { |n| "Verband ##{n}" }
   end
 
   factory :team do
@@ -46,6 +46,8 @@ FactoryGirl.define do
     name 'Bundesliga'
     type 'League'
     start DateTime.now
+    factory :league do
+    end
   end
 
   factory :cup do

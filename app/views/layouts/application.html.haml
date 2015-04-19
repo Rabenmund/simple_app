@@ -2,8 +2,9 @@
 %html.no-js
   %head
     = render "layouts/head"
+    = render 'layouts/navbar'
   %body
-    = render 'layouts/minibar'
+    -# = render 'layouts/minibar'
     %div{class: "container" }
       #flash_area
         = render "layouts/flash_messages"

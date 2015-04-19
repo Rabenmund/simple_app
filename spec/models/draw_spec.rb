@@ -39,13 +39,13 @@ describe Draw do
     expect(draw.perform!).to eq false
   end
 
-  context "performs the draw" do
+  context "#perform!" do
     before do
       @team1 = create :team
       @team2 = create :team
       @team3 = create :team
       7.times { create :team }
-      allow(cup).to receive(:winning_teams_at).and_return Team.all
+      allow(cup).to receive(:teams).and_return Team.all
       allow(cup).to receive(:drawed_teams_at).and_return (Team.all - [@team1, @team3])
     end
 

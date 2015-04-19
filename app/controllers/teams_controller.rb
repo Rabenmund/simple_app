@@ -1,16 +1,17 @@
 class TeamsController < ApplicationController
 
+  before_action :load_federation
   before_action :load_team, only: [:show, :edit, :update, :delete]
 
   def show
   end
 
   def new
-    @team = Team.new
+    @team = @federation.teams.new
   end
 
   def create
-    @team = Team.new(team_params)
+    @team = @federation.teams.new(team_params)
     if @team.save
       render :show
     else
@@ -31,8 +32,11 @@ class TeamsController < ApplicationController
 
   private
 
-  def load_team
+  def load_federation
     @federation = Federation.find(params[:federation_id])
+  end
+
+  def load_team
     @team = @federation.teams.find(params[:id])
   end
 

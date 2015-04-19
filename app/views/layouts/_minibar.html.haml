@@ -1,15 +1,25 @@
 %nav.navbar.navbar-fixed-top.navbar-inverse
-	.navbar-inner
-		%div{class: "container" }
-			%a.btn.btn-navbar{data:{toggle:"collapse", target:".nav-collapse"}}
-				%span.icon-bar
-				%span.icon-bar
-				%span.icon-bar
-			= link_to (image_tag('tafel.jpg', alt: "Simple", size: "60x40" )+" The Simple App"), federations_path
-			%ul.nav.pull-right
-				%li.dropdown
-					%a.dropdown-toggle{href:'#', data: {toggle:'dropdown'}}
-						= "Name"
-						%b.caret
-					%ul.dropdown-menu
-						%li= link_to "Admin"
+  .navbar-inner
+    %div{class: "container-fluid" }
+      %a.btn.btn-navbar{data:{toggle:"collapse", target:".nav-collapse"}}
+        %span.icon-bar
+        %span.icon-bar
+        %span.icon-bar
+      = link_to (image_tag('tafel.jpg', alt: "Simple", size: "60x40" )+" The Simple App"), federations_path
+      %ul.nav.navbar-nav
+        %li.dropdown
+          %a.dropdown-toggle{href:'#', data: {toggle:'dropdown', aria_expanded: false, role: :button}}
+            = "Name"
+            %b.caret
+          %ul.dropdown-menu
+            %li
+              %a{:href => "#"} Action
+            %li
+              %a{:href => "#"} Another action
+            %li
+              %a{:href => "#"} Something else here
+            %li.divider
+            %li
+              %a{:href => "#"} Separated link
+            %li.divider
+            %li
