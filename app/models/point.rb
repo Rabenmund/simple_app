@@ -5,4 +5,18 @@ class Point < ActiveRecord::Base
   belongs_to :team
   belongs_to :league
 
+  def self.board
+    joins(:team).
+    select("
+      teams.name,
+      sum(points) as team_points,
+      sum(goals) as team_goals,
+      sum(against) as team_against,
+      sum(diff) as team_diff,
+      sum(win) as team_win,
+      sum(draw) as team_draw,
+      sum(lost) as team_lost").
+    group("teams.name").
+    order("team_points DESC, team_diff DESC, team_goals DESC")
+  end
 end

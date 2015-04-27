@@ -19,9 +19,9 @@ class Draw < ActiveRecord::Base
   end
 
   def perform!
+    return false if finished?
     undrawed = undrawed_teams
     finish! if undrawed.size < 2
-    return false if finished?
     update_attributes(performed_at: performed_at + 1.minute)
     home, guest = random_teams(undrawed)
     matchday.games.create(home: home, guest: guest, performed_at: matchday.start, decision: true, level: cup.level)
@@ -30,6 +30,10 @@ class Draw < ActiveRecord::Base
 
   def finished?
     finished == true
+  end
+
+  def can_be_performed?
+    DrawPolicy.new(cup).can_perform?(self)
   end
 
   private

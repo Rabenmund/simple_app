@@ -15,15 +15,33 @@ class Cup < Competition
   end
 
   def drawed_teams_at(matchday)
-    teams.joins("JOIN games ON (games.home_id=teams.id OR games.guest_id=teams.id)")
+    teams.joins(
+            "JOIN games
+             ON (games.home_id=teams.id OR
+                 games.guest_id=teams.id)")
       .where("games.matchday_id = #{matchday.id}")
   end
 
   def prepare!
     number_of_matchdays.times do |number|
       matchday = create_matchday!(number)
-      draws.create(name: "Auslosung DFB Pokal #{draw_text(number)}", performed_at: StartDate.new(start, draw_days_since_start(number)).start_date_extra_time(180), matchday: matchday)
+
+      draws.create(
+        name: "Auslosung DFB Pokal #{draw_text(number)}",
+        performed_at:
+          StartDate.new(
+            start,
+            draw_days_since_start(number)
+          ).start_date_extra_time(180),
+       matchday: matchday
+      )
     end
+  end
+
+  def appointed_draws
+    draws.
+      joins(:appointment).
+      order('appointments.appointed_at DESC' )
   end
 
   private

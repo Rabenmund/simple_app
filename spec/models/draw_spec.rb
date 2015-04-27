@@ -2,8 +2,11 @@ require "spec_helper"
 
 describe Draw do
   let(:cup) { create :cup }
-  let(:matchday) { create :matchday, competition: cup }
+  let(:matchday) { create :matchday, number: 1, competition: cup }
   let(:draw) { create :draw, cup: cup, matchday: matchday }
+
+  let(:testable) { draw }
+  it_behaves_like Appointable
 
   it "is valid" do
     expect(draw).to be_valid
@@ -62,6 +65,13 @@ describe Draw do
     it "creates a game" do
       expect{draw.perform!}.to change{Game.count}.by(1)
     end
+  end
+
+  it "knows whether it can be performed" do
+    allow(DrawPolicy).to receive(:new).and_return(
+      double(can_perform?: true)
+    )
+    expect(draw.can_be_performed?).to eq true
   end
 
 end

@@ -25,7 +25,13 @@ class Competition < ActiveRecord::Base
   end
 
   def create_matchday!(number)
-    matchdays.create(number: number+1, start: StartDate.new(start, days_since_season_start(number)).start_date_auto_shift)
+    matchdays.create(
+      number: number+1,
+      start: StartDate.new(
+        start,
+        days_since_season_start(number)
+      ).start_date_auto_shift
+    )
   end
 
   def days_since_season_start(number)

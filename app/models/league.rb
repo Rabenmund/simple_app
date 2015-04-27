@@ -1,11 +1,17 @@
 class League < Competition
   # before_create { self.competable_type = "League" }
-  has_many :points, through: :games
+  has_many :points
   has_many :results
 
   validates :season, presence: true
 
-  MATCHDAYS = {34 => [0,7,14,36,39,46,53,67,74,81,88,95,109,116,123,130,137,172,179,183,186,193,200,207,214,221,228,242,249,256,263,270,277,284]}
+  MATCHDAYS = {
+    34 => [
+      0,7,14,36,39,46,53,67,74,81,88,95,109,116,
+      123,130,137,172,179,183,186,193,200,207,214,
+      221,228,242,249,256,263,270,277,284
+    ]
+  }
 
   PLAN = {34 =>[
     [1,10,2,11,3,12,4,13,5,14,6,15,7,16,8,17,9,18],
@@ -46,8 +52,8 @@ class League < Competition
     !started?
   end
 
-  def live_board
-    Point.joins(:team).select("teams.name, sum(points) as team_points, sum(goals) as team_goals, sum(against) as team_against, sum(diff) as team_diff, sum(win) as team_win, sum(draw) as team_draw, sum(lost) as team_lost").group("teams.name").where("points.league_id = #{self.id}").order("team_points DESC, team_diff DESC, team_goals DESC")
+  def board
+    points.board
   end
 
   def finish!

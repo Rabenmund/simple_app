@@ -35,7 +35,7 @@ FactoryGirl.define do
   end
 
   factory :matchday do
-    number 1
+    sequence(:number) { |n| n }
     start DateTime.now
     competition
   end
@@ -43,11 +43,18 @@ FactoryGirl.define do
   factory :competition do
     season
     federation
-    name 'Bundesliga'
-    type 'League'
     start DateTime.now
-    factory :league do
-    end
+    sequence(:name) { |n| "Liga ##{n}" }
+    type 'League'
+    # factory :league do
+    # end
+  end
+
+  factory :league do
+    season
+    federation
+    sequence(:name) { |n| "Liga ##{n}" }
+    start DateTime.now
   end
 
   factory :cup do

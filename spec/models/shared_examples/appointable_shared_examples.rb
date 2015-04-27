@@ -7,6 +7,10 @@ shared_examples_for Appointable do
     expect(appointment).to be_valid
   end
 
+  it "delegates appointed_at to appointment" do
+    expect(testable.appointed_at).to eq appointment.appointed_at
+  end
+
   context "#ensure_appointment" do
 
     it "creates an appointment after save" do
