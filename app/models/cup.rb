@@ -41,7 +41,7 @@ class Cup < Competition
   def appointed_draws
     draws.
       joins(:appointment).
-      order('appointments.appointed_at DESC' )
+      order('appointments.appointed_at ASC' )
   end
 
   private

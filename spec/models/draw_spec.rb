@@ -68,9 +68,6 @@ describe Draw do
   end
 
   it "knows whether it can be performed" do
-    allow(DrawPolicy).to receive(:new).and_return(
-      double(can_perform?: true)
-    )
     expect(draw.can_be_performed?).to eq true
   end
 
