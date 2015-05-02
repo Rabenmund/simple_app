@@ -1,4 +1,0 @@
-$("#running-games").replaceWith("#{escape_javascript(render partial: "run")}");
-- sleep 0.1
-$(".step_link").replaceWith("#{escape_javascript(link_to "Stop", step_league_matchday_path(@matchday.league, @matchday), id: "Stop", class: "btn", method: :get)}");
-document.getElementById('Step').click();
