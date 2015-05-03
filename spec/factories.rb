@@ -63,6 +63,7 @@ FactoryGirl.define do
   end
 
   factory :draw do
+    matchday
     name 'Auslosung'
     performed_at DateTime.now
     cup

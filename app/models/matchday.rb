@@ -6,6 +6,9 @@ class Matchday < ActiveRecord::Base
   has_many :games, -> { order "id ASC" }, dependent: :destroy
   has_one :draw # optional - cup matchdays only
 
+  scope :unfinished,
+    -> { joins(:games).where("games.finished = FALSE") }
+
   validates :number,
     uniqueness: { scope: :competition_id },
     presence: true, numericality: true
@@ -14,55 +17,30 @@ class Matchday < ActiveRecord::Base
   validates :competition,
     presence: true
 
-  def step
-    games.each do |game|
-      game.step
-    end
-  end
-
-  def self.finished
-    joins(:games).
-      where(games: {finished: true}).
-      uniq
-  end
-
-  def self.not_finished
-    joins(:games).
-      where(games: {finished: false}).
-      uniq
-  end
-
   def has_games?
     games.any?
   end
 
   def finished?
-    has_games? && all_games_finished?
+    has_games? && games.not_finished.empty?
   end
 
   def can_be_drawed?
     draw && draw.can_be_performed?
   end
 
-  # def started?
-  #   has_games? && some_games_finished?
-  # end
-
-  # def not_started?
-  #   !started?
-  # end
-
   def previous
     competition.matchdays.find_by(number: number-1)
   end
 
-  private
-
-  def all_games_finished?
-    games.not_finished.empty?
+  def unfinished_previous_matchdays?
+    previous_matchdays.unfinished.any?
   end
 
-  # def some_games_finished?
-  #   games.finished.any?
-  # end
+  private
+
+  def previous_matchdays
+    competition.matchdays.where("matchdays.number < ?", number)
+  end
+
 end

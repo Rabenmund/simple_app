@@ -18,13 +18,22 @@ class Draw < ActiveRecord::Base
     appointment.destroy if appointment
   end
 
+  # TODO gruselig - weg damit
   def perform!
+    unless finished?
+      undrawed = undrawed_teams
+      finish! if undrawed.size < 2
+    end
     return false if finished?
-    undrawed = undrawed_teams
-    finish! if undrawed.size < 2
     update_attributes(performed_at: performed_at + 1.minute)
     home, guest = random_teams(undrawed)
-    matchday.games.create(home: home, guest: guest, performed_at: matchday.start, decision: true, level: cup.level)
+    matchday.games.create(
+      home: home,
+      guest: guest,
+      performed_at: matchday.start,
+      decision: true,
+      level: cup.level
+    )
     return home, guest
   end
 
@@ -33,7 +42,13 @@ class Draw < ActiveRecord::Base
   end
 
   def can_be_performed?
-    DrawPolicy.new(cup).can_perform?(self)
+    return false if finished?
+    return true if is_first?
+    !matchday.unfinished_previous_matchdays?
+  end
+
+  def is_first?
+    matchday.number == 1
   end
 
   private

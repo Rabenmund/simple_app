@@ -9,6 +9,19 @@ describe Matchday do
     expect(matchday).to be_valid
   end
 
+  it "scopes unfinished matchdays" do
+    game
+    matchday_without_games = create(
+      :matchday, competition: matchday.competition)
+    matchday_with_finished_games = create(
+      :matchday, competition: matchday.competition)
+    finished_game = create :game, matchday: matchday_with_finished_games
+    finished_game.update_attributes(home_goals: 1, guest_goals:0)
+    finished_game.finish!
+    matchday_with_finished_games.games << finished_game
+    expect(Matchday.unfinished).to eq [game.matchday]
+  end
+
   it "has games" do
     game
     expect(matchday.has_games?).to eq true

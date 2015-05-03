@@ -4,6 +4,6 @@
   = render partial: 'game', collection: @matchday.games
 - else
   - if @matchday.can_be_drawed?
-    = link_to "Auslosung ->", matchday_path(@matchday), class: 'btn btn-link'
+    = link_to "Auslosung ->", matchday_draws_path(@matchday), class: 'btn btn-link'
   - else
     Keine Spiele verfügbar
