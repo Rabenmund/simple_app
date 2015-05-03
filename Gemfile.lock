@@ -114,8 +114,6 @@ GEM
     nokogiri (1.6.1)
       mini_portile (~> 0.5.0)
     pg (0.17.1)
-    protected_attributes (1.0.5)
-      activemodel (>= 4.0.1, < 5.0)
     rack (1.6.0)
     rack-test (0.6.3)
       rack (>= 1.0)
@@ -233,7 +231,6 @@ DEPENDENCIES
   jquery-rails
   launchy
   pg
-  protected_attributes
   rails
   rspec-rails
   sass-rails

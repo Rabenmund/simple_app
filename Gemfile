@@ -21,9 +21,6 @@ gem 'smarter_csv'
 
 gem "show_for"
 
-#just use this for updating to Rails4, later switch to secure params
-gem 'protected_attributes'
-
 group :test, :development do
   gem 'rspec-rails'
 end
