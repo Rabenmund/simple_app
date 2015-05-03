@@ -19,7 +19,9 @@ SimpleApp::Application.routes.draw do
   resources :leagues, only: [:show]
   resources :cups, only: [:show]
   resources :matchdays, only: [:show] do
-    resource :draw, only: [:show]
+    resource :draw, only: [:show] do
+      get :perform
+    end
   end
 
   # get 'api/base_data' => 'api#base_data'

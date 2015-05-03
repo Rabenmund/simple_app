@@ -210,9 +210,9 @@ c.appointments.delete_all
 
 puts c.inspect
 puts ""
-c.matchdays.map! {|m|puts m.inspect}
+c.matchdays.map{|m|puts m.inspect}
 puts ""
-c.draws.map! {|d|puts d.inspect}
+c.draws.map{|d|puts d.inspect}
 
 puts "Liga"
 
@@ -274,7 +274,7 @@ end
 puts ""
 l.matchdays.each do |m|
   puts "#{m.number}. Spieltag: #{m.start}"
-  m.games.order(:id).map! {|g|puts "#{Team.find(g.home_id).name} - #{Team.find(g.guest_id).name} (#{g.home_half_goals}:#{g.guest_half_goals}) #{g.home_goals}:#{g.guest_goals}" }
+  m.games.order(:id).map{|g|puts "#{Team.find(g.home_id).name} - #{Team.find(g.guest_id).name} (#{g.home_half_goals}:#{g.guest_half_goals}) #{g.home_goals}:#{g.guest_goals}" }
   puts ""
 end
 l.finish!

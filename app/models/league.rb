@@ -59,7 +59,7 @@ class League < Competition
   def finish!
     # TODO gegenwärtig nicht aufgerufen im programmablauf, nur in den seeds. Sollte im Rahmen eines End-of-Season aus dem live board calculiert werden.
     rank = 0
-    live_board.each do |row|
+    board.each do |row|
       rank += 1
       team = Team.find_by(name: row.name)
       attributes = {team: team, level: level, year: season.year, points: row.team_points, goals: row.team_goals, against: row.team_against, diff: row.team_diff, win: row.team_win, draw: row.team_draw, lost: row.team_lost, rank: rank}
