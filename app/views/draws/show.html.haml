@@ -1,0 +1,12 @@
+%h1 Auslosung
+%h2= "#{@matchday.number}. Spieltag, #{@matchday.competition.name}, #{@matchday.start}"
+%hr
+- if @matchday.has_games?
+  = render partial: "matchdays/game", collection: @matchday.games
+- else
+  Keine Spiele verfügbar
+%hr
+- if @matchday.can_be_drawed?
+  = link_to "Ziehung", perform_matchday_draws_path(@matchday), class: 'btn btn-link'
+- else 
+  Ziehung beendet
