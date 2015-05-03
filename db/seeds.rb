@@ -111,7 +111,7 @@ end
 
 puts ""
 puts "Saison"
-s = f.seasons.create(year: 2010, start: "08.08.2009".to_datetime + 930.minutes)
+s = f.seasons.create(year: 2010, start: ("08.08.2009".to_datetime + 930.minutes))
 
 c = f.cups.create(name: "DFB Pokal", level: 1, start: s.start)
 c.teams << f.teams.where(id: [1..64])

@@ -16,14 +16,14 @@ ActiveRecord::Schema.define(version: 20141102065603) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "appointments", force: true do |t|
+  create_table "appointments", force: :cascade do |t|
     t.integer  "appointable_id",   null: false
     t.string   "appointable_type", null: false
     t.integer  "competition_id"
     t.datetime "appointed_at",     null: false
   end
 
-  create_table "competitions", force: true do |t|
+  create_table "competitions", force: :cascade do |t|
     t.string   "name",          null: false
     t.string   "type",          null: false
     t.integer  "level"
@@ -34,12 +34,12 @@ ActiveRecord::Schema.define(version: 20141102065603) do
     t.datetime "updated_at"
   end
 
-  create_table "competitions_teams", force: true do |t|
+  create_table "competitions_teams", force: :cascade do |t|
     t.integer "competition_id"
     t.integer "team_id"
   end
 
-  create_table "draws", force: true do |t|
+  create_table "draws", force: :cascade do |t|
     t.string   "name",                         null: false
     t.datetime "performed_at"
     t.boolean  "finished",     default: false
@@ -47,18 +47,18 @@ ActiveRecord::Schema.define(version: 20141102065603) do
     t.integer  "matchday_id"
   end
 
-  create_table "federations", force: true do |t|
+  create_table "federations", force: :cascade do |t|
     t.string   "name",       null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "federations_seasons", id: false, force: true do |t|
+  create_table "federations_seasons", id: false, force: :cascade do |t|
     t.integer "federation_id"
     t.integer "season_id"
   end
 
-  create_table "games", force: true do |t|
+  create_table "games", force: :cascade do |t|
     t.integer  "home_id",                               null: false
     t.integer  "guest_id",                              null: false
     t.integer  "home_goals"
@@ -88,7 +88,7 @@ ActiveRecord::Schema.define(version: 20141102065603) do
   add_index "games", ["guest_id"], name: "index_games_on_guest_id", using: :btree
   add_index "games", ["home_id"], name: "index_games_on_home_id", using: :btree
 
-  create_table "matchdays", force: true do |t|
+  create_table "matchdays", force: :cascade do |t|
     t.integer  "number",         null: false
     t.datetime "start",          null: false
     t.integer  "competition_id", null: false
@@ -98,7 +98,7 @@ ActiveRecord::Schema.define(version: 20141102065603) do
 
   add_index "matchdays", ["number"], name: "index_matchdays_on_number", using: :btree
 
-  create_table "points", force: true do |t|
+  create_table "points", force: :cascade do |t|
     t.integer  "points"
     t.integer  "goals"
     t.integer  "against"
@@ -114,7 +114,7 @@ ActiveRecord::Schema.define(version: 20141102065603) do
     t.datetime "updated_at"
   end
 
-  create_table "results", force: true do |t|
+  create_table "results", force: :cascade do |t|
     t.integer  "points",     default: 0
     t.integer  "goals",      default: 0
     t.integer  "against",    default: 0
@@ -131,14 +131,14 @@ ActiveRecord::Schema.define(version: 20141102065603) do
     t.datetime "updated_at"
   end
 
-  create_table "seasons", force: true do |t|
+  create_table "seasons", force: :cascade do |t|
     t.integer  "year",       null: false
     t.datetime "start"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "teams", force: true do |t|
+  create_table "teams", force: :cascade do |t|
     t.string   "name",          null: false
     t.string   "short_name",    null: false
     t.string   "abbreviation",  null: false
