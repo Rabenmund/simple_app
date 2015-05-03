@@ -18,7 +18,9 @@ SimpleApp::Application.routes.draw do
   resources :seasons, only: [:index, :show]
   resources :leagues, only: [:show]
   resources :cups, only: [:show]
-  resources :matchdays, only: [:show]
+  resources :matchdays, only: [:show] do
+    resource :draw, only: [:show]
+  end
 
   get 'api/base_data' => 'api#base_data'
   get 'api/season/:year' => 'api#season'
