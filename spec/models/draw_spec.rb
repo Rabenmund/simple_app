@@ -1,9 +1,7 @@
 require "spec_helper"
 
 describe Draw do
-  let(:cup) { create :cup }
-  let(:matchday) { create :matchday, number: 1, competition: cup }
-  let(:draw) { create :draw, cup: cup, matchday: matchday }
+  let(:draw) { create :draw }
 
   let(:testable) { draw }
   it_behaves_like Appointable
@@ -48,8 +46,11 @@ describe Draw do
       @team2 = create :team
       @team3 = create :team
       7.times { create :team }
-      allow(cup).to receive(:teams).and_return Team.all
-      allow(cup).to receive(:drawed_teams_at).and_return (Team.all - [@team1, @team3])
+      allow(draw.competition).to receive(:teams).and_return Team.all
+      allow(draw.competition).to receive(:drawed_teams_at).
+        and_return (Team.all - [@team1, @team3])
+      allow(draw.competition).to receive(:winning_teams_at).
+        and_return Team.all
     end
 
     it "does not include already drawed teams" do

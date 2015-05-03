@@ -46,8 +46,6 @@ FactoryGirl.define do
     start DateTime.now
     sequence(:name) { |n| "Liga ##{n}" }
     type 'League'
-    # factory :league do
-    # end
   end
 
   factory :league do
@@ -60,7 +58,7 @@ FactoryGirl.define do
   factory :cup do
     season
     federation
-    name 'DFB Pokal'
+    sequence(:name) { |n| "Cup ##{n}" }
     start DateTime.now
   end
 
@@ -68,5 +66,8 @@ FactoryGirl.define do
     name 'Auslosung'
     performed_at DateTime.now
     cup
+    before :create do |draw|
+      draw.matchday = create(:matchday, competition: draw.competition)
+    end
   end
 end
