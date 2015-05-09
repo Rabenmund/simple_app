@@ -22,9 +22,20 @@ describe Matchday do
     expect(Matchday.unfinished).to eq [game.matchday]
   end
 
+  it "perform!" do
+    game
+    expect(matchday.perform!).to eq true
+  end
+
   it "has games" do
     game
     expect(matchday.has_games?).to eq true
+  end
+
+  it "has a next appointment" do
+    game
+    another_game = create :game, matchday: matchday
+    expect(matchday.next_appointable).to eq game
   end
 
   it "is not finished without games" do

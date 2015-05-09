@@ -1,8 +1,17 @@
 class MatchdaysController < ApplicationController
+  protect_from_forgery except: :perform
 
-  before_action :load_matchday, only: [:show]
+  before_action :load_matchday
 
   def show
+  end
+
+  def perform
+    @matchday.perform!
+    respond_to do |format|
+      format.html { render :show }
+      format.js { render partial: 'matchdays/perform' }
+    end
   end
 
   private

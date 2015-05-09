@@ -1,0 +1,4 @@
+$("#games").replaceWith("#{escape_javascript(render partial: "game", collection: @matchday.games)}");
+- sleep 0.18
+$(".perform").replaceWith("#{escape_javascript(link_to "Stop", matchday_path(@matchday),id: "Stop", class: "btn", method: :get)}");
+document.getElementById('Step').click();

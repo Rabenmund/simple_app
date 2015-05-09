@@ -4,6 +4,7 @@ class Matchday < ActiveRecord::Base
 
   belongs_to :competition
   has_many :games, -> { order "id ASC" }, dependent: :destroy
+  has_many :appointments, through: :games
   has_one :draw # optional - cup matchdays only
 
   scope :unfinished,
@@ -17,12 +18,27 @@ class Matchday < ActiveRecord::Base
   validates :competition,
     presence: true
 
+  def next_appointable
+    appointments.
+      order(appointed_at: :asc).
+      first.
+      appointable
+  end
+
+  def perform!
+    next_appointable.perform!
+  end
+
   def has_games?
     games.any?
   end
 
   def finished?
     has_games? && games.not_finished.empty?
+  end
+
+  def can_be_performed?
+    !finished?
   end
 
   def can_be_drawed?
