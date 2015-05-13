@@ -1,9 +1,8 @@
 source 'https://rubygems.org'
 
 gem 'rails'
-gem 'pg'
+gem 'pg', '~> 0.17.1'# no easy update to 0.18 - check readme or so
 gem 'bcrypt-ruby'
-gem 'validates_timeliness'
 gem 'jquery-rails'
 gem "haml"
 gem "haml-rails"
@@ -15,9 +14,6 @@ gem 'sass-rails'
 gem 'coffee-rails'
 gem 'uglifier'
 gem 'authority'
-gem 'turbolinks'
-gem 'jbuilder', '~> 2.0'
-gem 'smarter_csv'
 
 gem "show_for"
 
