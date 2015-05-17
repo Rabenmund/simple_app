@@ -1,0 +1,14 @@
+%table.table.table-condensed.table-bordered
+  %thead
+    %tr
+      %th= "#"
+      %th= "Name"
+      %th= "S"
+      %th= "U"
+      %th= "V"
+      %th= "+"
+      %th= "-"
+      %th= "Diff"
+      %th= "Punkte"
+  %tbody
+    = render partial: 'leagues/result', collection: league.board

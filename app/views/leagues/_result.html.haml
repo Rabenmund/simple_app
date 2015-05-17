@@ -1,4 +1,10 @@
-%div
-  = result.rank
-  = result.name
-  = result.points
+%tr
+  %td= result_counter +1
+  %td= result.name
+  %td= result.win
+  %td= result.draw
+  %td= result.lost
+  %td= result.goals
+  %td= result.against
+  %td= result.diff
+  %td= result.points

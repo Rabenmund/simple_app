@@ -1,0 +1,17 @@
+#games
+  %h1
+    = "#{draw.matchday.competition.name} #{draw.matchday.competition.season.year}"
+  %h2
+    = "#{draw.name}, #{draw.matchday.current_date_time}"
+  - if draw.can_be_performed?
+    %hr
+    .perform
+      = link_to "Ziehung", perform_matchday_draw_path(draw.matchday), remote: true, class: 'btn'
+    = link_to "", perform_matchday_draw_path(draw.matchday), remote: true, class: 'btn', id: 'Step'
+  %hr
+  - if draw.matchday.has_games?
+    %table.table-condensed.table-bordered
+      = render partial: "matchdays/draws/game", collection: draw.games.ordered_reverse
+  - else
+    Keine Spiele verfügbar
+

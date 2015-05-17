@@ -1,9 +1,32 @@
 class DFBPattern
 
   LEAGUES = [
-    {level: 1, name: "Bundesliga", teams: 18, days_off: 0, time_off: 0, down: 3, up: 0},
-    {level: 2, name: "2.Bundesliga", teams: 18, days_off: 1, time_off: 0, down: 3, up: 3},
-    {level: 3, name: "3.Bundesliga", teams: 18, days_off: 1, time_off: -150.minutes, down: 3, up: 3},
+    {
+      level: 1,
+      name: "Bundesliga",
+      teams: 18,
+      days_off: 0,
+      time_off: 0,
+      down: 3,
+      up: 0
+    },
+    {
+      level: 2,
+      name: "2. Bundesliga",
+      teams: 18,
+      days_off: 1,
+      time_off: 0,
+      down: 3,
+      up: 3
+    },
+    {
+      level: 3,
+      name: "3. Bundesliga",
+      teams: 18,
+      days_off: 1,
+      time_off: -150.minutes,
+      down: 3,
+      up: 3},
   ]
 
   def initialize(season: season)
@@ -21,15 +44,24 @@ class DFBPattern
   private
 
   def create_cups
-    @dfb_pokal = @dfb.cups.create(name: "DFB Pokal", level: 1, season: @season, start: @season.start)
-    @dfb_pokal.teams << @dfb.teams.joins(:competitions).where("competitions.level" => 1..3, "competitions.type" => "League", "competitions.season_id" => @previous.previous.id)
+    @dfb_pokal = @dfb.cups.create(
+      name: "DFB Pokal",
+      level: 1,
+      season: @season,
+      start: @season.start)
+    @dfb_pokal.teams << @dfb.teams.
+      joins(:competitions).
+      where("competitions.level" => 1..3, "competitions.type" => "League", "competitions.season_id" => @previous.previous.id)
     fill_with_random_teams(10, @dfb.teams, @dfb_pokal.teams)
     @dfb_pokal.prepare!
   end
 
   def create_leagues
     LEAGUES.each do |league|
-      @league = @dfb.leagues.create(name: league[:name], level: league[:level], start: @season.start + league[:days_off].days + league[:time_off])
+      @league = @dfb.leagues.create(
+        name: league[:name],
+        level: league[:level],
+        start: @season.start + league[:days_off].days + league[:time_off])
       get_teams(league[:level], league[:up], league[:down], league[:teams])
       @season.leagues << @league
       @league.prepare!
@@ -55,7 +87,11 @@ class DFBPattern
     if @previous.previous.id == 1
       return @dfb.teams.where(id: 1..57)
     end
-    Team.joins(:competitions).where("competitions.season_id = #{@previous.previous.id}").where("competitions.type = 'League'").order(:id)
+    Team.
+      joins(:competitions).
+      where("competitions.season_id = #{@previous.previous.id}").
+      where("competitions.type = 'League'").
+      order(:id)
   end
 
   def teams_from_sub_league(league, up)

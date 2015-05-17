@@ -100,13 +100,15 @@ describe Game do
       game.perform!
       expect(game.finished).to eq false
       expect(game.reload.appointment).to_not be_nil
-
     end
+  end
 
-    # it "finishes a game if needed" do
-    #   120.times {game.perform!}
-    #   expect(game.perform!).to eq false
-    # end
+  it "has a current date time" do
+    game.update_attributes(second: 60)
+    expect(game.current_date_time).to eq game.performed_at+60
+  end
 
+  it "knows whether it is started" do
+    expect(game.started?).to eq false
   end
 end

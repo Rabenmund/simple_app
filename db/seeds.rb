@@ -44,34 +44,6 @@ def base_create(base)
   end
 end
 
-
-base = JSON.parse(IO.read("base_data.json") )
-create_by base
-# base_create base
-
-f = Federation.find_by(name: "DFB")
-
-puts "Federations: ", Federation.count
-
-puts "Teams: ", Team.count
-
-# season_data = JSON.parse(IO.read("season-2010.json"))
-# create_by season_data
-# s = Season.last
-# s.leagues.each do |l|
-#   team_ids = l.results.pluck :team_id
-#   team_ids.each do |id|
-#     l.teams << Team.find(id)
-#   end
-# end
-
-# puts "Season: ", Season.count
-# puts "Cups: ", Cup.count
-# puts "Leagues: ", League.count
-# puts "Matchdays: ", Matchday.count
-# puts "Games: ", Game.count
-# puts "Result: ", Result.count
-
 def create_games(c,m,games)
   puts ["1.Runde", "2.Runde", "Achtelfinale", "Viertelfinale", "Halbfinale", "Finale"][m.number.to_i-1]
   games.each do |g|
@@ -105,6 +77,31 @@ def addition(game)
   ""
 end
 
+########
+# Base #
+########
+
+base = JSON.parse(IO.read("base_data.json") )
+create_by base
+
+# seed strengthes
+@strength = 101
+Team.all.each do |t|
+  @strength = @strength <= 30 ? 30 : @strength - 1
+  t.keeper = @strength
+  t.defense = @strength * 4
+  t.midfield = @strength * 4
+  t.attack = @strength * 2
+  t.save
+end
+
+
+f = Federation.find_by(name: "DFB")
+
+puts "Federations: ", Federation.count
+
+puts "Teams: ", Team.count
+
 #################
 #  Season 2010  #
 #################
@@ -117,6 +114,7 @@ c = f.cups.create(name: "DFB Pokal", level: 1, start: s.start)
 c.teams << f.teams.where(id: [1..64])
 s.cups << c
 c.prepare!
+Appointment.destroy_all # ueberfluessige draw appointments
 
 GAMES1 = [
   [:FCU,:CZJ,0,1,0,1],

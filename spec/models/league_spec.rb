@@ -28,7 +28,7 @@ describe League do
     expect(league.finished?).to eq true
   end
 
-  it "has a live board" do
+  it "has a board" do
     allow(league).to receive(:points).and_return(
       double(board: :board)
     )

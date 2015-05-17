@@ -27,7 +27,7 @@ class Cup < Competition
       matchday = create_matchday!(number)
 
       draws.create(
-        name: "Auslosung DFB Pokal #{draw_text(number)}",
+        name: "Auslosung #{draw_text(number)}",
         performed_at:
           StartDate.new(
             start,

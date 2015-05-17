@@ -1,0 +1,19 @@
+#games
+  %h1
+    = "#{@matchday.competition.name} #{@matchday.competition.season.year}"
+  %h2
+    = "#{@matchday.number}. Spieltag, #{@matchday.current_date_time}"
+  - if @matchday.has_games?
+    .col-md-6
+      %table.table-condensed.table-bordered
+        = render partial: 'game', collection: @matchday.games.ordered
+      - if @matchday.can_be_performed?
+        .perform
+          = link_to "Start", perform_matchday_path(@matchday), remote: true, class: "btn"
+        = link_to "", perform_matchday_path(@matchday), remote: true, class: "btn", id: "Step"
+    .col-md-6
+      - if @matchday.has_board?
+        = render partial: "leagues/board", locals: {league: @matchday.competition}
+  - else
+    Keine Spiele verfügbar
+

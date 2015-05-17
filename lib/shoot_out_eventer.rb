@@ -8,6 +8,7 @@ class ShootOutEventer
   def perform!
     @game.update_attributes(home_goals: (@game.home_goals || 0) +1) if goal_event_with
     @game.update_attributes(guest_goals: (@game.guest_goals || 0) +1) if goal_event_with
+    @game.update_attributes(shots: @game.shots+1)
     return @game
   end
 

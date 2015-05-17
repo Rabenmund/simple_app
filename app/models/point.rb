@@ -1,5 +1,4 @@
 class Point < ActiveRecord::Base
-  # attr_accessible :points, :team_id, :game_id, :league_id, :goals, :against, :diff, :win, :draw, :lost
 
   belongs_to :game
   belongs_to :team
@@ -9,14 +8,14 @@ class Point < ActiveRecord::Base
     joins(:team).
     select("
       teams.name,
-      sum(points) as team_points,
-      sum(goals) as team_goals,
-      sum(against) as team_against,
-      sum(diff) as team_diff,
-      sum(win) as team_win,
-      sum(draw) as team_draw,
-      sum(lost) as team_lost").
+      sum(points) as points,
+      sum(goals) as goals,
+      sum(against) as against,
+      sum(diff) as diff,
+      sum(win) as win,
+      sum(draw) as draw,
+      sum(lost) as lost").
     group("teams.name").
-    order("team_points DESC, team_diff DESC, team_goals DESC")
+    order("points DESC, diff DESC, goals DESC")
   end
 end

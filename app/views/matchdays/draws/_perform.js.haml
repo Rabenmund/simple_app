@@ -1,3 +1,3 @@
-$("#games").replaceWith("#{escape_javascript(render partial: 'run')}");
+$("#games").replaceWith("#{escape_javascript(render partial: 'matchdays/draws/run', locals: {draw: @draw})}");
 $(".perform").replaceWith("#{escape_javascript(link_to "Stop", matchday_path(@matchday),id: "Stop", class: "btn", method: :get)}");
 document.getElementById('Step').click();

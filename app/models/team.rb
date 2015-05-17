@@ -3,6 +3,7 @@ class Team < ActiveRecord::Base
   has_and_belongs_to_many :competitions
   has_many :home_games, class_name: "Game", foreign_key: "home_id"
   has_many :guest_games, class_name: "Game", foreign_key: "guest_id"
+  has_many :games, through: :competitions
   has_many :points
   has_many :results
 
@@ -15,9 +16,28 @@ class Team < ActiveRecord::Base
     Game.where("games.home_id = #{id} OR games.guest_id = #{id}")
   end
 
-#   def games_by(league)
-# #    home_games.where("teams.matchday_id IN ?", league.matchdays)
-#     home_games.select(:matchday_id).map { |m| league.matchdays.includes? m }
-#     home_games.map { |m| l.matchdays.include? m }
-#   end
+  def system
+    [4,4,2] # will be instantiated later
+  end
+
+  def initiative
+    keeper   *  1.00 +
+    defense  *  1.00 +
+    midfield *  2.00 +
+    attack   *  1.00
+  end
+
+  def attacking
+    keeper   *  0.00 +
+    defense  *  0.50 +
+    midfield *  1.00 +
+    attack   *  2.50
+  end
+
+  def defending
+    keeper   *  3.00 +
+    defense  *  2.50 +
+    midfield *  1.00 +
+    attack   *  0.50
+  end
 end

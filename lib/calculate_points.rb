@@ -5,10 +5,24 @@ class CalculatePoints
   end
 
   def update!
-    return unless @game.finished?
     home_points, home_wdl, guest_points, guest_wdl = calculate_points
-    update_points(@game.home_id, home_points, @game.home_goals, @game.guest_goals, home_wdl[0], home_wdl[1], home_wdl[2])
-    update_points(@game.guest_id, guest_points, @game.guest_goals, @game.home_goals, guest_wdl[0], guest_wdl[1], guest_wdl[2])
+    update_points(
+      @game.home_id, home_points,
+      @game.home_goals,
+      @game.guest_goals,
+      home_wdl[0],
+      home_wdl[1],
+      home_wdl[2]
+    )
+    update_points(
+      @game.guest_id,
+      guest_points,
+      @game.guest_goals,
+      @game.home_goals,
+      guest_wdl[0],
+      guest_wdl[1],
+      guest_wdl[2]
+    )
   end
 
   def calculate_points
@@ -18,7 +32,18 @@ class CalculatePoints
   end
 
   def update_points(id, points, goals, against, win, draw, lost)
-    attr = {points: points, goals: goals, against: against, diff: (goals-against), win: win, draw: draw, lost: lost, league_id: @league.id, level: @league.level, team_id: id}
+    attr = {
+      points: points,
+      goals: goals,
+      against: against,
+      diff: (goals-against),
+      win: win,
+      draw: draw,
+      lost: lost,
+      league_id: @league.id,
+      level: @league.level,
+      team_id: id
+    }
     points = @game.points.find_by(team_id: id)
     if points
       points.update_attributes(attr)

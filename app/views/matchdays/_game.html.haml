@@ -1,2 +1,19 @@
-%div
-  = "#{game.home.name} - #{game.guest.name} (#{game.home_half_goals}:#{game.guest_half_goals}) #{game.home_goals}:#{game.guest_goals}"
+%tr
+  %td= game.home.name
+  %td= game.guest.name
+  %td
+    - if game.home_half_goals
+      = "(#{game.home_half_goals}:#{game.guest_half_goals})" 
+    - else
+      = "-"
+  - if game.home_full_goals
+    %td
+      ="(#{game.home_full_goals}:#{game.guest_full_goals})"
+  - if game.home_xtra_full_goals
+    %td
+      ="(#{game.home_xtra_full_goals}:#{game.guest_xtra_full_goals})"
+  %td
+    - if game.started?
+      = "#{game.home_goals} : #{game.guest_goals}" 
+    - else
+      = "-"

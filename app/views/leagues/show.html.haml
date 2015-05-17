@@ -1,5 +1,6 @@
 %h1= "#{@league.name} #{@league.season.year}"
-%h3= "Tabelle"
-= render partial: 'result', collection: @league.result_board
+%h3
+  = "Tabelle"
+= render partial: "board", locals: {league: @league}
 %h3= "Spieltage"
 = render partial: 'matchday', collection: @league.matchdays

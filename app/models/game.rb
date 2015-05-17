@@ -27,23 +27,35 @@ class Game < ActiveRecord::Base
 
   scope :not_finished, -> { where(finished: false) }
   scope :finished, -> { where(finished: true) }
+  scope :ordered, -> { order(:id) }
+  scope :ordered_reverse, -> { order(id: :desc) }
 
   def finish!
     return false unless home_goals && guest_goals
     return true if finished?
-    update_attributes(finished: true)
-    CalculatePoints.new(self).update! unless decision
+    self.finished = true
+    save
     appointment.destroy if appointment
+    calculate_points
+  end
+
+  def start
+    @start = Time.now
   end
 
   def perform!
     return false if finished?
+    # puts "g1: #{Time.now-start}"
+    appointment.update_attributes(appointed_at: appointment.appointed_at+60)
+    # puts "g1.5: #{Time.now-start}"
     update_attributes(second: second+60)
     case second
     when between_first_and_second_half?
+      # puts "g2: #{Time.now-start}"
       finish_first_half! if finish_first_half?
       game_event unless first_half_finished?
     when between_second_and_third_part?
+      # puts "g2.1: #{Time.now-start}"
       finish_second_half! if finish_second_half?
       game_event unless second_half_finished?
     when between_third_and_fourth_part?
@@ -54,23 +66,43 @@ class Game < ActiveRecord::Base
       game_event unless fourth_part_finished?
     else
       if second > START_SHOOT_OUT
+        # puts "g2.21: #{Time.now-start}"
         shoot_out_event!
         finish! if shoot_out_iteration_finished? && decision_done?
       else
+        # puts "g3: #{Time.now-start}"
         game_event
+        # puts "g4: #{Time.now-start}"
       end
     end
+    # puts "g7: #{Time.now-start}"
     true
+  end
+
+  def current_date_time
+    performed_at + second
+  end
+
+  def started?
+    second > 0
   end
 
   private
 
+  def calculate_points
+    # puts "g5: #{Time.now-start}"
+    CalculatePoints.new(self).update! if matchday.has_board?
+    # puts "g6: #{Time.now-start}"
+  end
+
   def game_event
-    GameEventer.new(self).perform!
+    # puts "g2.3: #{Time.now-start}"
+    if GameEventer.new(self).perform!
+      calculate_points
+    end
   end
 
   def shoot_out_event!
-    @shots += 1
     ShootOutEventer.new(self).perform!
   end
 
@@ -91,7 +123,7 @@ class Game < ActiveRecord::Base
   end
 
   def shoot_out_iteration_finished?
-    @shots % 5 == 0
+    shots % 5 == 0
   end
 
   def start_date
@@ -119,7 +151,6 @@ class Game < ActiveRecord::Base
   def finish_fourth_part?
     return false if fourth_part_finished?
     return false if additional_time?(END_FOURTH, 60)
-    @shots = 0
     true
   end
 
@@ -140,37 +171,43 @@ class Game < ActiveRecord::Base
   end
 
   def finish_first_half!
+    # puts "g2.4: #{Time.now-start}"
     self.home_goals = 0 unless home_goals
     self.guest_goals = 0 unless guest_goals
     self.home_half_goals = home_goals
     self.guest_half_goals = guest_goals
     self.half_second = second
     save
+    # puts "g2.5: #{self.inspect}"
   end
 
   def finish_second_half!
     self.full_second = second-START_SECOND
-    self.home_full_goals = home_goals
-    self.guest_full_goals = guest_goals
-    save
+    self.home_full_goals = home_goals if decision && !decision_done?
+    self.guest_full_goals = guest_goals if decision && !decision_done?
     if !decision || decision_done?
       finish!
+    else
+      save
     end
   end
 
   def finish_third_part!
     self.xtra_half_second = second-START_THIRD
-    self.home_xtra_half_goals = home_goals
-    self.guest_xtra_half_goals = guest_goals
+    self.home_xtra_half_goals = home_goals unless decision_done?
+    self.guest_xtra_half_goals = guest_goals unless decision_done?
     save
   end
 
   def finish_fourth_part!
     self.xtra_full_second = second-START_FOURTH
-    self.home_xtra_full_goals = home_goals
-    self.guest_xtra_full_goals = guest_goals
-    save
-    finish! if decision_done?
+    self.home_xtra_full_goals = home_goals unless decision_done?
+    self.guest_xtra_full_goals = guest_goals unless decision_done?
+    if decision_done?
+      finish!
+    else
+      save
+    end
   end
 
   def decision_done?

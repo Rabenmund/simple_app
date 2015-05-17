@@ -3,7 +3,7 @@
 class Matchday < ActiveRecord::Base
 
   belongs_to :competition
-  has_many :games, -> { order "id ASC" }, dependent: :destroy
+  has_many :games, dependent: :destroy
   has_many :appointments, through: :games
   has_one :draw # optional - cup matchdays only
 
@@ -22,7 +22,16 @@ class Matchday < ActiveRecord::Base
     appointments.
       order(appointed_at: :asc).
       first.
-      appointable
+      try(:appointable)
+  end
+
+  def current_date_time
+    next_appointable.
+      try(:appointed_at) ||
+    games.
+      order(performed_at: :desc, second: :desc).
+      first.try(:current_date_time) ||
+    start
   end
 
   def perform!
@@ -51,6 +60,10 @@ class Matchday < ActiveRecord::Base
 
   def unfinished_previous_matchdays?
     previous_matchdays.unfinished.any?
+  end
+
+  def has_board?
+    competition.respond_to? :board
   end
 
   private

@@ -1,14 +1,5 @@
-%h1= "#{@matchday.number}. Spieltag, #{@matchday.competition.name}, #{@matchday.start}"
-%hr
-- if @matchday.has_games?
-  #games
-    = render partial: 'game', collection: @matchday.games
-  - if @matchday.can_be_performed?
-    .perform
-      = link_to "Start", perform_matchday_path(@matchday), remote: true, class: "btn"
-      = link_to "", perform_matchday_path(@matchday), remote: true, class: "btn", id: "Step"
-- else
+#matchday
   - if @matchday.can_be_drawed?
-    = link_to "Auslosung ->", matchday_draw_path(@matchday), class: 'btn btn-link'
-  - else
-    Keine Spiele verfügbar
+    = render partial: "matchdays/draws/draw", locals: {draw: @matchday.draw}
+  -else
+    = render "run"

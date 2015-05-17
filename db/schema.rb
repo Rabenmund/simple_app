@@ -61,8 +61,8 @@ ActiveRecord::Schema.define(version: 20141102065603) do
   create_table "games", force: :cascade do |t|
     t.integer  "home_id",                               null: false
     t.integer  "guest_id",                              null: false
-    t.integer  "home_goals"
-    t.integer  "guest_goals"
+    t.integer  "home_goals",            default: 0
+    t.integer  "guest_goals",           default: 0
     t.integer  "home_half_goals"
     t.integer  "guest_half_goals"
     t.integer  "home_full_goals"
@@ -77,6 +77,7 @@ ActiveRecord::Schema.define(version: 20141102065603) do
     t.integer  "xtra_full_second"
     t.integer  "second",                default: 0
     t.integer  "level"
+    t.integer  "shots",                 default: 0
     t.datetime "performed_at"
     t.boolean  "decision",              default: false
     t.boolean  "finished",              default: false
@@ -139,10 +140,14 @@ ActiveRecord::Schema.define(version: 20141102065603) do
   end
 
   create_table "teams", force: :cascade do |t|
-    t.string   "name",          null: false
-    t.string   "short_name",    null: false
-    t.string   "abbreviation",  null: false
-    t.integer  "federation_id", null: false
+    t.string   "name",                      null: false
+    t.string   "short_name",                null: false
+    t.string   "abbreviation",              null: false
+    t.integer  "keeper",        default: 0
+    t.integer  "defense",       default: 0
+    t.integer  "midfield",      default: 0
+    t.integer  "attack",        default: 0
+    t.integer  "federation_id",             null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

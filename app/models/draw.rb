@@ -4,6 +4,7 @@ class Draw < ActiveRecord::Base
 
   belongs_to :cup
   belongs_to :matchday
+  has_many :games, through: :matchday
   has_one :season, through: :cup
 
   validates :name, presence: true
@@ -20,20 +21,24 @@ class Draw < ActiveRecord::Base
 
   # TODO gruselig - weg damit
   def perform!
+    # puts "draw#perform: #{self.name}"
+    # puts "finished?: #{finished?}"
     unless finished?
       undrawed = undrawed_teams
       finish! if undrawed.size < 2
     end
+    # puts "2.finished?: #{finished?}"
     return false if finished?
     update_attributes(performed_at: performed_at + 1.minute)
     home, guest = random_teams(undrawed)
-    matchday.games.create(
+    game = matchday.games.create(
       home: home,
       guest: guest,
       performed_at: matchday.start,
       decision: true,
       level: cup.level
     )
+    # puts "Game created: #{game.inspect}"
     return home, guest
   end
 

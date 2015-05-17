@@ -3,8 +3,8 @@ class CreateGame < ActiveRecord::Migration
     create_table :games do |t|
       t.integer :home_id, null: false
       t.integer :guest_id, null: false
-      t.integer :home_goals
-      t.integer :guest_goals
+      t.integer :home_goals, default: 0
+      t.integer :guest_goals, default: 0
       t.integer :home_half_goals
       t.integer :guest_half_goals
       t.integer :home_full_goals
@@ -19,6 +19,7 @@ class CreateGame < ActiveRecord::Migration
       t.integer :xtra_full_second
       t.integer :second, default: 0
       t.integer :level
+      t.integer :shots, default: 0
       t.datetime :performed_at
       t.boolean :decision, default: false
       t.boolean :finished, default: false
