@@ -1,4 +1,13 @@
 class Team < ActiveRecord::Base
+  has_one :organization, as: :organizable
+  has_many :contracts, through: :organization
+  has_many :humen, through: :contracts
+  has_many :professions, through: :humen
+  has_many :players,
+    through: :professions,
+    source: "professionable",
+    source_type: 'Player'
+
   belongs_to :federation
   has_and_belongs_to_many :competitions
   has_many :home_games, class_name: "Game", foreign_key: "home_id"
@@ -12,32 +21,14 @@ class Team < ActiveRecord::Base
   validates :abbreviation, presence: true, length: { maximum: 3 }, uniqueness: true
   validates :federation, presence: true
 
+  scope :without_players, -> {
+    includes(:players).
+    includes(:contracts).
+    where(contracts: {organization_id: nil})
+  }
+
   def games
     Game.where("games.home_id = #{id} OR games.guest_id = #{id}")
   end
 
-  def system
-    [4,4,2] # will be instantiated later
-  end
-
-  def initiative
-    keeper   *  1.00 +
-    defense  *  1.00 +
-    midfield *  2.00 +
-    attack   *  1.00
-  end
-
-  def attacking
-    keeper   *  0.00 +
-    defense  *  0.50 +
-    midfield *  1.00 +
-    attack   *  2.50
-  end
-
-  def defending
-    keeper   *  3.00 +
-    defense  *  2.50 +
-    midfield *  1.00 +
-    attack   *  0.50
-  end
 end

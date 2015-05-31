@@ -4,5 +4,7 @@ class CreateCompetitionsTeams < ActiveRecord::Migration
       t.belongs_to :competition
       t.belongs_to :team
     end
+    add_index :competitions_teams, :competition_id
+    add_index :competitions_teams, :team_id
   end
 end

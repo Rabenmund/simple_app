@@ -19,7 +19,7 @@ class Game < ActiveRecord::Base
 
   belongs_to :home, class_name: "Team"
   belongs_to :guest, class_name: "Team"
-
+  has_many :lineups
   has_many :points
 
   validates_presence_of :home_id, :guest_id
@@ -29,6 +29,14 @@ class Game < ActiveRecord::Base
   scope :finished, -> { where(finished: true) }
   scope :ordered, -> { order(:id) }
   scope :ordered_reverse, -> { order(id: :desc) }
+
+  def home_lineup
+    lineups.find_by(team_id: home_id)
+  end
+
+  def guest_lineup
+    lineups.find_by(team_id: guest_id)
+  end
 
   def finish!
     return false unless home_goals && guest_goals
@@ -45,6 +53,7 @@ class Game < ActiveRecord::Base
 
   def perform!
     return false if finished?
+    tearup unless started?
     # puts "g1: #{Time.now-start}"
     appointment.update_attributes(appointed_at: appointment.appointed_at+60)
     # puts "g1.5: #{Time.now-start}"
@@ -88,6 +97,13 @@ class Game < ActiveRecord::Base
   end
 
   private
+
+  def tearup
+    lineups.create(team_id: home_id) unless home_lineup
+    lineups.create(team_id: guest_id) unless guest_lineup
+    home_lineup.tearup
+    guest_lineup.tearup
+  end
 
   def calculate_points
     # puts "g5: #{Time.now-start}"

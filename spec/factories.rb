@@ -20,14 +20,37 @@ FactoryGirl.define do
     sequence(:name) { |n| "Mannschaft ##{n}" }
     sequence(:short_name) { |n| "MSV ##{n}" }
     sequence(:abbreviation) { |n| "#{n}" }
-    keeper 100
-    defense 400
-    midfield 400
-    attack 200
     federation
     factory :home do
     end
     factory :guest do
+    end
+  end
+
+  factory :player do
+    human
+  end
+
+  factory :human do
+    sequence(:name) { |n| "Spieler ##{n}" }
+  end
+
+  factory :contract do
+    human
+    organization
+  end
+
+  factory :organization do
+  end
+
+  factory :lineup do
+    game
+    initiative 100
+    defending 100
+    attacking 100
+    factory :home_lineup do
+    end
+    factory :guest_lineup do
     end
   end
 

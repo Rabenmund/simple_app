@@ -85,15 +85,15 @@ base = JSON.parse(IO.read("base_data.json") )
 create_by base
 
 # seed strengthes
-@strength = 101
-Team.all.each do |t|
-  @strength = @strength <= 30 ? 30 : @strength - 1
-  t.keeper = @strength
-  t.defense = @strength * 4
-  t.midfield = @strength * 4
-  t.attack = @strength * 2
-  t.save
-end
+# @strength = 101
+# Team.all.each do |t|
+#   @strength = @strength <= 30 ? 30 : @strength - 1
+#   t.keeper = @strength
+#   t.defense = @strength * 4
+#   t.midfield = @strength * 4
+#   t.attack = @strength * 2
+#   t.save
+# end
 
 
 f = Federation.find_by(name: "DFB")
@@ -350,3 +350,145 @@ puts ""
 
 s = Season.last
 s.teardown! if s
+
+# Seed strengths for new season
+s = Season.last
+
+puts ""
+puts "-"*120
+puts "Erschaffe Spieler"
+puts "-"*120
+puts ""
+
+def create_players(t, base, o)
+  [1,12,23].each do |p|
+    create_player(
+      name: "#{t.name} Torwart ##{p}",
+      organization: o,
+      keeper: strength(base)
+    )
+  end
+  [2,3,4,5,13,14,15,16].each do |p|
+    create_player(
+      name: "#{t.name} Verteidiger ##{p}",
+      organization: o,
+      defense: strength(base)
+    )
+  end
+  [6,7,8,10,17,18,19,20].each do |p|
+    create_player(
+      name: "#{t.name} Mittelfeldspieler ##{p}",
+      organization: o,
+      midfield: strength(base)
+    )
+  end
+  [9,11,20,21].each do |p|
+    create_player(
+      name: "#{t.name} Stürmer ##{p}",
+      organization: o,
+      attack: strength(base)
+    )
+  end
+end
+
+def strength(base)
+  rand((base*0.8).to_int..base)
+end
+
+def create_player(
+      name: "",
+      organization: nil,
+      keeper: 0,
+      defense: 0,
+      midfield: 0,
+      attack: 0
+    )
+  h = Human.create(name: name)
+  h.contracts.create organization: organization
+  p = Player.create(
+                      human: h,
+                      keeper: keeper,
+                      defense: defense,
+                      midfield: midfield,
+                      attack: attack
+                   )
+  puts "#{p.human.name}: #{p.keeper}, #{p.defense}, #{p.midfield}, #{p.attack}"
+end
+
+base = 1000
+s.leagues.each do |l|
+  puts "Liga: #{l.name}"
+  l.teams.each do |t|
+    puts "Team: #{t.name}"
+    base = base - rand(10)
+    o = t.create_organization
+    create_players(t, base, o)
+  end
+end
+Team.without_players.each do |t|
+  base = 700
+  o = t.create_organization
+  create_players(t, base, o)
+end
+
+
+# # Hardcoded initializing Test data
+# # ----------------------
+# [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22].each do |n|
+#   h = Human.create name: n.to_s
+#   Player.create human: h
+# end
+
+# g = Game.find 370
+# g.home.create_organization
+# g.guest.create_organization
+# Human.first(11).each do |h|
+#   h.contracts.create organization: g.home.organization
+# end
+# Human.last(11).each do |h|
+#   h.contracts.create organization: g.guest.organization
+# end
+# l = g.lineups.create team: g.home
+# [1].each do |p|
+#   pp = Player.find(p)
+#   pp.update_attributes keeper: rand(800..1000)
+#   l.actors.create type: "Keeper", actorable: pp
+# end
+# [2,3,4,5].each do |p|
+#   pp = Player.find(p)
+#   pp.update_attributes defense: rand(800..1000)
+#   l.actors.create type: "Defender", actorable: pp
+# end
+# [6,7,8,9].each do |p|
+#   pp = Player.find(p)
+#   pp.update_attributes midfield: rand(800..1000)
+#   l.actors.create type: "Midfielder", actorable: pp
+# end
+# [10,11].each do |p|
+#   pp = Player.find(p)
+#   pp.update_attributes attack: rand(800..1000)
+#   l.actors.create type: "Attacker", actorable: pp
+# end
+# l = g.lineups.create team: g.guest
+# [12].each do |p|
+#   pp = Player.find(p)
+#   pp.update_attributes keeper: rand(800..1000)
+#   l.actors.create type: "Keeper", actorable: pp
+# end
+# [13,14,15,16].each do |p|
+#   pp = Player.find(p)
+#   pp.update_attributes defense: rand(800..1000)
+#   l.actors.create type: "Defender", actorable: pp
+# end
+# [17,18,19,20].each do |p|
+#   pp = Player.find(p)
+#   pp.update_attributes midfield: rand(800..1000)
+#   l.actors.create type: "Midfielder", actorable: pp
+# end
+# [21,22].each do |p|
+#   pp = Player.find(p)
+#   pp.update_attributes attack: rand(800..1000)
+#   l.actors.create type: "Attacker", actorable: pp
+# end
+
+

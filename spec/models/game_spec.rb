@@ -4,10 +4,23 @@ describe Game do
   let(:game) {create :game, home_goals: 1, guest_goals: 1}
   let(:testable) {game}
 
+  before do
+    create :home_lineup, game: game, team: game.home
+    create :guest_lineup, game: game, team: game.guest
+  end
+
   it_behaves_like Appointable
 
   it "is valid" do
     expect(game).to be_valid
+  end
+
+  it "has a home lineup" do
+    expect(game.home_lineup).to eq game.lineups.find_by(team_id: game.home_id)
+  end
+
+  it "has a guest lineup" do
+    expect(game.guest_lineup).to eq game.lineups.find_by(team_id: game.guest_id)
   end
 
   it "finishes" do

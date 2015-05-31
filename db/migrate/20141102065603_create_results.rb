@@ -15,5 +15,6 @@ class CreateResults < ActiveRecord::Migration
       t.integer :rank
       t.timestamps
     end
+    add_index(:results, :team_id)
   end
 end

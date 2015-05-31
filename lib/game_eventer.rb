@@ -1,14 +1,16 @@
 class GameEventer
   def initialize(game)
     @game = game
-    if initiative_for(@game.home) > initiative_for(@game.guest)
+    @home_lineup = game.home_lineup
+    @guest_lineup = game.guest_lineup
+    if initiative_for(@home_lineup) > initiative_for(@guest_lineup)
       @home_attack = true
-      @attacking_team = @game.home
-      @defending_team = @game.guest
+      @attacking_team = @home_lineup
+      @defending_team = @guest_lineup
     else
       @guest_attack = true
-      @attacking_team = @game.guest
-      @defending_team = @game.home
+      @attacking_team = @guest_lineup
+      @defending_team = @home_lineup
     end
   end
 

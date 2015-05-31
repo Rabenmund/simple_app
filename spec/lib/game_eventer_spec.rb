@@ -6,6 +6,8 @@ describe GameEventer do
   let(:event) { GameEventer.new(game) }
 
   before do
+    create :home_lineup, game: game, team: game.home
+    create :guest_lineup, game: game, team: game.guest
   end
 
   it "performs a game event with a goal" do

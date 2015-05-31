@@ -5,5 +5,6 @@ class CreateSeason < ActiveRecord::Migration
       t.datetime :start
       t.timestamps
     end
+    add_index(:seasons, :year)
   end
 end

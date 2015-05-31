@@ -1,10 +1,11 @@
 class CreateMatchday < ActiveRecord::Migration
-  create_table :matchdays do |t|
-    t.integer :number, null: false
-    t.datetime :start, null: false
-    t.belongs_to :competition, null: false
-    t.timestamps
+  def change
+    create_table :matchdays do |t|
+      t.integer :number, null: false
+      t.datetime :start, null: false
+      t.belongs_to :competition, null: false
+      t.timestamps
+    end
+    add_index(:matchdays, :number)
   end
-  add_index(:matchdays, :number)
-
 end

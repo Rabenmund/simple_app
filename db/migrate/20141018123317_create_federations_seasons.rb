@@ -1,8 +1,8 @@
 class CreateFederationsSeasons < ActiveRecord::Migration
   def change
-    create_table :federations_seasons, id: false do |t|
-      t.belongs_to :federation
-      t.belongs_to :season
+    create_join_table :federations, :seasons do |t|
+      t.index :federation_id
+      t.index :season_id
     end
   end
 end
