@@ -17,11 +17,15 @@ ActiveRecord::Schema.define(version: 20150522065801) do
   enable_extension "plpgsql"
 
   create_table "appointments", force: :cascade do |t|
-    t.integer  "appointable_id",   null: false
-    t.string   "appointable_type", null: false
+    t.integer  "appointable_id"
+    t.string   "appointable_type"
     t.integer  "competition_id"
     t.datetime "appointed_at",     null: false
   end
+
+  add_index "appointments", ["appointable_type", "appointable_id"], name: "index_appointments_on_appointable_type_and_appointable_id", using: :btree
+  add_index "appointments", ["appointed_at"], name: "index_appointments_on_appointed_at", using: :btree
+  add_index "appointments", ["competition_id"], name: "index_appointments_on_competition_id", using: :btree
 
   create_table "competitions", force: :cascade do |t|
     t.string   "name",          null: false
@@ -101,6 +105,7 @@ ActiveRecord::Schema.define(version: 20150522065801) do
 
   add_index "games", ["guest_id"], name: "index_games_on_guest_id", using: :btree
   add_index "games", ["home_id"], name: "index_games_on_home_id", using: :btree
+  add_index "games", ["matchday_id"], name: "index_games_on_matchday_id", using: :btree
 
   create_table "humen", force: :cascade do |t|
     t.string   "name"
@@ -126,6 +131,7 @@ ActiveRecord::Schema.define(version: 20150522065801) do
   end
 
   add_index "lineup_actors", ["actorable_type", "actorable_id"], name: "index_lineup_actors_on_actorable_type_and_actorable_id", using: :btree
+  add_index "lineup_actors", ["lineup_id"], name: "index_lineup_actors_on_lineup_id", using: :btree
 
   create_table "lineups", force: :cascade do |t|
     t.integer  "team_id"
@@ -136,6 +142,8 @@ ActiveRecord::Schema.define(version: 20150522065801) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "lineups", ["game_id", "team_id"], name: "index_lineups_on_game_id_and_team_id", using: :btree
 
   create_table "matchdays", force: :cascade do |t|
     t.integer  "number",         null: false
@@ -181,11 +189,17 @@ ActiveRecord::Schema.define(version: 20150522065801) do
     t.datetime "updated_at"
   end
 
+  add_index "points", ["game_id", "team_id"], name: "index_points_on_game_id_and_team_id", using: :btree
+  add_index "points", ["league_id"], name: "index_points_on_league_id", using: :btree
+  add_index "points", ["team_id"], name: "index_points_on_team_id", using: :btree
+
   create_table "professions", force: :cascade do |t|
     t.integer "professionable_id"
     t.string  "professionable_type"
     t.integer "human_id"
   end
+
+  add_index "professions", ["professionable_type", "professionable_id"], name: "index_professions_on_professionable_type_and_professionable_id", using: :btree
 
   create_table "results", force: :cascade do |t|
     t.integer  "points",     default: 0

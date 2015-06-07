@@ -2,6 +2,14 @@
 
 class Game < ActiveRecord::Base
 
+  class NoLineup
+    def keepers; []; end
+    def defenders; []; end
+    def midfielders; []; end
+    def attackers; []; end
+  end
+
+
   include Appointable
 
   END_FIRST = 2700
@@ -30,6 +38,27 @@ class Game < ActiveRecord::Base
   scope :ordered, -> { order(:id) }
   scope :ordered_reverse, -> { order(id: :desc) }
 
+  def winner_lineup
+    return NoLineup.new unless finished
+    return NoLineup.new if home_goals == guest_goals
+    return home_lineup if home_goals > guest_goals
+    return guest_lineup if guest_goals > home_goals
+  end
+
+  def drawer_lineup
+    return NoLineup.new unless finished
+    return NoLineup.new unless home_goals == guest_goals
+    return home_lineup if home_goals > guest_goals
+    return guest_lineup if guest_goals > home_goals
+  end
+
+  def loser_lineup
+    return NoLineup.new unless finished
+    return NoLineup.new if home_goals == guest_goals
+    return guest_lineup if home_goals > guest_goals
+    return home_lineup if guest_goals > home_goals
+  end
+
   def home_lineup
     lineups.find_by(team_id: home_id)
   end
@@ -48,31 +77,47 @@ class Game < ActiveRecord::Base
   end
 
   def start
-    @start = Time.now
+    @start ||= Time.now
   end
+
+  def perform_until_finished!
+    tearup unless started?
+    @sec = second
+    perform
+    perform_until_finished! unless finished?
+  end
+
+  attr_accessor :sec
 
   def perform!
     return false if finished?
     tearup unless started?
-    # puts "g1: #{Time.now-start}"
-    appointment.update_attributes(appointed_at: appointment.appointed_at+60)
-    # puts "g1.5: #{Time.now-start}"
-    update_attributes(second: second+60)
+    appointment.update_attributes(appointed_at: appointment.appointed_at+60) if appointment
+    @sec = second
+    perform
+    save
+  end
+
+  def perform
+    return false if finished?
+    @sec += 60
+    self.second = @sec
+    # puts "->", second.inspect
     case second
     when between_first_and_second_half?
       # puts "g2: #{Time.now-start}"
-      finish_first_half! if finish_first_half?
-      game_event unless first_half_finished?
+      finish_first_half if finish_first_half?
+      event unless first_half_finished?
     when between_second_and_third_part?
       # puts "g2.1: #{Time.now-start}"
-      finish_second_half! if finish_second_half?
-      game_event unless second_half_finished?
+      finish_second_half if finish_second_half?
+      event unless second_half_finished?
     when between_third_and_fourth_part?
-      finish_third_part! if finish_third_part?
-      game_event unless third_part_finished?
+      finish_third_part if finish_third_part?
+      event unless third_part_finished?
     when between_fourth_part_and_shoot_out?
-      finish_fourth_part! if finish_fourth_part?
-      game_event unless fourth_part_finished?
+      finish_fourth_part if finish_fourth_part?
+      event unless fourth_part_finished?
     else
       if second > START_SHOOT_OUT
         # puts "g2.21: #{Time.now-start}"
@@ -80,7 +125,7 @@ class Game < ActiveRecord::Base
         finish! if shoot_out_iteration_finished? && decision_done?
       else
         # puts "g3: #{Time.now-start}"
-        game_event
+        event
         # puts "g4: #{Time.now-start}"
       end
     end
@@ -111,11 +156,17 @@ class Game < ActiveRecord::Base
     # puts "g6: #{Time.now-start}"
   end
 
-  def game_event
+  def event
     # puts "g2.3: #{Time.now-start}"
-    if GameEventer.new(self).perform!
+    if game_eventer.goal_event
+      # puts "---> goal: #{self.inspect}"
+      save
       calculate_points
     end
+  end
+
+  def game_eventer
+    @game_eventer ||= GameEventer.new(self)
   end
 
   def shoot_out_event!
@@ -186,43 +237,42 @@ class Game < ActiveRecord::Base
     xtra_full_second
   end
 
-  def finish_first_half!
+  def finish_first_half
     # puts "g2.4: #{Time.now-start}"
     self.home_goals = 0 unless home_goals
     self.guest_goals = 0 unless guest_goals
     self.home_half_goals = home_goals
     self.guest_half_goals = guest_goals
-    self.half_second = second
-    save
+    self.half_second = @sec
     # puts "g2.5: #{self.inspect}"
   end
 
-  def finish_second_half!
-    self.full_second = second-START_SECOND
+  def finish_second_half
+    # puts "g2.6: #{Time.now-start}"
+    self.full_second = @sec-START_SECOND
     self.home_full_goals = home_goals if decision && !decision_done?
     self.guest_full_goals = guest_goals if decision && !decision_done?
     if !decision || decision_done?
       finish!
     else
-      save
+      # save
     end
   end
 
-  def finish_third_part!
-    self.xtra_half_second = second-START_THIRD
+  def finish_third_part
+    self.xtra_half_second = @sec-START_THIRD
     self.home_xtra_half_goals = home_goals unless decision_done?
     self.guest_xtra_half_goals = guest_goals unless decision_done?
-    save
   end
 
-  def finish_fourth_part!
-    self.xtra_full_second = second-START_FOURTH
+  def finish_fourth_part
+    self.xtra_full_second = @sec-START_FOURTH
     self.home_xtra_full_goals = home_goals unless decision_done?
     self.guest_xtra_full_goals = guest_goals unless decision_done?
     if decision_done?
       finish!
     else
-      save
+      # save
     end
   end
 

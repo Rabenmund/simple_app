@@ -25,9 +25,9 @@ class Player < ActiveRecord::Base
                attack: :attackers
   }
 
-  def self.strength_for(lineup_id, act, actor=STRENGTH[act])
-    joins(actor).
-      where("lineup_actors" => {lineup_id: lineup_id}).
-      sum(act)
-  end
+  # def self.strength_for(lineup_id, act, actor=STRENGTH[act])
+  #   joins(actor).
+  #     where("lineup_actors" => {lineup_id: lineup_id}).
+  #     sum(act)
+  # end
 end

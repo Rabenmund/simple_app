@@ -24,8 +24,8 @@ namespace :simple_app do
 
   def get_and_perform
     appointment = Appointment.order(:appointed_at).first
-    # puts "get and perform: appointment # #{appointment.try(:id)}"
-    # puts "---------- #{Time.now-@start} ----------"
+    puts "get and perform: appointment # #{appointment.try(:id)}"
+    puts "---------- #{Time.now-@start} ----------"
     return false unless appointment
     puts "Appointment: #{appointment.appointable.performed_at}"
     puts "matchday id: #{appointment.appointable.matchday.number}"
@@ -35,11 +35,13 @@ namespace :simple_app do
   end
 
   def perform(appointment)
-    # puts "perform: appointment # #{appointment.id}"
-    # puts "++++++++++ #{Time.now-@start} ++++++++++"
+    puts "perform: appointment # #{appointment.id}"
+    puts "++++++++++ #{Time.now-@start} ++++++++++"
     return false unless appointment
-    # puts "---> appointable: #{appointment.appointable.class.name}"
-    return false unless appointment.appointable.perform!
+    puts "---> appointable: #{appointment.appointable.class.name}"
+    return false unless appointment.appointable.perform_until_finished!
+    puts "********** #{Time.now-@start} **********"
     perform appointment
+    puts ".......... #{Time.now-@start} .........."
   end
 end

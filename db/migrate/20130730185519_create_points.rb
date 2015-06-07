@@ -12,10 +12,12 @@ class CreatePoints < ActiveRecord::Migration
 
       t.references :game, null: false
       t.references :team, null: false
-      t.references :league, null: false
+      t.references :league, null: false, index: true
 
       t.timestamps
     end
+    add_index :points, [:game_id, :team_id]
+    add_index :points, :team_id
   end
 
 end

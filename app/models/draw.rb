@@ -19,6 +19,11 @@ class Draw < ActiveRecord::Base
     appointment.destroy if appointment
   end
 
+  def perform_until_finished!
+    perform!
+    perform_until_finished! unless finished?
+  end
+
   # TODO gruselig - weg damit
   def perform!
     # puts "draw#perform: #{self.name}"

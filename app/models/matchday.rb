@@ -19,14 +19,17 @@ class Matchday < ActiveRecord::Base
     presence: true
 
   def next_appointable
-    appointments.
+    next_appointment.try(:appointable)
+  end
+
+  def next_appointment
+    @appointment ||= appointments.
       order(appointed_at: :asc).
-      first.
-      try(:appointable)
+      first
   end
 
   def current_date_time
-    next_appointable.
+    next_appointment.
       try(:appointed_at) ||
     games.
       order(performed_at: :desc, second: :desc).

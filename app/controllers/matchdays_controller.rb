@@ -8,6 +8,7 @@ class MatchdaysController < ApplicationController
 
   def perform
     @matchday.perform!
+    UpdatePlayerStrength.after_matchday(@matchday)
     respond_to do |format|
       format.html { render :show }
       format.js { render partial: 'matchdays/perform' }

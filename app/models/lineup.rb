@@ -6,7 +6,7 @@ class Lineup < ActiveRecord::Base
   has_many :defenders, -> { where type: "Defender" }
   has_many :midfielders, -> { where type: "Midfielder" }
   has_many :attackers, -> { where type: "Attacker" }
-  # has_many :attack_players, through: :actors, source: :actorable, source_type: "Attacker"
+  has_many :players, through: :actors, source: :actorable, source_type: "Player"
 
   def tearup
     if actors.empty?
@@ -36,6 +36,7 @@ class Lineup < ActiveRecord::Base
     create_attackers
   end
 
+  # see new players association - what to do
   def create_keeper
     keepers.create(actorable: team.players.keepers[0])
   end
@@ -58,7 +59,8 @@ class Lineup < ActiveRecord::Base
   # TODO put that into a seperate calculation class
 
   def strength_for(act)
-    Player.strength_for(id, act)
+    # players.strength_for(id, act)
+    players.sum act
   end
 
   def calculate_initiative

@@ -8,5 +8,6 @@ class CreateLineup < ActiveRecord::Migration
       t.integer :defending
       t.timestamps
     end
+    add_index(:lineups, [:game_id, :team_id])
   end
 end

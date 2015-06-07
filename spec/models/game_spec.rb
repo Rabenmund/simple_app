@@ -50,7 +50,7 @@ describe Game do
     end
 
     it "calls the Eventer" do
-      expect(GameEventer).to receive(:new).and_return double(perform!: :evented)
+      expect(GameEventer).to receive(:new).and_return double(goal_event: :evented)
       game.perform!
     end
 

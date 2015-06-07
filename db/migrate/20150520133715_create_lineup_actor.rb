@@ -6,5 +6,6 @@ class CreateLineupActor < ActiveRecord::Migration
       t.references :actorable, polymorphic: true, index: true
       t.timestamps
     end
+    add_index :lineup_actors, :lineup_id
   end
 end

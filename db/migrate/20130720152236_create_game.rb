@@ -28,6 +28,7 @@ class CreateGame < ActiveRecord::Migration
     end
     add_index(:games, :home_id)
     add_index(:games, :guest_id)
+    add_index(:games, :matchday_id)
   end
 
 end

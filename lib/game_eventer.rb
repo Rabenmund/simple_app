@@ -1,33 +1,36 @@
 class GameEventer
   def initialize(game)
     @game = game
-    @home_lineup = game.home_lineup
-    @guest_lineup = game.guest_lineup
-    if initiative_for(@home_lineup) > initiative_for(@guest_lineup)
-      @home_attack = true
-      @attacking_team = @home_lineup
-      @defending_team = @guest_lineup
-    else
-      @guest_attack = true
-      @attacking_team = @guest_lineup
-      @defending_team = @home_lineup
-    end
+    @home = @game.home_lineup
+    @guest = @game.guest_lineup
   end
 
-  def perform!
-    goal_event?
+  def goal_event
+    if home_attack?
+      @game.home_goals = @game.home_goals+1 if goal_for_home?
+    else
+      @game.guest_goals = @game.guest_goals+1 if goal_for_guest?
+    end
   end
 
   private
 
-  def goal_event?
-    if (attack - defense) > (attack * success)
-      @game.update_attributes(home_goals: @game.home_goals+1) if @home_attack
-      @game.update_attributes(guest_goals: @game.guest_goals+1) if @guest_attack
-      true
-    else
-      false
-    end
+  def goal_for_home?
+    goal?(@home, @guest)
+  end
+
+  def goal_for_guest?
+    goal?(@guest, @home)
+  end
+
+  def home_attack?
+    initiative_for(@home) > initiative_for(@guest)
+  end
+
+  def goal?(attacker, defender)
+    attacking = attack_for(attacker)
+    defending = defense_for(defender)
+    (attacking - defending) > (attacking * success)
   end
 
   def success
@@ -38,12 +41,20 @@ class GameEventer
     rand(home_bonus(team)*team.initiative)
   end
 
+  def attack_for(team)
+    rand(home_bonus(team)*team.attacking)
+  end
+
   def attack
-    @attack ||= rand(home_bonus(@attacking_team)*@attacking_team.attacking)
+    rand(home_bonus(@attacking_team)*@attacking_team.attacking)
+  end
+
+  def defense_for(team)
+    rand(home_bonus(team)*team.defending)
   end
 
   def defense
-    @defense ||= rand(home_bonus(@defending_team)*@defending_team.defending)
+    rand(home_bonus(@defending_team)*@defending_team.defending)
   end
 
   def home_bonus(team)

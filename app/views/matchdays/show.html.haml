@@ -2,4 +2,11 @@
   - if @matchday.can_be_drawed?
     = render partial: "matchdays/draws/draw", locals: {draw: @matchday.draw}
   -else
-    = render "run"
+    %h1
+      = "#{@matchday.competition.name} #{@matchday.competition.season.year} - #{@matchday.number}. Spieltag"
+    - if @matchday.has_games?
+      = render "run"
+    - else
+      %h2
+        = "#{@matchday.current_date_time.time}"
+      Keine Spiele verfügbar
