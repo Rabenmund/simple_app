@@ -1,5 +1,9 @@
 FactoryGirl.define do
 
+  factory :logical_date do
+    logical_date Date.today
+  end
+
   factory :appointment do
     appointable
     appointed_at DateTime.now
