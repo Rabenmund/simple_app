@@ -5,15 +5,15 @@ describe League do
   let(:matchday) { create :matchday, competition: league }
   let(:game) { create :game, matchday: matchday }
 
-  it 'prepares a league' do
-    18.times do |n|
-      team = create :team
-      league.teams << team
-    end
-    league.prepare!
-    expect(league.matchdays.count).to eq 34
-    expect(league.games.count).to eq 306
-  end
+  # it 'prepares a league' do
+  #   18.times do |n|
+  #     team = create :team
+  #     league.teams << team
+  #   end
+  #   league.prepare!
+  #   expect(league.matchdays.count).to eq 34
+  #   expect(league.games.count).to eq 306
+  # end
 
   it "is not finished without games" do
     expect(league.finished?).to eq false
