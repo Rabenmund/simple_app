@@ -14,6 +14,7 @@ gem 'sass-rails'
 gem 'coffee-rails'
 gem 'uglifier'
 gem 'authority'
+gem 'distribution'
 
 gem "show_for"
 
