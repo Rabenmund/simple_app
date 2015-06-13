@@ -19,15 +19,38 @@ class Player < ActiveRecord::Base
   scope :midfielders, -> { where.not(midfield: 0).order(midfield: :desc) }
   scope :attackers, -> { where.not(attack: 0).order(attack: :desc) }
 
+  delegate :birthday, to: :human
+
   STRENGTH = { keeper: :keepers,
                defense: :defenders,
                midfield: :midfielders,
                attack: :attackers
   }
 
-  # def self.strength_for(lineup_id, act, actor=STRENGTH[act])
-  #   joins(actor).
-  #     where("lineup_actors" => {lineup_id: lineup_id}).
-  #     sum(act)
-  # end
+  def keeper?
+    nearby(main_strength, keeper)
+  end
+
+  def defender?
+    nearby(main_strength, defense)
+  end
+
+  def midfielder?
+    nearby(main_strength, midfield)
+  end
+
+  def attacker?
+    nearby(main_strength, attack)
+  end
+
+  private
+
+  def nearby(main, strength)
+    strength > main * 0.9
+  end
+
+  def main_strength
+    [keeper, defense, midfield, attack].max
+  end
+
 end
