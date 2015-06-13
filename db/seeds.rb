@@ -77,6 +77,11 @@ def addition(game)
   ""
 end
 
+#########
+# Names #
+#########
+Name.seed_family
+
 ########
 # Base #
 ########
