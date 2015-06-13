@@ -4,6 +4,16 @@ FactoryGirl.define do
     logical_date Date.today
   end
 
+  factory :german_pre_name do
+    name "Franz"
+    weight 1
+  end
+
+  factory :german_family_name do
+    name "Beckenbauer"
+    weight 999
+  end
+
   factory :appointment do
     appointable
     appointed_at DateTime.now

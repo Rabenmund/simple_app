@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150522065801) do
+ActiveRecord::Schema.define(version: 20150610150328) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -107,8 +107,19 @@ ActiveRecord::Schema.define(version: 20150522065801) do
   add_index "games", ["home_id"], name: "index_games_on_home_id", using: :btree
   add_index "games", ["matchday_id"], name: "index_games_on_matchday_id", using: :btree
 
+  create_table "german_family_names", force: :cascade do |t|
+    t.string  "name"
+    t.integer "weight"
+  end
+
+  create_table "german_pre_names", force: :cascade do |t|
+    t.string  "name"
+    t.integer "weight"
+  end
+
   create_table "humen", force: :cascade do |t|
     t.string   "name"
+    t.date     "birthday"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -144,6 +155,10 @@ ActiveRecord::Schema.define(version: 20150522065801) do
   end
 
   add_index "lineups", ["game_id", "team_id"], name: "index_lineups_on_game_id_and_team_id", using: :btree
+
+  create_table "logical_dates", force: :cascade do |t|
+    t.datetime "logical_date"
+  end
 
   create_table "matchdays", force: :cascade do |t|
     t.integer  "number",         null: false
