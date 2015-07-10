@@ -5,6 +5,8 @@ describe GeneratePlayer do
 
   before do
     allow(LogicalDate).to receive(:date).and_return Date.today
+    create :german_family_name
+    create :german_pre_name
   end
 
   it "creates a player with random role" do

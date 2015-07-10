@@ -48,7 +48,7 @@ class DFBPattern
       name: "DFB Pokal",
       level: 1,
       season: @season,
-      start: @season.start)
+      start: @season.start_date)
     @dfb_pokal.teams << @dfb.teams.
       joins(:competitions).
       where("competitions.level" => 1..3, "competitions.type" => "League", "competitions.season_id" => @previous.previous.id)
@@ -61,7 +61,7 @@ class DFBPattern
       @league = @dfb.leagues.create(
         name: league[:name],
         level: league[:level],
-        start: @season.start + league[:days_off].days + league[:time_off])
+        start: @season.start_date + league[:days_off].days + league[:time_off])
       get_teams(league[:level], league[:up], league[:down], league[:teams])
       @season.leagues << @league
       @league.prepare!

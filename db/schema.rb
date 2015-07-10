@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150610150328) do
+ActiveRecord::Schema.define(version: 20150621083718) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,12 +31,15 @@ ActiveRecord::Schema.define(version: 20150610150328) do
     t.string   "name",          null: false
     t.string   "type",          null: false
     t.integer  "level"
-    t.integer  "federation_id"
-    t.integer  "season_id"
+    t.integer  "federation_id", null: false
+    t.integer  "season_id",     null: false
     t.datetime "start"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "competitions", ["federation_id"], name: "index_competitions_on_federation_id", using: :btree
+  add_index "competitions", ["season_id"], name: "index_competitions_on_season_id", using: :btree
 
   create_table "competitions_teams", force: :cascade do |t|
     t.integer "competition_id"
@@ -47,17 +50,25 @@ ActiveRecord::Schema.define(version: 20150610150328) do
   add_index "competitions_teams", ["team_id"], name: "index_competitions_teams_on_team_id", using: :btree
 
   create_table "contracts", force: :cascade do |t|
-    t.integer "organization_id", null: false
-    t.integer "human_id",        null: false
+    t.integer  "organization_id", null: false
+    t.integer  "human_id",        null: false
+    t.datetime "from",            null: false
+    t.datetime "to",              null: false
   end
+
+  add_index "contracts", ["human_id"], name: "index_contracts_on_human_id", using: :btree
+  add_index "contracts", ["organization_id"], name: "index_contracts_on_organization_id", using: :btree
 
   create_table "draws", force: :cascade do |t|
     t.string   "name",                         null: false
     t.datetime "performed_at"
     t.boolean  "finished",     default: false
-    t.integer  "cup_id"
-    t.integer  "matchday_id"
+    t.integer  "cup_id",                       null: false
+    t.integer  "matchday_id",                  null: false
   end
+
+  add_index "draws", ["cup_id"], name: "index_draws_on_cup_id", using: :btree
+  add_index "draws", ["matchday_id"], name: "index_draws_on_matchday_id", using: :btree
 
   create_table "federations", force: :cascade do |t|
     t.string   "name",       null: false
@@ -168,7 +179,22 @@ ActiveRecord::Schema.define(version: 20150610150328) do
     t.datetime "updated_at"
   end
 
+  add_index "matchdays", ["competition_id"], name: "index_matchdays_on_competition_id", using: :btree
   add_index "matchdays", ["number"], name: "index_matchdays_on_number", using: :btree
+
+  create_table "offers", force: :cascade do |t|
+    t.integer  "player_id",                         null: false
+    t.integer  "team_id",                           null: false
+    t.integer  "reputation"
+    t.integer  "negotiation_round"
+    t.boolean  "negotiated",        default: false
+    t.boolean  "accepted",          default: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "offers", ["player_id"], name: "index_offers_on_player_id", using: :btree
+  add_index "offers", ["team_id"], name: "index_offers_on_team_id", using: :btree
 
   create_table "organizations", force: :cascade do |t|
     t.integer  "organizable_id"
@@ -211,9 +237,11 @@ ActiveRecord::Schema.define(version: 20150610150328) do
   create_table "professions", force: :cascade do |t|
     t.integer "professionable_id"
     t.string  "professionable_type"
-    t.integer "human_id"
+    t.integer "human_id",                           null: false
+    t.boolean "active",              default: true
   end
 
+  add_index "professions", ["human_id"], name: "index_professions_on_human_id", using: :btree
   add_index "professions", ["professionable_type", "professionable_id"], name: "index_professions_on_professionable_type_and_professionable_id", using: :btree
 
   create_table "results", force: :cascade do |t|
@@ -233,11 +261,13 @@ ActiveRecord::Schema.define(version: 20150610150328) do
     t.datetime "updated_at"
   end
 
+  add_index "results", ["league_id"], name: "index_results_on_league_id", using: :btree
   add_index "results", ["team_id"], name: "index_results_on_team_id", using: :btree
 
   create_table "seasons", force: :cascade do |t|
     t.integer  "year",       null: false
-    t.datetime "start"
+    t.datetime "start_date"
+    t.datetime "end_date"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -253,6 +283,7 @@ ActiveRecord::Schema.define(version: 20150610150328) do
     t.datetime "updated_at"
   end
 
+  add_index "teams", ["federation_id"], name: "index_teams_on_federation_id", using: :btree
   add_index "teams", ["name"], name: "index_teams_on_name", using: :btree
 
 end

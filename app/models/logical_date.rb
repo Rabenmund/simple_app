@@ -1,9 +1,14 @@
 class LogicalDate < ActiveRecord::Base
   def self.year
-    first.logical_date.year
+    date.year
+  end
+
+  def self.current_season_year
+    current_date = date
+    current_date.yday > 212 ? current_date.year + 1 : current_date.year
   end
 
   def self.date
-    first ? first.logical_date.to_date : Date.today
+    first.try(:logical_date) || Date.today
   end
 end

@@ -7,7 +7,7 @@ class GeneratePlayer
 
   def random
     selection = rand(23)
-    case selection
+    case (selection+1)
     when 1..3
       keeper
     when 4..11

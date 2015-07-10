@@ -35,4 +35,13 @@ describe League do
     expect(league.board).to eq :board
   end
 
+  it "scopes by levels" do
+    l1 = create :league, level: 1
+    l2 = create :league, level: 2
+    l3 = create :league, level: 3
+    expect(League.by_levels([1,3])).to include l1
+    expect(League.by_levels([1,3])).to include l3
+    expect(League.by_levels([1,3])).to_not include l2
+  end
+
 end

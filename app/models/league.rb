@@ -4,6 +4,8 @@ class League < Competition
 
   validates :season, presence: true
 
+  scope :by_levels, ->(levels) { where "competitions.level IN (?)", levels }
+
   MATCHDAYS = {
     34 => [
       0,7,14,36,39,46,53,67,74,81,88,95,109,116,
@@ -45,6 +47,17 @@ class League < Competition
 
   def board
     result_board.any? ? result_board : points.board
+  end
+
+  def points_for(team)
+    results.find_by(team: team).try(:points) ||
+      points.board.where("teams.id = ?", team.id).try(:points)
+  end
+
+  def previous
+    previous_season = season.previous
+    return unless previous_season
+    previous_season.leagues.find_by(federation: federation, level: level)
   end
 
   def finish!

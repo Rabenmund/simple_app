@@ -8,13 +8,12 @@ class CreateResults < ActiveRecord::Migration
       t.integer :win, default: 0
       t.integer :draw, default: 0
       t.integer :lost, default: 0
-      t.belongs_to :team, null: false
-      t.belongs_to :league, null: false
+      t.belongs_to :team, index: true, null: false
+      t.belongs_to :league, index: true, null: false
       t.integer :level
       t.integer :year
       t.integer :rank
       t.timestamps
     end
-    add_index(:results, :team_id)
   end
 end

@@ -35,6 +35,7 @@ FactoryGirl.define do
     sequence(:short_name) { |n| "MSV ##{n}" }
     sequence(:abbreviation) { |n| "#{n}" }
     federation
+    organization
     factory :home do
     end
     factory :guest do
@@ -43,6 +44,18 @@ FactoryGirl.define do
 
   factory :player do
     human
+    factory :keeper do
+      keeper 100
+    end
+    factory :defender do
+      defense 100
+    end
+    factory :midfielder do
+      midfield 100
+    end
+    factory :attacker do
+      attack 100
+    end
   end
 
   factory :human do
@@ -52,6 +65,8 @@ FactoryGirl.define do
   factory :contract do
     human
     organization
+    from Date.today-2.days
+    to Date.today-1.day
   end
 
   factory :organization do
@@ -92,6 +107,7 @@ FactoryGirl.define do
   factory :league do
     season
     federation
+    level 1
     sequence(:name) { |n| "Liga ##{n}" }
     start DateTime.now
   end
@@ -111,5 +127,11 @@ FactoryGirl.define do
     before :create do |draw|
       draw.matchday = create(:matchday, competition: draw.competition)
     end
+  end
+
+  factory :offer do
+    player
+    team
+    reputation 100
   end
 end

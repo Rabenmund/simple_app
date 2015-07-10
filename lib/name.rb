@@ -5,16 +5,21 @@ class Name
   end
 
   def self.prename
-    PRE[rand(PRE.size)]
+    GermanPreName.find_by_sql("
+      SELECT * FROM german_pre_names
+      ORDER by random()
+    ").first.name
   end
 
   private
+
+  # TODO oder doch alles in DB und random DB (falls gibt)
 
   def self.weighted
     unless @weighted
       @weighted = Array.new
       GermanFamilyName.all.each do |name|
-        (name.weigth/100).times do
+        (name.weight/100).times do
           @weighted << name.name
         end
       end
@@ -39,7 +44,132 @@ class Name
     end
   end
 
-  PRE = %w(Ben Benjamin Bennie Elias Fynn Finn Jonas Leon Lukas Luke Noah Max Maxi Maximilian Paul Luca Ben Luis Louis Paul Lucas Lukas Jona Jonah Jonas Leon Finn Fynn Noah Elias Luka Max Maximilian Felix Henry Moritz Julian Tim Jakob Emil Philipp Niklas Alexander David Oskar Mats Jan Tom Anton Liam Erik Fabian Matteo Leo Rafael Samuel Mika Theo Jonathan Lennart Simon Hannes Linus Jannik Niko Karl Till Vincent Nick Ben Luca Paul Jonas Finn Leon Luis Lukas Maximilian Felix Noah Elias Julian Max Tim Moritz Henry Niklas Philipp Jacob Tom Jan Emil Alexander David Oskar Fabian Marlon Justus LJulius Ben Luka Paul Jonas Louis Max Felix Noah Elias Tim Julian Moritz Philipp Niklas Jakob Alexander David Jan Tom Erik Nils Simon Thimon Tobias Kevin Marvin Linus Marlon Pascal Pierre Robin Sebastian Colin Julius Lars Jason Johannes Lasse Mats Marcel Nick Dominik Timo Daniel Bennet Mark Jannis Joshua Ole Frederik Friedrich Levin Matthis Aaron Adrian Konstantin Michael Joel Benedikt Marco Markus Bastian Jeremy Kilian Dennis Johann Kjell Malte Patrick Thorben Cedrik Connor Henrik Jamie Oliver Samuel Tyler)
+  def self.seed_prename
+    PRE.each do |name|
+      GermanPreName.create!(
+        name: name,
+        weight: 1,
+      )
+    end
+  end
+
+  PRE = %w(
+    Ben
+    Benjamin
+    Bennie
+    Elias
+    Fynn
+    Finn
+    Jonah
+    Jona
+    Jonas
+    Leon
+    Lukas
+    Lucas
+    Luca
+    Luke
+    Noah
+    Max
+    Maxi
+    Maximilian
+    Paul
+    Luis
+    Louis
+    Felix
+    Henry
+    Moritz
+    Julian
+    Tim
+    Jakob
+    Emil
+    Philipp
+    Niklas
+    Alexander
+    David
+    Oskar
+    Mats
+    Jan
+    Tom
+    Anton
+    Liam
+    Erik
+    Fabian
+    Matteo
+    Leonard
+    Leo
+    Rafael
+    Samuel
+    Sam
+    Mika
+    Theo
+    Jonathan
+    Lennart
+    Simon
+    Hannes
+    Linus
+    Jannik
+    Niko
+    Karl
+    Till
+    Vincent
+    Nick
+    Jacob
+    Marlon
+    Justus
+    Julius
+    Nils
+    Simon
+    Thimon
+    Tobias
+    Kevin
+    Marvin
+    Pascal
+    Pierre
+    Robin
+    Sebastian
+    Colin
+    Lars
+    Jason
+    Johannes
+    Lasse
+    Mats
+    Marcel
+    Dominik
+    Timo
+    Daniel
+    Bennet
+    Mark
+    Jannis
+    Joshua
+    Ole
+    Frederik
+    Friedrich
+    Levin
+    Matthis
+    Aaron
+    Adrian
+    Konstantin
+    Michael
+    Joel
+    Benedikt
+    Marco
+    Markus
+    Bastian
+    Jeremy
+    Kilian
+    Dennis
+    Johann
+    Kjell
+    Malte
+    Patrick
+    Thorben
+    Cedrik
+    Connor
+    Henrik
+    Jamie
+    Oliver
+    Tyler
+  )
 
   NAMES = %w(
     Müller   265025

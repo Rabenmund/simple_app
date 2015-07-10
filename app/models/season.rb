@@ -9,6 +9,7 @@ class Season < ActiveRecord::Base
   has_many :leagues
   has_many :cups
   has_many :relegations
+  has_many :teams, -> { uniq }, through: :competitions
 
   def teardown!
     return false if appointments.any?
@@ -18,11 +19,35 @@ class Season < ActiveRecord::Base
     DFBPattern.new(season: create_next).prepare!
   end
 
+  def self.current
+    find_by(year: LogicalDate.current_season_year) || Season.last
+  end
+
+  def league_for(team)
+    leagues.
+      joins(:teams).
+      where("teams.id = ?", team.id).
+      first
+  end
+
+  def rank_for(league, team)
+    league.rank_for(team)
+  end
+
+  def previous
+    Season.find_by(year: year-1)
+  end
+
   private
 
   def create_next
-    start_date = DateTime.new((year), 8, 2, 15, 30)
-    start_date += (6 - start_date.wday)
-    Season.create(year: year+1, start: start_date)
+    _start = DateTime.new((year), 8, 2, 15, 30)
+    _start += (6 - _start.wday)
+    _end = end_date + 1.year
+    Season.create(
+      year: year+1,
+      start_date: _start,
+      end_date: _end,
+    )
   end
 end

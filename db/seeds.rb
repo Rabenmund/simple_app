@@ -81,6 +81,7 @@ end
 # Names #
 #########
 Name.seed_family
+Name.seed_prename
 
 ########
 # Base #
@@ -88,18 +89,6 @@ Name.seed_family
 
 base = JSON.parse(IO.read("base_data.json") )
 create_by base
-
-# seed strengthes
-# @strength = 101
-# Team.all.each do |t|
-#   @strength = @strength <= 30 ? 30 : @strength - 1
-#   t.keeper = @strength
-#   t.defense = @strength * 4
-#   t.midfield = @strength * 4
-#   t.attack = @strength * 2
-#   t.save
-# end
-
 
 f = Federation.find_by(name: "DFB")
 
@@ -113,9 +102,13 @@ puts "Teams: ", Team.count
 
 puts ""
 puts "Saison"
-s = f.seasons.create(year: 2010, start: ("08.08.2009".to_datetime + 930.minutes))
+s = f.seasons.create(
+  year: 2010,
+  start_date: ("08.08.2009".to_datetime + 930.minutes),
+  end_date: "30.06.2010".to_datetime,
+)
 
-c = f.cups.create(name: "DFB Pokal", level: 1, start: s.start)
+c = f.cups.create(name: "DFB Pokal", level: 1, start: s.start_date, season: s)
 c.teams << f.teams.where(id: [1..64])
 s.cups << c
 c.prepare!
@@ -219,7 +212,7 @@ c.draws.map{|d|puts d.inspect}
 
 puts "Liga"
 
-l = f.leagues.create(name: "Bundesliga", level: 1, start: s.start)
+l = f.leagues.create(name: "Bundesliga", level: 1, start: s.start_date)
 [7,10,3,6,19,9,15,12,2,8,14,13,20,5,11,4,1,21].each do |id|
   l.teams << f.teams.find(id)
 end
@@ -334,17 +327,17 @@ RESULTS6A = [
 RESULTS6B = [
   [:VkK],[:Bre],[:IdO],[:FCR],[:Lfd],[:HKi],[:Mar],[:May],[:RWL],[:KJu],[:SCV],[:WEi],[:SVM],[:Pei],[:VkG],[:Des],[:Slw],[:Swt]
 ]
-l2 = League.create(name: "2.Bundesliga", level: 2, federation: f, season: s, start: s.start)
+l2 = League.create(name: "2.Bundesliga", level: 2, federation: f, season: s, start: s.start_date)
 create_league_results(l2, f, RESULTS2)
-l3 = League.create(name: "3.Bundesliga", level: 3, federation: f, season: s, start: s.start)
+l3 = League.create(name: "3.Bundesliga", level: 3, federation: f, season: s, start: s.start_date)
 create_league_results(l3, f, RESULTS3)
-l4 = League.create(name: "4.Bundesliga", level: 4, federation: f, season: s, start: s.start)
+l4 = League.create(name: "4.Bundesliga", level: 4, federation: f, season: s, start: s.start_date)
 create_league_results(l4, f, RESULTS4)
-l5 = League.create(name: "5.Bundesliga", level: 5, federation: f, season: s, start: s.start)
+l5 = League.create(name: "5.Bundesliga", level: 5, federation: f, season: s, start: s.start_date)
 create_league_results(l5, f, RESULTS5)
-l6a = League.create(name: "6.Bundesliga A", level: 6, federation: f, season: s, start: s.start)
+l6a = League.create(name: "6.Bundesliga A", level: 6, federation: f, season: s, start: s.start_date)
 create_league_results(l6a, f, RESULTS6A)
-l6b = League.create(name: "6.Bundesliga B", level: 6, federation: f, season: s, start: s.start)
+l6b = League.create(name: "6.Bundesliga B", level: 6, federation: f, season: s, start: s.start_date)
 create_league_results(l6b, f, RESULTS6B)
 
 puts ""
@@ -409,18 +402,27 @@ def create_player(
       attack: 0
     )
   h = Human.create(name: name)
-  h.contracts.create organization: organization
+
+  # contract_start = "01.07.2009".to_datetime
+  # contract_end = @season.end_date + rand(3).years
+  # h.contracts.create(
+  #   organization: organization,
+  #   from: contract_start,
+  #   to: contract_end,
+  # )
+
   p = Player.create(
-                      human: h,
-                      keeper: keeper,
-                      defense: defense,
-                      midfield: midfield,
-                      attack: attack
-                   )
+    human: h,
+    keeper: keeper,
+    defense: defense,
+    midfield: midfield,
+    attack: attack
+  )
   puts "#{p.human.name}: #{p.keeper}, #{p.defense}, #{p.midfield}, #{p.attack}"
 end
 
 base = 1000
+@season = s
 s.leagues.each do |l|
   puts "Liga: #{l.name}"
   l.teams.each do |t|
@@ -430,70 +432,8 @@ s.leagues.each do |l|
     create_players(t, base, o)
   end
 end
-Team.without_players.each do |t|
+(Team.all - Team.with_league_in(s)).each do |t|
   base = 700
   o = t.create_organization
   create_players(t, base, o)
 end
-
-
-# # Hardcoded initializing Test data
-# # ----------------------
-# [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22].each do |n|
-#   h = Human.create name: n.to_s
-#   Player.create human: h
-# end
-
-# g = Game.find 370
-# g.home.create_organization
-# g.guest.create_organization
-# Human.first(11).each do |h|
-#   h.contracts.create organization: g.home.organization
-# end
-# Human.last(11).each do |h|
-#   h.contracts.create organization: g.guest.organization
-# end
-# l = g.lineups.create team: g.home
-# [1].each do |p|
-#   pp = Player.find(p)
-#   pp.update_attributes keeper: rand(800..1000)
-#   l.actors.create type: "Keeper", actorable: pp
-# end
-# [2,3,4,5].each do |p|
-#   pp = Player.find(p)
-#   pp.update_attributes defense: rand(800..1000)
-#   l.actors.create type: "Defender", actorable: pp
-# end
-# [6,7,8,9].each do |p|
-#   pp = Player.find(p)
-#   pp.update_attributes midfield: rand(800..1000)
-#   l.actors.create type: "Midfielder", actorable: pp
-# end
-# [10,11].each do |p|
-#   pp = Player.find(p)
-#   pp.update_attributes attack: rand(800..1000)
-#   l.actors.create type: "Attacker", actorable: pp
-# end
-# l = g.lineups.create team: g.guest
-# [12].each do |p|
-#   pp = Player.find(p)
-#   pp.update_attributes keeper: rand(800..1000)
-#   l.actors.create type: "Keeper", actorable: pp
-# end
-# [13,14,15,16].each do |p|
-#   pp = Player.find(p)
-#   pp.update_attributes defense: rand(800..1000)
-#   l.actors.create type: "Defender", actorable: pp
-# end
-# [17,18,19,20].each do |p|
-#   pp = Player.find(p)
-#   pp.update_attributes midfield: rand(800..1000)
-#   l.actors.create type: "Midfielder", actorable: pp
-# end
-# [21,22].each do |p|
-#   pp = Player.find(p)
-#   pp.update_attributes attack: rand(800..1000)
-#   l.actors.create type: "Attacker", actorable: pp
-# end
-
-
