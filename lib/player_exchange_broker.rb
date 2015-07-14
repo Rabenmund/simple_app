@@ -1,8 +1,9 @@
 class PlayerExchangeBroker
-  attr_reader :team, :reputation
+  attr_reader :team, :reputation, :start_date
   attr_accessor :players, :keepers, :defenders, :midfielders, :attackers
 
-  def initialize(team: team, keepers: keepers, defenders: defenders, midfielders: midfielders, attackers: attackers)
+  def initialize(start_date: start_date, team: team, keepers: keepers, defenders: defenders, midfielders: midfielders, attackers: attackers)
+    @start_date = start_date
     @team = team
     @reputation = team.reputation
     @keepers = keepers
@@ -32,7 +33,10 @@ class PlayerExchangeBroker
       Offer.create(
         team: team,
         player: player,
-        reputation: reputation)
+        reputation: reputation,
+        start_date: start_date,
+        end_date:  random_end_date
+      )
       need = send(type)
       send(type.to_s+"=", (need - 1))
     else
@@ -51,4 +55,10 @@ class PlayerExchangeBroker
     end
   end
 
+  private
+
+  def random_end_date
+    years = rand(5) + 1
+    Date.new((start_date + years.years).year, 06, 30)
+  end
 end

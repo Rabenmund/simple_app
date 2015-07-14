@@ -3,6 +3,9 @@ class Offer < ActiveRecord::Base
   belongs_to :team
   validates :player, presence: true
   validates :team, presence: true
+  validates :start_date, presence: true
+  validates :end_date, presence: true
+
 
   scope :open, -> { where(negotiated: false) }
 

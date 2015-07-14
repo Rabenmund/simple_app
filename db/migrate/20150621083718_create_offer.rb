@@ -7,6 +7,8 @@ class CreateOffer < ActiveRecord::Migration
       t.integer :negotiation_round
       t.boolean :negotiated, default: false
       t.boolean :accepted, default: false
+      t.date :start_date
+      t.date :end_date
       t.timestamps
     end
   end

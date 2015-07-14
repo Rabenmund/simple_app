@@ -4,22 +4,21 @@ class Negotiation
     @offers = player.offers
     @human = player.human
     @round = round
-    @start_date = start_date
-    @end_date = end_date
   end
 
   def negotiate!
-    deal_with best_team
+    deal_with best_offer
     decline_open_offers
   end
 
-  def deal_with(team)
-    accept_offer_with team
+  def deal_with(offer)
+    return unless offer
+    offer.accept! round
     Contract.create(
-      organization: team.organization,
+      organization: offer.team.organization,
       human: human,
-      from: Season.current.start_date,
-      to: Season.current.end_date
+      from: offer.start_date,
+      to: offer.end_date
     )
   end
 
@@ -27,22 +26,19 @@ class Negotiation
     offers.open.map {|offer| offer.decline!(at_round)}
   end
 
-  private
+  # private
 
   attr_reader :offers, :human, :round, :start_date, :end_date
 
-  def accept_offer_with(team)
-    offers.open.find_by(team_id: team.id).try {|offer| offer.accept!(round)}
-  end
-
-  def best_team
+  def best_offer
     # TODO not ready
     # wenn keeper und offered team hat schon besseren keeper UND Mannschaft ist Nicht 1 Liga höher als ich UND wenn nicht 10+ Runde -> offer ablehnen
-    # wenn keeper und offered team hat schon 2 bessere keeper UND Mannschaft ist Nicht 2 Liga höher als ich UND wenn nicht 10+ Runde -> offer ablehnenA
+    # wenn keeper und offered team hat schon 2 bessere keeper UND Mannschaft ist Nicht 2 Liga höher als ich UND wenn nicht 10+ Runde -> offer ablehnen
+    return unless offers.any?
     open_offers_count = offers.open.count
-    return unless open_offers_count < 1
-    pos = rand(offers_open_count)
-    offers.open.order(reputation: :desc)[pos].team
+    return unless open_offers_count > 0
+    pos = rand(open_offers_count)
+    offers.open[pos]
   end
 
 end

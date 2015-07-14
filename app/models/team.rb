@@ -76,13 +76,14 @@ class Team < ActiveRecord::Base
     Game.where("games.home_id = #{id} OR games.guest_id = #{id}")
   end
 
-  def broker
+  def broker(start_date)
     PlayerExchangeBroker.new(
       team: self,
       keepers: PlayerNeed.new(3, keepers.size).need,
       defenders: PlayerNeed.new(FORMATION[:defenders]*2, defenders.size).need,
       midfielders: PlayerNeed.new(FORMATION[:midfielders]*2, midfielders.size).need,
-      attackers: PlayerNeed.new(FORMATION[:attackers]*2, attackers.size).need
+      attackers: PlayerNeed.new(FORMATION[:attackers]*2, attackers.size).need,
+      start_date: start_date
     ) if need?
   end
 

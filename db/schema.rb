@@ -189,6 +189,8 @@ ActiveRecord::Schema.define(version: 20150621083718) do
     t.integer  "negotiation_round"
     t.boolean  "negotiated",        default: false
     t.boolean  "accepted",          default: false
+    t.date     "start_date"
+    t.date     "end_date"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

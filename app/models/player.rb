@@ -79,11 +79,6 @@ class Player < ActiveRecord::Base
     nearby(main_strength, attack)
   end
 
-  # TODO discrete negotiation class refactoring
-  def negotiate!(at_round=0)
-    Negotiation.new(player: self, round: at_round)
-  end
-
   private
 
   def nearby(main, strength)

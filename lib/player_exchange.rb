@@ -1,9 +1,10 @@
 class PlayerExchange
-  attr_reader :players, :season, :leagues
+  attr_reader :players, :season, :leagues, :start_date
 
   def initialize(season)
     @season = season
     @leagues = season.leagues
+    @start_date = Date.new(season.start_date.year, 7, 1)
   end
 
   def final_call
@@ -21,7 +22,7 @@ class PlayerExchange
 
   def negotiate!(at_round)
     players.joins(:offers).uniq.find_each do |player|
-      player.negotiate! at_round
+      Negotiation.new(player: player, round: at_round).negotiate!
     end
   end
 
@@ -50,7 +51,7 @@ class PlayerExchange
   def brokers_for(teams)
     brokers = Array.new
     teams.each do |team|
-      broker = team.broker
+      broker = team.broker(start_date)
       brokers << broker if broker
     end
     brokers
@@ -72,53 +73,3 @@ class PlayerExchange
     9 => [1,2,3]
   }
 end
-  # attr_reader :teams
-
-  # def initialize(season)
-  #   @teams = TransferTeams.new
-  # end
-
-  # def perform
-  #   # besten verfügbaren spieler mit rolle find
-  #   team = teams.first
-  #   player = Player(team.need).first
-  #   if Contract.negotiated?(player, team)
-  #     teams.reorder_first
-  #   end
-  # end
-
-# end
-
-# class TransferTeams
-  # attr_reader :teams
-  # def initialize
-  #   @teams = Hash.new
-  #   # iterate through leagues -> teams - fill list
-  # end
-
-  # def need
-  #   first.need
-  # end
-
-  # def reorder_first
-  #   team = first
-  #   remove_first
-  #   arrange(team)
-  # end
-
-  # private
-
-  # def first
-  #   teams[teams.keys.first]
-  # end
-
-  # def remove_first
-  #   teams.delete team.keys.first
-  # end
-
-  # def arrange(team)
-  #   key = team.transfer_key
-  #   teams.merge!({key => team.id}) if key
-  # end
-
-# end
