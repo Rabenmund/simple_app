@@ -13,6 +13,7 @@ class PlayerExchange
   end
 
   def negotiation_with(members)
+    # TODO sicher stellen, dass immer genug Player vorhanden sind
     return unless members.any?
     @round = @round + 1
     offers_by members

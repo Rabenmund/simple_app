@@ -358,82 +358,87 @@ puts "Erschaffe Spieler"
 puts "-"*120
 puts ""
 
-def create_players(t, base, o)
-  [1,12,23].each do |p|
-    create_player(
-      name: "#{t.name} Torwart ##{p}",
-      organization: o,
-      keeper: strength(base)
-    )
-  end
-  [2,3,4,5,13,14,15,16].each do |p|
-    create_player(
-      name: "#{t.name} Verteidiger ##{p}",
-      organization: o,
-      defense: strength(base)
-    )
-  end
-  [6,7,8,10,17,18,19,20].each do |p|
-    create_player(
-      name: "#{t.name} Mittelfeldspieler ##{p}",
-      organization: o,
-      midfield: strength(base)
-    )
-  end
-  [9,11,20,21].each do |p|
-    create_player(
-      name: "#{t.name} Stürmer ##{p}",
-      organization: o,
-      attack: strength(base)
-    )
-  end
+# def create_players(t, base, o)
+#   [1,12,23].each do |p|
+#     create_player(
+#       name: "#{t.name} Torwart ##{p}",
+#       organization: o,
+#       keeper: strength(base)
+#     )
+#   end
+#   [2,3,4,5,13,14,15,16].each do |p|
+#     create_player(
+#       name: "#{t.name} Verteidiger ##{p}",
+#       organization: o,
+#       defense: strength(base)
+#     )
+#   end
+#   [6,7,8,10,17,18,19,20].each do |p|
+#     create_player(
+#       name: "#{t.name} Mittelfeldspieler ##{p}",
+#       organization: o,
+#       midfield: strength(base)
+#     )
+#   end
+#   [9,11,20,21].each do |p|
+#     create_player(
+#       name: "#{t.name} Stürmer ##{p}",
+#       organization: o,
+#       attack: strength(base)
+#     )
+#   end
+# end
+
+# def strength(base)
+#   rand((base*0.8).to_int..base)
+# end
+
+# def create_player(
+#       name: "",
+#       organization: nil,
+#       keeper: 0,
+#       defense: 0,
+#       midfield: 0,
+#       attack: 0
+#     )
+#   h = Human.create(name: name)
+
+#   # contract_start = "01.07.2009".to_datetime
+#   # contract_end = @season.end_date + rand(3).years
+#   # h.contracts.create(
+#   #   organization: organization,
+#   #   from: contract_start,
+#   #   to: contract_end,
+#   # )
+
+#   p = Player.create(
+#     human: h,
+#     keeper: keeper,
+#     defense: defense,
+#     midfield: midfield,
+#     attack: attack
+#   )
+#   puts "#{p.human.name}: #{p.keeper}, #{p.defense}, #{p.midfield}, #{p.attack}"
+# end
+
+(Team.count*30).times do
+  player = GeneratePlayer.new(birthday: Birthday.random(max: 33, min: 17)).random
+  puts "##{player.id} #{player.name} (*#{player.age}), #{player.keeper}/#{player.defense}/#{player.midfield}/#{player.attack}"
 end
 
-def strength(base)
-  rand((base*0.8).to_int..base)
-end
-
-def create_player(
-      name: "",
-      organization: nil,
-      keeper: 0,
-      defense: 0,
-      midfield: 0,
-      attack: 0
-    )
-  h = Human.create(name: name)
-
-  # contract_start = "01.07.2009".to_datetime
-  # contract_end = @season.end_date + rand(3).years
-  # h.contracts.create(
-  #   organization: organization,
-  #   from: contract_start,
-  #   to: contract_end,
-  # )
-
-  p = Player.create(
-    human: h,
-    keeper: keeper,
-    defense: defense,
-    midfield: midfield,
-    attack: attack
-  )
-  puts "#{p.human.name}: #{p.keeper}, #{p.defense}, #{p.midfield}, #{p.attack}"
-end
-
-base = 1000
 @season = s
 s.leagues.each do |l|
   puts "Liga: #{l.name}"
   l.teams.each do |t|
     puts "Team: #{t.name}"
-    base = base - rand(10)
     o = t.create_organization
-    create_players(t, base, o)
   end
 end
 (Team.all - Team.with_league_in(s)).each do |t|
-  base = 700
   o = t.create_organization
-  create_players(t, base, o)
 end
+
+puts "Verhandlungen..."
+e = PlayerExchange.new @season
+e.final_call
+

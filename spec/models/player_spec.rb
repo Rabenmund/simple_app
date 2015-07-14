@@ -81,33 +81,10 @@ describe Player do
     end
 
     it "does not scope with an offer" do
-      Offer.create(team: team, player: player, reputation: 100)
+      create :offer, team: team, player: player, reputation: 100
       expect(Player.without_offer_by team).to_not include player
     end
   end
-
-  # context ".without_better_offers" do
-
-  #   it "scopes without any  offers" do
-  #     expect(Player.without_better_offers(1, 100)).to include player
-  #   end
-
-  #   it "scopes without any better offers" do
-  #     create :offer, player: player, reputation: 99
-  #     expect(Player.without_better_offers(1, 100)).to include player
-  #   end
-
-  #   it "scopes without enough better offers" do
-  #     create :offer, player: player, reputation: 101
-  #     expect(Player.without_better_offers(2, 100)).to include player
-  #   end
-
-  #   it "does not scope with enough better offers" do
-  #     create :offer, player: player, reputation: 101
-  #     create :offer, player: player, reputation: 102
-  #     expect(Player.without_better_offers(2,100)).to_not include player
-  #   end
-  # end
 
   it "has better offers" do
     create :offer, player: player, reputation: 101

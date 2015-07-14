@@ -31,7 +31,7 @@ class InitialStrength
     factor = FACTOR[years] || 18
     # optimized for 6800 days (18)
     # 6800/17 = 400 (medium of normal distribution)
-    medium = (age/factor).to_i*medium_factor
+    medium = (age/factor).to_i * medium_factor
     Distribution::Normal.rng(medium, DEVIATION).call.to_i
   end
 end

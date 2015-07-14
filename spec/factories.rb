@@ -24,6 +24,7 @@ FactoryGirl.define do
 
   factory :season do
     sequence(:year) { |n| 2009+n }
+    start_date Date.today
   end
 
   factory :federation do
@@ -133,5 +134,7 @@ FactoryGirl.define do
     player
     team
     reputation 100
+    start_date Date.today-1.year
+    end_date Date.today-1.day
   end
 end

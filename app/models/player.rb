@@ -45,7 +45,7 @@ class Player < ActiveRecord::Base
     count
   end
 
-  delegate :birthday, to: :human
+  delegate :birthday, :name, :age, to: :human
 
   STRENGTH = { keeper: :keepers,
                defense: :defenders,

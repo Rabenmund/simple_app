@@ -10,7 +10,8 @@ describe PlayerExchangeBroker do
       keepers: 0,
       midfielders: 0,
       defenders: 0,
-      attackers: 0
+      attackers: 0,
+      start_date: Date.today
     )}
 
   before do

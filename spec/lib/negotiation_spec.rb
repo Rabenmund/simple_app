@@ -13,7 +13,7 @@ describe Negotiation do
   it "deals with the best team" do
     allow(Season).to receive(:current).and_return double(
       start_date: Date.today, end_date: Date.today+1.year)
-    negotiation.deal_with offer.team
+    negotiation.deal_with offer
     expect(offer.reload).to be_negotiated
     expect(offer.reload).to be_accepted
     expect(offer.negotiation_round).to eq 0
