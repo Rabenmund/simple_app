@@ -22,11 +22,11 @@ class Negotiation
     )
   end
 
-  def decline_open_offers(at_round=0)
+  def decline_open_offers(at_round=round)
     offers.open.map {|offer| offer.decline!(at_round)}
   end
 
-  # private
+  private
 
   attr_reader :offers, :human, :round, :start_date, :end_date
 
