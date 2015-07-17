@@ -146,8 +146,8 @@ class Game < ActiveRecord::Base
   def tearup
     lineups.create(team_id: home_id) unless home_lineup
     lineups.create(team_id: guest_id) unless guest_lineup
-    home_lineup.tearup
-    guest_lineup.tearup
+    home_lineup.set!
+    guest_lineup.set!
   end
 
   def calculate_points

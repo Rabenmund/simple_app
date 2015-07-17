@@ -63,6 +63,14 @@ class Player < ActiveRecord::Base
     where("(NOT contracts.to > ?) OR (contracts.id IS NULL)", season.start_date)
   end
 
+  def self.linable
+    active#.
+    # wir brauchen polymorphe PlayerZustände, die einen Abwesenheitstyp haben
+    # und ein until date
+    # joins('LEFT OUTER JOIN zustaende ON zustaende.human_id = professions.human_id').
+    # where("NOT (zustaende.unavailable = TRUE AND zustaende.until > ?) OR (zustaende.id IS NULL)", LogicalDate)
+  end
+
   def keeper?
     nearby(main_strength, keeper)
   end

@@ -8,11 +8,39 @@ class Lineup < ActiveRecord::Base
   has_many :attackers, -> { where type: "Attacker" }
   has_many :players, through: :actors, source: :actorable, source_type: "Player"
 
-  def tearup
-    if actors.empty?
-      line_up_players
-    end
+  def set!
+    lineup!
     calculate_strength
+  end
+
+  private
+
+  def lineup!
+    actors.delete_all
+    system.each do |role, value|
+      best_players(role, value).each do |player|
+        send(role.to_s).create(actorable: player)
+      end
+    end
+  end
+
+  # TODO put that into a seperate and specific strength/system class
+
+  def best_players(role, value)
+    team.players.linable.send(role.to_s).first(value)
+  end
+
+  def tactic
+    # yes, later
+  end
+
+  def system
+    { keepers: 1,
+      defenders: 4,
+      midfielders: 4,
+      attackers: 2
+    }
+    # [4,4,2] # will be instantiated later
   end
 
   def calculate_strength
@@ -22,41 +50,6 @@ class Lineup < ActiveRecord::Base
       defending: calculate_defending
     )
   end
-
-  private
-
-  def system
-    [4,4,2] # will be instantiated later
-  end
-
-  def line_up_players
-    create_keeper
-    create_defenders
-    create_midfielders
-    create_attackers
-  end
-
-  # see new players association - what to do
-  def create_keeper
-    keepers.create(actorable: team.players.keepers[0])
-  end
-
-  def create_defenders(size=system[0])
-    players = team.players.defenders.first(size)
-    size.times { |p| defenders.create(actorable: players[p])}
-  end
-
-  def create_midfielders(size=system[1])
-    players = team.players.midfielders.first(size)
-    size.times { |p| midfielders.create(actorable: players[p])}
-  end
-
-  def create_attackers(size=system[2])
-    players = team.players.attackers.first(size)
-    size.times { |p| attackers.create(actorable: players[p])}
-  end
-
-  # TODO put that into a seperate calculation class
 
   def strength_for(act)
     # players.strength_for(id, act)

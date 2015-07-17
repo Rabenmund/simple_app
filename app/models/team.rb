@@ -56,20 +56,20 @@ class Team < ActiveRecord::Base
     #   order("sum DESC")
   end
 
-  def keepers
-    players.find_all{|p| p.keeper?}
+  def keepers(_players=players)
+    _players.find_all{|p| p.keeper?}
   end
 
-  def defenders
-    players.find_all{|p| p.defender?}
+  def defenders(_players=players)
+    _players.find_all{|p| p.defender?}
   end
 
-  def midfielders
-    players.find_all{|p| p.midfielder?}
+  def midfielders(_players=players)
+    _players.find_all{|p| p.midfielder?}
   end
 
-  def attackers
-    players.find_all{|p| p.attacker?}
+  def attackers(_players=players)
+    _players.find_all{|p| p.attacker?}
   end
 
   def games
