@@ -9,32 +9,33 @@ class PlayerExchange
 
   def final_call
     @round = 0
-    negotiation_with(team_brokers(levels_for 1))
+    recurse_negotiation_with(team_brokers(levels_for 1))
   end
 
-  def negotiation_with(members)
+  def recurse_negotiation_with(brokers)
     # TODO sicher stellen, dass immer genug Player vorhanden sind
-    return unless members.any?
+    return unless brokers.any?
     @round = @round + 1
-    offers_by members
+    # puts "@round: #{@round}" + "-"*100
+    offers_by brokers
     negotiate! @round
-    negotiation_with(team_brokers(levels_for @round))
+    recurse_negotiation_with(team_brokers(levels_for @round))
   end
 
   def negotiate!(at_round)
-    players.joins(:offers).uniq.find_each do |player|
+    Player.negotiable.find_each do |player|
       Negotiation.new(player: player, round: at_round).negotiate!
     end
   end
 
   def offers_by(brokers)
+    # puts ".1."*40
+    players = Player.contractable
     brokers.each do |broker|
-      offers = broker.offers_for(players)
+      # puts "offer from #{broker.inspect}" + "-"*100
+      # puts ".2."*40
+      broker.offers_for(players)
     end
-  end
-
-  def players
-    Player.contractable
   end
 
   def team_brokers(levels)
@@ -52,8 +53,9 @@ class PlayerExchange
   def brokers_for(teams)
     brokers = Array.new
     teams.each do |team|
-      broker = team.broker(start_date)
-      brokers << broker if broker
+      # puts "+1+"*40
+      broker = PlayerExchangeBroker.new(team: team, start_date: start_date)
+      brokers << broker if broker && broker.need?
     end
     brokers
   end

@@ -5,7 +5,9 @@ class Competition < ActiveRecord::Base
   has_and_belongs_to_many :teams
   has_many :matchdays, -> { order "number ASC" }, dependent: :destroy
   has_many :games, through: :matchdays
-  has_many :appointments
+  # has_many :appointments
+
+  include Teardownable
 
   validates :name, presence: true
   validates :start, presence: true

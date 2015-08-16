@@ -22,10 +22,15 @@ class Player < ActiveRecord::Base
 
   scope :active, -> { joins(:profession).where("professions.active = TRUE") }
   scope :without_offer_by, ->(team) {
-
     joins('LEFT OUTER JOIN offers ON offers.player_id = players.id').
     where('(players.id NOT IN (SELECT offers.player_id FROM offers WHERE offers.team_id = ? AND offers.negotiated IS FALSE))', team.id).
     uniq
+  }
+
+  scope :negotiable, -> {
+    joins(:offers)
+      .where("offers.negotiated = FALSE")
+      .uniq
   }
 
   # TODO still a try that does not work

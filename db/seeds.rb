@@ -202,7 +202,7 @@ create_games(c, c.matchdays[2], GAMES3)
 create_games(c, c.matchdays[3], GAMES4)
 create_games(c, c.matchdays[4], GAMES5)
 create_games(c, c.matchdays[5], GAMES6)
-c.appointments.delete_all
+Appointment.destroy_all
 
 puts c.inspect
 puts ""
@@ -217,7 +217,7 @@ l = f.leagues.create(name: "Bundesliga", level: 1, start: s.start_date)
   l.teams << f.teams.find(id)
 end
 s.leagues << l
-l.prepare!
+l.tearup!
 
 puts l.inspect
 
@@ -257,7 +257,7 @@ RESULTS = [
   [1,2,3,2,1,1,2,1,1,2,1,2,1,0,1,0,2,0,3,0,1,0,2,0,0,1,1,3,0,0,1,0,1,0,2,0],
   [0,0,0,0,0,0,1,0,1,0,1,1,2,0,2,0,0,0,1,0,0,3,0,3,2,0,3,0,1,0,1,1,0,0,0,1],
 ]
-  RESULTS.each do |m|
+RESULTS.each do |m|
   number = (RESULTS.index(m))+1
   md = l.matchdays.find_by(number: number)
   9.times do |g|
@@ -273,7 +273,7 @@ l.matchdays.each do |m|
   m.games.order(:id).map{|g|puts "#{Team.find(g.home_id).name} - #{Team.find(g.guest_id).name} (#{g.home_half_goals}:#{g.guest_half_goals}) #{g.home_goals}:#{g.guest_goals}" }
   puts ""
 end
-l.finish!
+l.teardown!
 
 RESULTS2 = [
   [:EBs,65,76,42,20,5,9],
@@ -328,6 +328,8 @@ RESULTS6B = [
   [:VkK],[:Bre],[:IdO],[:FCR],[:Lfd],[:HKi],[:Mar],[:May],[:RWL],[:KJu],[:SCV],[:WEi],[:SVM],[:Pei],[:VkG],[:Des],[:Slw],[:Swt]
 ]
 l2 = League.create(name: "2.Bundesliga", level: 2, federation: f, season: s, start: s.start_date)
+puts "-"*100
+puts l2.inspect
 create_league_results(l2, f, RESULTS2)
 l3 = League.create(name: "3.Bundesliga", level: 3, federation: f, season: s, start: s.start_date)
 create_league_results(l3, f, RESULTS3)

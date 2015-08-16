@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150621083718) do
+ActiveRecord::Schema.define(version: 20150718074324) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,13 +19,11 @@ ActiveRecord::Schema.define(version: 20150621083718) do
   create_table "appointments", force: :cascade do |t|
     t.integer  "appointable_id"
     t.string   "appointable_type"
-    t.integer  "competition_id"
     t.datetime "appointed_at",     null: false
   end
 
   add_index "appointments", ["appointable_type", "appointable_id"], name: "index_appointments_on_appointable_type_and_appointable_id", using: :btree
   add_index "appointments", ["appointed_at"], name: "index_appointments_on_appointed_at", using: :btree
-  add_index "appointments", ["competition_id"], name: "index_appointments_on_competition_id", using: :btree
 
   create_table "competitions", force: :cascade do |t|
     t.string   "name",          null: false
@@ -287,5 +285,13 @@ ActiveRecord::Schema.define(version: 20150621083718) do
 
   add_index "teams", ["federation_id"], name: "index_teams_on_federation_id", using: :btree
   add_index "teams", ["name"], name: "index_teams_on_name", using: :btree
+
+  create_table "teardowns", force: :cascade do |t|
+    t.integer  "teardownable_id"
+    t.string   "teardownable_type"
+    t.datetime "appointed_at",      null: false
+  end
+
+  add_index "teardowns", ["teardownable_type", "teardownable_id"], name: "index_teardowns_on_teardownable_type_and_teardownable_id", using: :btree
 
 end

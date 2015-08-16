@@ -34,11 +34,16 @@ class League < Competition
     [1,9,16,8,15,7,14,6,13,5,12,4,11,3,10,2,17,18],
   ]}
 
-  def prepare!
+  def tearup!
     number_of_matchdays.times do |number|
       create_matchday! number
       create_games! number
     end
+  end
+
+  def teardown!
+    create_results!
+    # season.tearup_next!
   end
 
   def finished?
@@ -55,13 +60,14 @@ class League < Competition
   end
 
   def previous
-    previous_season = season.previous
-    return unless previous_season
-    previous_season.leagues.find_by(federation: federation, level: level)
+    @previous ||= season.previous && find_relative_in(season.previous)
   end
 
-  def finish!
-    # TODO gegenwärtig nicht aufgerufen im programmablauf, nur in den seeds. Sollte im Rahmen eines End-of-Season aus dem live board calculiert werden.
+  def next_one
+    @next ||= season.next_one && find_relative_in(season.next_one)
+  end
+
+  def create_results!
     rank = 0
     board.each do |row|
       rank += 1
@@ -138,6 +144,10 @@ class League < Competition
   end
 
   private
+
+  def find_relative_in(season)
+    season.leagues.find_by(federation: federation, level: level)
+  end
 
   def create_games!(iteration)
     number = iteration + 1

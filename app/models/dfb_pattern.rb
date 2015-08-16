@@ -31,7 +31,7 @@ class DFBPattern
 
   def initialize(season: season)
     @season = season
-    @previous = PreviousSeason.new(season.year)
+    @previous = season.previous
     @dfb = Federation.find_by(name: "DFB")
   end
 
@@ -51,7 +51,7 @@ class DFBPattern
       start: @season.start_date)
     @dfb_pokal.teams << @dfb.teams.
       joins(:competitions).
-      where("competitions.level" => 1..3, "competitions.type" => "League", "competitions.season_id" => @previous.previous.id)
+      where("competitions.level" => 1..3, "competitions.type" => "League", "competitions.season_id" => @previous.id)
     fill_with_random_teams(10, @dfb.teams, @dfb_pokal.teams)
     @dfb_pokal.prepare!
   end
@@ -59,24 +59,25 @@ class DFBPattern
   def create_leagues
     LEAGUES.each do |league|
       @league = @dfb.leagues.create(
+        season: @season,
         name: league[:name],
         level: league[:level],
+        # TODO gruselig - refactor!
         start: @season.start_date + league[:days_off].days + league[:time_off])
-      get_teams(league[:level], league[:up], league[:down], league[:teams])
+      get_teams(@league, league[:up], league[:down], league[:teams])
       @season.leagues << @league
-      @league.prepare!
+      @league.tearup!
     end
   end
 
-  def get_teams(level, up, down, members)
-    previous_league = @previous.league(level)
-    if previous_league
+  def get_teams(league, up, down, members)
+    if league.previous
       # TODO Solange nur eine Liga darüber oder darunter steht funktioniert das. Bei mehreren Ligen muss man eine regionale Zugehörigkeit entwickeln.
       teams = []
-      teams = previous_league.remaining_teams(up, down).pluck :id
-      additional_teams = teams_from_sub_league(previous_league, down)
+      teams = league.previous.remaining_teams(up, down).pluck :id
+      additional_teams = teams_from_sub_league(league.previous, down)
       teams = teams + additional_teams.pluck(:id) if additional_teams.any?
-      additional_teams = teams_from_super_league(previous_league, up)
+      additional_teams = teams_from_super_league(league.previous, up)
       teams = teams + additional_teams.pluck(:id) if additional_teams.any?
       randomize_array(teams)
     end
@@ -84,7 +85,7 @@ class DFBPattern
   end
 
   def previous_teams
-    if @previous.previous.id == 1
+    if @previous.id == 1
       return @dfb.teams.where(id: 1..57)
     end
     Team.

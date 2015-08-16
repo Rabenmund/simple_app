@@ -38,6 +38,7 @@ class Cup < Competition
     end
   end
 
+  # TODO braucht das jemand?
   def appointed_draws
     draws.
       joins(:appointment).

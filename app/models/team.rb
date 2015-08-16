@@ -43,6 +43,10 @@ class Team < ActiveRecord::Base
       order("sum DESC")
   end
 
+  def open_offers
+    offers.open
+  end
+
   def strength
     players.strength
   end
@@ -76,28 +80,26 @@ class Team < ActiveRecord::Base
     Game.where("games.home_id = #{id} OR games.guest_id = #{id}")
   end
 
-  def broker(start_date)
-    PlayerExchangeBroker.new(
-      team: self,
-      keepers: PlayerNeed.new(3, keepers.size).need,
-      defenders: PlayerNeed.new(FORMATION[:defenders]*2, defenders.size).need,
-      midfielders: PlayerNeed.new(FORMATION[:midfielders]*2, midfielders.size).need,
-      attackers: PlayerNeed.new(FORMATION[:attackers]*2, attackers.size).need,
-      start_date: start_date
-    ) if need?
+  def player_need
+    MAX_PLAYERS - players.size
   end
 
-  def need?
-    players.size < MAX_PLAYERS
+  def needs(type)
+    (FORMATION[type.to_sym]*2) - send(type.to_s).size
   end
 
   MAX_PLAYERS = 23
 
   FORMATION={
+    keepers: 1.5,
     defenders: 4,
     midfielders: 4,
     attackers: 2
   }
+
+  def formation(type)
+    FORMATION[type.to_sym]
+  end
 
   LEAGUE = {
     1 => 150,

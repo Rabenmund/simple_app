@@ -14,6 +14,8 @@ class Negotiation
   def deal_with(offer)
     return unless offer
     offer.accept! round
+    puts "#{human.name} offers #{@offers.map {|o| o.team.name}}"
+    puts "#{human.name} accepts offer from #{offer.team.name}"
     Contract.create(
       organization: offer.team.organization,
       human: human,

@@ -137,4 +137,12 @@ FactoryGirl.define do
     start_date Date.today-1.year
     end_date Date.today-1.day
   end
+
+  factory :teardown do
+    teardownable
+    appointed_at DateTime.now
+  end
+
+  factory :teardownable, parent: :competition do
+  end
 end
