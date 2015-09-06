@@ -4,11 +4,12 @@ module TeamService
       @reputation = TeamRepository::Reputation.new(id).reputation
       @date = date
       @type = type
+      @id = id
     end
 
     def offer
       OfferRepository::Create.create(
-        player: best_player,
+        player_id: best_player.id,
         team_id: id,
         reputation: reputation,
         start_date: date,
@@ -18,7 +19,7 @@ module TeamService
 
     private
 
-    attr_reader :reputation, :type, :date
+    attr_reader :reputation, :type, :date, :id
 
     def best_player
       @best_player ||= PlayerRepository::BestPlayer.new(

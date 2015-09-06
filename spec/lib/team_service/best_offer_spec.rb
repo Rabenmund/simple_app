@@ -1,6 +1,7 @@
 require_relative "../../../lib/team_service/best_offer"
 require_relative "../../../lib/team_repository/reputation"
 require_relative "../../../lib/player_repository/best_player"
+require_relative "../../../lib/offer_repository/create"
 require_relative "../../../lib/team_service/end_date"
 
 RSpec.describe TeamService::BestOffer do
@@ -9,7 +10,7 @@ RSpec.describe TeamService::BestOffer do
   end
 
   let(:date) { Date.new(2015,7,1) }
-  let(:end_date) {double "EndDate" }
+  let(:best_player) { double("BestPlayer", id: 1) }
 
   it "places an offer for the best given player" do
     allow(TeamRepository::Reputation)
@@ -23,20 +24,16 @@ RSpec.describe TeamService::BestOffer do
         type: :keeper,
         date: date,
         reputation: :reputation)
-      .and_return double("BestPlayer", best_player: :best_player)
+      .and_return double("BestPlayer", best_player: best_player)
     allow(TeamService::EndDate)
       .to receive(:new)
-      .with(1)
-      .and_return end_date
-    allow(end_date)
-      .to receive(:end_date_for)
-      .with(:best_player)
-      .and_return :end_date
+      .with(start_date: date)
+      .and_return double("EndDate", end_date: :end_date)
 
     expect(OfferRepository::Create)
       .to receive(:create)
       .with(
-        player: :best_player,
+        player_id: 1,
         team_id: 1,
         reputation: :reputation,
         start_date: date,
