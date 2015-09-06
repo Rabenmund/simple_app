@@ -45,18 +45,25 @@ describe Player do
   end
 
   context ".without_offer_by" do
-    it "scopes without offers" do
-      expect(Player.without_offer_by 1).to include player
-    end
+    let(:date) { Date.new(2015,7,1) }
 
-    it "does not scope with an offer by team" do
-      create :offer, team_id: 1, player: player, reputation: 100
-      expect(Player.without_offer_by 1).to_not include player
+    it "scopes without offers" do
+      expect(Player.without_offer_by 1, date).to include player
     end
 
     it "scopes with offers from another team" do
       create :offer, team_id: 2, player: player, reputation: 1
-      expect(Player.without_offer_by 1).to include player
+      expect(Player.without_offer_by 1, date).to include player
+    end
+
+    it "scopes with older offers from team" do
+      create :offer, team_id: 1, player: player
+      expect(Player.without_offer_by 1, date).to include player
+    end
+
+    it "does not scope with an offer by team" do
+      create :offer, team_id: 1, player: player, start_date: date
+      expect(Player.without_offer_by 1, date).to_not include player
     end
   end
 
