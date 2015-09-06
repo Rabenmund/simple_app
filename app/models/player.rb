@@ -21,28 +21,64 @@ class Player < ActiveRecord::Base
   scope :attackers, -> { where.not(attack: 0).order(attack: :desc) }
 
   scope :active, -> { joins(:profession).where("professions.active = TRUE") }
-  scope :without_offer_by, ->(team) {
-    joins('LEFT OUTER JOIN offers ON offers.player_id = players.id').
-    where('(players.id NOT IN (SELECT offers.player_id FROM offers WHERE offers.team_id = ? AND offers.negotiated IS FALSE))', team.id).
-    uniq
-  }
 
-  scope :negotiable, -> {
+  scope :without_offer_by, ->(team_id) {
+    joins('LEFT OUTER JOIN offers ON offers.player_id = players.id')
+      .where("(players.id NOT IN ("\
+             "SELECT offers.player_id "\
+             "FROM offers "\
+             "WHERE offers.team_id = ? AND offers.negotiated IS FALSE"\
+          "))",
+          team_id)
+      .uniq
+  }
+  scope :without_contract_at, ->(date) do
+    joins(:human)
+    .joins('LEFT OUTER JOIN contracts '\
+           'ON contracts.human_id = humen.id')
+    .where('(GREATEST(contracts.to) < ?) OR contracts.id IS NULL', date)
+  end
+
+  scope :without_too_many_hard_competitors, ->(reputation) do
+    joins('LEFT OUTER JOIN offers '\
+           'ON offers.player_id = players.id')
+    .where("((SELECT COUNT(*) FROM offers "\
+             "where (offers.player_id = players.id "\
+                    "AND offers.negotiated = false "\
+                    "AND offers.reputation > ?)
+             ) < 3) "\
+            "OR offers.id IS NULL ", reputation)
+  end
+
+  scope :negotiable, -> do
     joins(:offers)
       .where("offers.negotiated = FALSE")
       .uniq
-  }
+  end
 
-  # TODO still a try that does not work
-  scope :without_better_offers, ->(number, reputation) {
-    joins('LEFT OUTER JOIN offers ON offers.player_id = players.id').
-    where(negotiated: false).
-    find_by_sql("SELECT * from players WHERE players.id NOT IN (SELECT offers.player_id FROM offers WHERE (SELECT COUNT(*) FROM offers WHERE offers.reputation > #{reputation} GROUP BY offers.player_id) > 2)")#.
-    # where('players.id NOT IN (SELECT offers.player_id FROM offers WHERE (SELECT COUNT (*) from offers where offers.reputation > ? GROUP BY offers.player_id) > 2 )', reputation).
-  #   count('(offers.reputation > 100) = 0 AS better')
-  #   where("NOT better > ? OR offers.id IS NULL", number)
-    # uniq
-  }
+  def self.contractable(season=Season.current)
+    active.
+    joins('LEFT OUTER JOIN contracts ON contracts.human_id = professions.human_id').
+    where("(NOT contracts.to > ?) OR (contracts.id IS NULL)", season.start_date)
+  end
+
+  def self.strength
+    sum("players.keeper + players.defense + players.midfield + players.attack")
+  end
+
+  def self.contractable_at(date)
+    active.
+    joins('LEFT OUTER JOIN contracts ON contracts.human_id = professions.human_id').
+    where("(NOT contracts.to > ?) OR (contracts.id IS NULL)", date)
+  end
+
+  def self.linable
+    active#.
+    # wir brauchen polymorphe PlayerZustände, die einen Abwesenheitstyp haben
+    # und ein until date
+    # joins('LEFT OUTER JOIN zustaende ON zustaende.human_id = professions.human_id').
+    # where("NOT (zustaende.unavailable = TRUE AND zustaende.until > ?) OR (zustaende.id IS NULL)", LogicalDate)
+  end
 
   def better_offers(reputation)
     offers.open.
@@ -57,24 +93,6 @@ class Player < ActiveRecord::Base
                midfield: :midfielders,
                attack: :attackers
   }
-
-  def self.strength
-    sum("players.keeper + players.defense + players.midfield + players.attack")
-  end
-
-  def self.contractable(season=Season.current)
-    active.
-    joins('LEFT OUTER JOIN contracts ON contracts.human_id = professions.human_id').
-    where("(NOT contracts.to > ?) OR (contracts.id IS NULL)", season.start_date)
-  end
-
-  def self.linable
-    active#.
-    # wir brauchen polymorphe PlayerZustände, die einen Abwesenheitstyp haben
-    # und ein until date
-    # joins('LEFT OUTER JOIN zustaende ON zustaende.human_id = professions.human_id').
-    # where("NOT (zustaende.unavailable = TRUE AND zustaende.until > ?) OR (zustaende.id IS NULL)", LogicalDate)
-  end
 
   def keeper?
     nearby(main_strength, keeper)

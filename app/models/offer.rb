@@ -1,8 +1,8 @@
 class Offer < ActiveRecord::Base
   belongs_to :player
   belongs_to :team
-  validates :player, presence: true
-  validates :team, presence: true
+  validates :player_id, presence: true
+  validates :team_id, presence: true
   validates :start_date, presence: true
   validates :end_date, presence: true
 
