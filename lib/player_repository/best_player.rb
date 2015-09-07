@@ -10,7 +10,6 @@ module PlayerRepository
     }
 
     def initialize(type:, date:, reputation:, team_id:)
-      puts "PR::BP new: #{type.inspect}"
       @strength = STRENGTH[type.to_sym]
       @date = date
       @reputation = reputation
