@@ -1,6 +1,6 @@
 require_relative "../../../lib/team_service/end_date"
 require "active_support/core_ext/integer/time"
-require 'spec_helper'
+require 'spec_helper' # don't know where to find rails class for + years
 
 RSpec.describe TeamService::EndDate do
   subject(:end_date) { TeamService::EndDate.new(start_date: date) }

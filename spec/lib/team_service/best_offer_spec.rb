@@ -6,7 +6,7 @@ require_relative "../../../lib/team_service/end_date"
 
 RSpec.describe TeamService::BestOffer do
   subject(:best_offer) do
-    TeamService::BestOffer.new(id: 1, type: :keeper, date: date)
+    TeamService::BestOffer.new(id: 1, date: date)
   end
 
   let(:date) { Date.new(2015,7,1) }
@@ -33,13 +33,13 @@ RSpec.describe TeamService::BestOffer do
     expect(OfferRepository::Create)
       .to receive(:create)
       .with(
-        player_id: 1,
+        player_id: best_player.id,
         team_id: 1,
         reputation: :reputation,
         start_date: date,
         end_date: :end_date)
       .and_return :best_offer
 
-    expect(best_offer.offer).to eq :best_offer
+    expect(best_offer.offer_player(type: :keeper)).to eq :best_offer
   end
 end

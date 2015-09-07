@@ -23,24 +23,29 @@ class Team < ActiveRecord::Base
   validates :abbreviation, presence: true, length: { maximum: 3 }, uniqueness: true
   validates :federation, presence: true
 
-  scope :without_players, -> {
+  scope :without_players, -> do
     includes(:players).
     includes(:contracts).
     where(contracts: {organization_id: nil}).
     uniq
-  }
+  end
 
-  scope :with_league_in, ->(season) {
+  scope :with_league_in, ->(season) do
     joins(:seasons).where("seasons.id = ?", season.id).
     joins(:competitions).where(competitions: {type: "League"}).
     uniq
-  }
+  end
 
   def self.strength
     joins(:players).
       select(:id, "SUM(players.keeper + players.defense + players.midfield + players.attack)").
       group("teams.id").
       order("sum DESC")
+  end
+
+  def players_at(date)
+    players
+      .where("contracts.from <= ? AND contracts.to >= ?", date, date)
   end
 
   def open_offers
@@ -60,21 +65,21 @@ class Team < ActiveRecord::Base
     #   order("sum DESC")
   end
 
-  def keepers(_players=players)
-    _players.find_all{|p| p.keeper?}
-  end
+  # def keepers(_players=players)
+  #   _players.find_all{|p| p.keeper?}
+  # end
 
-  def defenders(_players=players)
-    _players.find_all{|p| p.defender?}
-  end
+  # def defenders(_players=players)
+  #   _players.find_all{|p| p.defender?}
+  # end
 
-  def midfielders(_players=players)
-    _players.find_all{|p| p.midfielder?}
-  end
+  # def midfielders(_players=players)
+  #   _players.find_all{|p| p.midfielder?}
+  # end
 
-  def attackers(_players=players)
-    _players.find_all{|p| p.attacker?}
-  end
+  # def attackers(_players=players)
+  #   _players.find_all{|p| p.attacker?}
+  # end
 
   def games
     Game.where("games.home_id = #{id} OR games.guest_id = #{id}")

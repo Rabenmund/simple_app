@@ -1,9 +1,9 @@
-module TeamRepository
+module TeamService
   class Needs
     def initialize(id:, date:)
-      @team = Team.find(id)
+      @team_id = id
       @date = date
-      @players_query = TeamQuery::Players.new(id: id)
+      @players_repo = TeamRepository::Players.new(id: id)
     end
 
     def players
@@ -16,7 +16,7 @@ module TeamRepository
 
     private
 
-    attr_reader :team, :date, :players_query
+    attr_reader :team_id, :date, :players_repo
 
     def player_needs(type)
       type_needed(type) - player_size(type)
@@ -27,11 +27,11 @@ module TeamRepository
     end
 
     def player_size(type)
-      players_query.size(type: type, date: date)
+      players_repo.size(type: type, date: date)
     end
 
     def formation
-      @formation ||= TeamRepository::Formation.new(id: team.id).formation
+      @formation ||= TeamRepository::Formation.new(id: team_id).formation
     end
   end
 end

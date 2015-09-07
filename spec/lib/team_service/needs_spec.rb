@@ -1,9 +1,10 @@
-require 'spec_helper'
+require_relative '../../../lib/team_service/needs'
+require_relative '../../../lib/team_repository/formation'
+require_relative '../../../lib/team_repository/players'
 
-RSpec.describe TeamRepository::Needs do
-  let(:team) { create :team }
+RSpec.describe TeamService::Needs do
   let(:date) { DateTime.now }
-  let(:need) { double("Needs") }
+  let(:repo) { double("Repo") }
 
   let(:formation) do
     {
@@ -14,27 +15,27 @@ RSpec.describe TeamRepository::Needs do
     }
   end
 
-  subject(:needs) { TeamRepository::Needs.new(id: team.id, date: date) }
+  subject(:needs) { TeamService::Needs.new(id: 1, date: date) }
 
   it "returns a hash with player types" do
     allow(TeamRepository::Formation)
       .to receive(:new)
-      .with(id: team.id)
+      .with(id: 1)
       .and_return double(formation: formation)
-    allow(TeamQuery::Players)
+    allow(TeamRepository::Players)
       .to receive(:new)
-      .with(id: team.id)
-      .and_return need
-    allow(need).to receive(:size)
+      .with(id: 1)
+      .and_return repo
+    allow(repo).to receive(:size)
       .with(type: :keepers, date: date)
       .and_return 1
-    allow(need).to receive(:size)
+    allow(repo).to receive(:size)
       .with(type: :defenders, date: date)
       .and_return 3
-    allow(need).to receive(:size)
+    allow(repo).to receive(:size)
       .with(type: :midfielders, date: date)
       .and_return 1
-    allow(need).to receive(:size)
+    allow(repo).to receive(:size)
       .with(type: :attackers, date: date)
       .and_return 1
     expect(needs.players).to eq({

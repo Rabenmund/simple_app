@@ -35,7 +35,7 @@ FactoryGirl.define do
     sequence(:name) { |n| "Mannschaft ##{n}" }
     sequence(:short_name) { |n| "MSV ##{n}" }
     sequence(:abbreviation) { |n| "#{n}" }
-    reputation 100
+    # reputation 100
     federation
     organization
     factory :home do

@@ -10,6 +10,7 @@ module PlayerRepository
     }
 
     def initialize(type:, date:, reputation:, team_id:)
+      puts "PR::BP new: #{type.inspect}"
       @strength = STRENGTH[type.to_sym]
       @date = date
       @reputation = reputation
@@ -19,7 +20,7 @@ module PlayerRepository
     def best_player
       Player
         .active
-        .without_offer_by(team_id)
+        .without_offer_by(team_id, date)
         .without_contract_at(date)
         .without_too_many_hard_competitors(reputation)
         .where.not(strength => 0)
