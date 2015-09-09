@@ -440,7 +440,7 @@ end
   o = t.create_organization
 end
 
-puts "Verhandlungen..."
-e = PlayerExchange.new @season
-e.final_call
+# puts "Verhandlungen..."
+# e = PlayerExchange.new @season
+# e.final_call
 

@@ -14,4 +14,11 @@ RSpec.describe TeamRepository::Players do
     expect(players.size(type: :keepers, date: date)).to eq 1
   end
 
+  it "provides the number of all players" do
+    player = create :player
+    create :contract, human: player.human, organization: team.organization,
+      from: date, to: date
+    expect(players.all_types_size(date: date)).to eq 1
+  end
+
 end

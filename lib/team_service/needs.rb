@@ -14,6 +14,10 @@ module TeamService
       needs
     end
 
+    def players?
+      @players_repo.all_types_size(date: date) < sum_all_needed_players
+    end
+
     private
 
     attr_reader :team_id, :date, :players_repo
@@ -28,6 +32,10 @@ module TeamService
 
     def player_size(type)
       players_repo.size(type: type, date: date)
+    end
+
+    def sum_all_needed_players
+      formation.inject(0) { |sum, tuple| sum += tuple[1]*2 }
     end
 
     def formation
