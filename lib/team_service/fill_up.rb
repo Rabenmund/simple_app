@@ -1,6 +1,3 @@
-require 'team_service/incompleted'
-require 'team_service/player_exchange_round'
-
 module TeamService
   class FillUp
     def initialize(ids:, start_date:)

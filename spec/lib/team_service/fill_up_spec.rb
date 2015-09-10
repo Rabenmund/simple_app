@@ -28,4 +28,3 @@ describe TeamService::FillUp do
     fill_up.fill_up
   end
 end
-

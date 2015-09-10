@@ -6,14 +6,9 @@ class Offer < ActiveRecord::Base
   validates :start_date, presence: true
   validates :end_date, presence: true
 
-
   scope :open, -> { where(negotiated: false) }
 
   def accept!
     update_attributes(negotiated: true, accepted: true)
-  end
-
-  def decline!
-    update_attributes(negotiated: true, accepted: false)
   end
 end

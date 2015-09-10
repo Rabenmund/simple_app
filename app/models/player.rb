@@ -52,26 +52,9 @@ class Player < ActiveRecord::Base
             "OR offers.id IS NULL ", reputation)
   end
 
-  scope :negotiable, -> do
-    joins(:offers)
-      .where("offers.negotiated = FALSE")
-      .uniq
-  end
-
-  def self.contractable(season=Season.current)
-    active.
-    joins('LEFT OUTER JOIN contracts ON contracts.human_id = professions.human_id').
-    where("(NOT contracts.to > ?) OR (contracts.id IS NULL)", season.start_date)
-  end
 
   def self.strength
     sum("players.keeper + players.defense + players.midfield + players.attack")
-  end
-
-  def self.contractable_at(date)
-    active.
-    joins('LEFT OUTER JOIN contracts ON contracts.human_id = professions.human_id').
-    where("(NOT contracts.to > ?) OR (contracts.id IS NULL)", date)
   end
 
   def self.linable
@@ -80,12 +63,6 @@ class Player < ActiveRecord::Base
     # und ein until date
     # joins('LEFT OUTER JOIN zustaende ON zustaende.human_id = professions.human_id').
     # where("NOT (zustaende.unavailable = TRUE AND zustaende.until > ?) OR (zustaende.id IS NULL)", LogicalDate)
-  end
-
-  def better_offers(reputation)
-    offers.open.
-    where('offers.reputation > ?', reputation).
-    count
   end
 
   delegate :birthday, :name, :age, to: :human
