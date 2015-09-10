@@ -112,12 +112,10 @@ class Team < ActiveRecord::Base
     3 => 50,
   }
 
-  def reputation
-    return rand(75) unless current_league
-    current = LEAGUE[current_league.level] + current_points
-    return current unless previous_league
-    current + LEAGUE[previous_league.level] + previous_points
+  def update_reputation!
+    update!(reputation: calculate_reputation)
   end
+
 
   def current_league
     @current_league ||= Season.current.league_for(self)
@@ -133,6 +131,15 @@ class Team < ActiveRecord::Base
 
   def previous_points
     previous_league.points_for(self) || 0
+  end
+
+  private
+
+  def calculate_reputation
+    return rand(75) unless current_league
+    current = LEAGUE[current_league.level] + current_points
+    return current unless previous_league
+    current + LEAGUE[previous_league.level] + previous_points
   end
 
 end

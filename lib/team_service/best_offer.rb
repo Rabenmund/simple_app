@@ -25,8 +25,11 @@ module TeamService
     attr_reader :reputation, :type, :date, :id
 
     def best_player(type)
-      @best_player ||= PlayerRepository::BestPlayer.new(
-        team_id: id, type: type, date: date, reputation: reputation
+      PlayerRepository::BestPlayer.new(
+        team_id: id,
+        type: type,
+        date: date,
+        reputation: reputation
       ).best_player
     end
 

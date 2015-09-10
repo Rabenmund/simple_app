@@ -5,8 +5,6 @@ class DFBPattern
       level: 1,
       name: "Bundesliga",
       teams: 18,
-      days_off: 0,
-      time_off: 0,
       down: 3,
       up: 0
     },
@@ -14,8 +12,6 @@ class DFBPattern
       level: 2,
       name: "2. Bundesliga",
       teams: 18,
-      days_off: 1,
-      time_off: 0,
       down: 3,
       up: 3
     },
@@ -23,8 +19,6 @@ class DFBPattern
       level: 3,
       name: "3. Bundesliga",
       teams: 18,
-      days_off: 1,
-      time_off: -150.minutes,
       down: 3,
       up: 3},
   ]
@@ -63,7 +57,8 @@ class DFBPattern
         name: league[:name],
         level: league[:level],
         # TODO gruselig - refactor!
-        start: @season.start_date + league[:days_off].days + league[:time_off])
+        start: @season.start_date
+      )
       get_teams(@league, league[:up], league[:down], league[:teams])
       @season.leagues << @league
       @league.tearup!

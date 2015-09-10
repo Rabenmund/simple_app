@@ -10,4 +10,8 @@ RSpec.describe LeagueRepository::Adapter do
     league.teams.concat [team1, team2]
     expect(adapter.team_ids.sort).to eq [team1.id, team2.id]
   end
+
+  it "provides a start_date" do
+    expect(adapter.start_date).to eq league.start
+  end
 end

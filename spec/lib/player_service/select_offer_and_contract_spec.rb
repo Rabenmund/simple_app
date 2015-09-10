@@ -7,7 +7,7 @@ RSpec.describe PlayerService::SelectOfferAndContract do
   before do
     allow(PlayerService::FindBestOffer)
       .to receive(:new)
-      .and_return double("Select", select_offer: 1)
+      .and_return double("Select", offer: 1)
     allow(OfferRepository::Adapter)
       .to receive(:new)
       .and_return double(offer:
@@ -55,7 +55,7 @@ RSpec.describe PlayerService::SelectOfferAndContract do
   it "fails if there is no offer to contract" do
     allow(PlayerService::FindBestOffer)
       .to receive(:new)
-      .and_return double("Select", select_offer: nil)
+      .and_return double("Select", offer: nil)
     expect{select.create_contract!}
       .to raise_error PlayerService::NoBestOfferToContractError
   end

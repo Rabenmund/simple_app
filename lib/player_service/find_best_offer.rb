@@ -23,6 +23,7 @@ module PlayerService
       _tickets = Hash.new
       number = 0
       offers.each do |_offer, _reputation|
+        _tickets[number] = _offer
         _reputation.times do |n|
           number += 1
           _tickets[number] = _offer

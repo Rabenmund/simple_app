@@ -9,8 +9,10 @@ module Appointable
 
   private
 
+  # TODO refactor - date must be injected and validated
+
   def create_appointment
-    Appointment.create(appointable: self, appointed_at: appoint_date || performed_at)
+    Appointment.create(appointable: self, appointed_at: appoint_date || try(:performed_at))
   end
 
 end

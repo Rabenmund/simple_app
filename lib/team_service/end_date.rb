@@ -19,7 +19,7 @@ module TeamService
       #   - strength of player compared to team
       #   - age of player
       #   - reputation of player (yep, that's missing
-      (rand(5) + 1).years
+      (rand(5) + 1).years - 1.day
     end
   end
 end

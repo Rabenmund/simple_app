@@ -1,9 +1,8 @@
 class Negotiation
 
-  def initialize(player: player, round: 0)
+  def initialize(player: player)
     @offers = player.offers
     @human = player.human
-    @round = round
   end
 
   def negotiate!
@@ -13,9 +12,7 @@ class Negotiation
 
   def deal_with(offer)
     return unless offer
-    offer.accept! round
-    puts "#{human.name} offers #{@offers.map {|o| o.team.name}}"
-    puts "#{human.name} accepts offer from #{offer.team.name}"
+    offer.accept!
     Contract.create(
       organization: offer.team.organization,
       human: human,
@@ -24,13 +21,13 @@ class Negotiation
     )
   end
 
-  def decline_open_offers(at_round=round)
-    offers.open.map {|offer| offer.decline!(at_round)}
+  def decline_open_offers
+    offers.open.map {|offer| offer.decline! }
   end
 
   private
 
-  attr_reader :offers, :human, :round, :start_date, :end_date
+  attr_reader :offers, :human, :start_date, :end_date
 
   def best_offer
     # TODO not ready

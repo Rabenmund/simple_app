@@ -8,6 +8,10 @@ module LeagueRepository
       league.team_ids
     end
 
+    def start_date
+      league.start
+    end
+
     private
 
     attr_reader :league

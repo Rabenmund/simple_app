@@ -141,7 +141,7 @@ FactoryGirl.define do
 
   factory :teardown do
     teardownable
-    appointed_at DateTime.now
+    performed_at DateTime.now
   end
 
   factory :teardownable, parent: :competition do

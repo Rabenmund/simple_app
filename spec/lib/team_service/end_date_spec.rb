@@ -8,6 +8,6 @@ RSpec.describe TeamService::EndDate do
 
   it "provides a minimum 1 year in future date" do
     expect(end_date.end_date)
-      .to be > (date+1.year-1.day)
+      .to be > (date+1.year-2.day)
   end
 end

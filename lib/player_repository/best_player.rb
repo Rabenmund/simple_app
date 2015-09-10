@@ -1,4 +1,5 @@
 module PlayerRepository
+  class NoBestPlayerFoundError < StandardError; end
 
   class BestPlayer
 
@@ -14,9 +15,21 @@ module PlayerRepository
       @date = date
       @reputation = reputation
       @team_id = team_id
+      @best_player = player
+      validate_player_existing
     end
 
-    def best_player
+    attr_reader :best_player
+
+    private
+
+    attr_reader :strength, :date, :reputation, :team_id
+
+    def validate_player_existing
+      best_player || raise(NoBestPlayerFoundError)
+    end
+
+    def player
       Player
         .active
         .without_offer_by(team_id, date)
@@ -26,9 +39,5 @@ module PlayerRepository
         .order(strength => :desc)
         .first
     end
-
-    private
-
-    attr_reader :strength, :date, :reputation, :team_id
   end
 end

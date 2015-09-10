@@ -36,23 +36,23 @@ RSpec.describe TeamService::OffersForNeeds do
 
     allow(TeamService::BestOffer)
       .to receive(:new)
-      .with(team_id: 1, date: :date)
+      .with(id: 1, date: :date)
       .and_return offer
     expect(offer)
       .to receive(:offer_player)
-      .with(type: :keepers)
+      .with(type: :keeper)
       .and_return double(player_id: 2)
     expect(offer)
       .to receive(:offer_player)
-      .with(type: :defenders)
+      .with(type: :defender)
       .and_return double(player_id: 3)
     expect(offer)
       .to receive(:offer_player)
-      .with(type: :midfielders)
+      .with(type: :midfielder)
       .and_return double(player_id: 4)
     expect(offer)
       .to receive(:offer_player)
-      .with(type: :attackers)
+      .with(type: :attacker)
       .and_return double(player_id: 5)
     expect(offer_for_needs.players).to eq [2,3,4,5]
   end

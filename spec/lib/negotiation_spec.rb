@@ -16,7 +16,6 @@ describe Negotiation do
     negotiation.deal_with offer
     expect(offer.reload).to be_negotiated
     expect(offer.reload).to be_accepted
-    expect(offer.negotiation_round).to eq 0
     expect(Contract.first.organization).to eq offer.team.organization
     expect(Contract.first.human).to eq offer.player.human
   end

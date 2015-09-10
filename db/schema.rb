@@ -52,6 +52,8 @@ ActiveRecord::Schema.define(version: 20150718074324) do
     t.integer  "human_id",        null: false
     t.datetime "from",            null: false
     t.datetime "to",              null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "contracts", ["human_id"], name: "index_contracts_on_human_id", using: :btree
@@ -181,12 +183,11 @@ ActiveRecord::Schema.define(version: 20150718074324) do
   add_index "matchdays", ["number"], name: "index_matchdays_on_number", using: :btree
 
   create_table "offers", force: :cascade do |t|
-    t.integer  "player_id",                         null: false
-    t.integer  "team_id",                           null: false
+    t.integer  "player_id",                  null: false
+    t.integer  "team_id",                    null: false
     t.integer  "reputation"
-    t.integer  "negotiation_round"
-    t.boolean  "negotiated",        default: false
-    t.boolean  "accepted",          default: false
+    t.boolean  "negotiated", default: false
+    t.boolean  "accepted",   default: false
     t.date     "start_date"
     t.date     "end_date"
     t.datetime "created_at"
@@ -275,10 +276,11 @@ ActiveRecord::Schema.define(version: 20150718074324) do
   add_index "seasons", ["year"], name: "index_seasons_on_year", using: :btree
 
   create_table "teams", force: :cascade do |t|
-    t.string   "name",          null: false
-    t.string   "short_name",    null: false
-    t.string   "abbreviation",  null: false
-    t.integer  "federation_id", null: false
+    t.integer  "federation_id",             null: false
+    t.string   "name",                      null: false
+    t.string   "short_name",                null: false
+    t.string   "abbreviation",              null: false
+    t.integer  "reputation",    default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -289,7 +291,7 @@ ActiveRecord::Schema.define(version: 20150718074324) do
   create_table "teardowns", force: :cascade do |t|
     t.integer  "teardownable_id"
     t.string   "teardownable_type"
-    t.datetime "appointed_at",      null: false
+    t.datetime "performed_at",      null: false
   end
 
   add_index "teardowns", ["teardownable_type", "teardownable_id"], name: "index_teardowns_on_teardownable_type_and_teardownable_id", using: :btree

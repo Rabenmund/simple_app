@@ -9,7 +9,7 @@ RSpec.describe PlayerService::FindBestOffer do
       .with(id: 1)
       .and_return double(
         "PlayerRepo", offer_reputations: [[1, 100],[2,101],[3,99]])
-      expect([1,2,3]).to include offer.select_offer
+      expect([1,2,3]).to include offer.offer
   end
 
   it "returns nil if no offer is given" do
@@ -18,7 +18,7 @@ RSpec.describe PlayerService::FindBestOffer do
       .with(id: 1)
       .and_return double(
         "PlayerRepo", offer_reputations: [])
-      expect(offer.select_offer).to eq nil
+      expect(offer.offer).to eq nil
   end
 
 end

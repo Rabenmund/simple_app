@@ -1,30 +1,30 @@
-require 'spec_helper'
+# require 'spec_helper'
 
-describe PlayerExchangeBroker do
-  let(:team) { double "team", reputation: 100, player_need: 4}
-  let(:players) { Player.all }
-  let(:broker) {
-    PlayerExchangeBroker.new(
-      team: team,
-      start_date: Date.today
-    )}
+# describe PlayerExchangeBroker do
+#   let(:team) { double "team", reputation: 100, player_need: 4}
+#   let(:players) { Player.all }
+#   let(:broker) {
+#     PlayerExchangeBroker.new(
+#       team: team,
+#       start_date: Date.today
+#     )}
 
-  before do
-    @keeper = create :keeper
-    @defender = create :defender
-    @midfielder = create :midfielder
-    @attacker = create :attacker
-  end
+#   before do
+#     @keeper = create :keeper
+#     @defender = create :defender
+#     @midfielder = create :midfielder
+#     @attacker = create :attacker
+#   end
 
-  it "does not offer if team has no need" do
-    allow(team).to receive(:player_need).and_return 0
-    expect{broker.offers_for(players)}.to change{Offer.count}.by(0)
-  end
+#   it "does not offer if team has no need" do
+#     allow(team).to receive(:player_need).and_return 0
+#     expect{broker.offers_for(players)}.to change{Offer.count}.by(0)
+#   end
 
-  it "does not offer if team.offers are enough" do
-    allow(team).to receive(:open_offers).and_return [1,2,3,4]
-    expect{broker.offers_for(players)}.to change{Offer.count}.by(0)
-  end
+#   it "does not offer if team.offers are enough" do
+#     allow(team).to receive(:open_offers).and_return [1,2,3,4]
+#     expect{broker.offers_for(players)}.to change{Offer.count}.by(0)
+#   end
 
 
 
@@ -70,4 +70,4 @@ describe PlayerExchangeBroker do
 #     expect(broker.new_best_player([player, player2, player3, player4])).
 #       to eq player
 #   end
-end
+# end

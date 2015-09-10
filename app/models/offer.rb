@@ -9,11 +9,11 @@ class Offer < ActiveRecord::Base
 
   scope :open, -> { where(negotiated: false) }
 
-  def accept!(round=0)
-    update_attributes(negotiated: true, accepted: true, negotiation_round: round)
+  def accept!
+    update_attributes(negotiated: true, accepted: true)
   end
 
-  def decline!(round=0)
-    update_attributes(negotiated: true, accepted: false, negotiation_round: round)
+  def decline!
+    update_attributes(negotiated: true, accepted: false)
   end
 end
