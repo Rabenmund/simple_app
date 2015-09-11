@@ -1,11 +1,12 @@
 module SeasonService
-  class SeasonTeardown
+  class SeasonTearUp
     def initialize(id:)
       @id = id
     end
 
-    def teardown
-      # put everything here that should be done for a dying season
+    def tearup
+      # create new season
+      # fill up all teams with players
     end
 
     private
