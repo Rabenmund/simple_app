@@ -5,11 +5,17 @@ module PlayerRepository
     end
 
     def old
-      # Get old player_ids from repo
+      Player
+        .joins(:human)
+        .where("humen.birthday < ?", Date.new(old_age))
     end
 
     private
 
     attr_reader :year
+
+    def old_age
+      year - 30
+    end
   end
 end
