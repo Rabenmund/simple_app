@@ -5,6 +5,7 @@ class CreateContract < ActiveRecord::Migration
       t.belongs_to :human, index: true, null: false
       t.datetime :from, null: false
       t.datetime :to, null: false
+      t.timestamps
     end
   end
 end

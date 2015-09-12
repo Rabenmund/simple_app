@@ -432,15 +432,16 @@ end
 s.leagues.each do |l|
   puts "Liga: #{l.name}"
   l.teams.each do |t|
-    puts "Team: #{t.name}"
-    o = t.create_organization
+    t.create_organization
+    t.update_reputation!
+    puts "#{t.reputation} #{t.name}"
   end
 end
 (Team.all - Team.with_league_in(s)).each do |t|
-  o = t.create_organization
+  t.create_organization
+  t.update_reputation!
+  puts "#{t.reputation} #{t.name}"
 end
 
 puts "Verhandlungen..."
-e = PlayerExchange.new @season
-e.final_call
-
+SeasonService::FillUpTeams.new(id: 2).fill_up

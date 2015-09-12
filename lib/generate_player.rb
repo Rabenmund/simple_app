@@ -73,7 +73,8 @@ class GeneratePlayer
   end
 
   def lower_strength
-    (strength * rand(0)).to_i
+    0
+    # (strength * rand(0)).to_i
   end
 
 end

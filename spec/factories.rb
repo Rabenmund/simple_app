@@ -35,6 +35,7 @@ FactoryGirl.define do
     sequence(:name) { |n| "Mannschaft ##{n}" }
     sequence(:short_name) { |n| "MSV ##{n}" }
     sequence(:abbreviation) { |n| "#{n}" }
+    # reputation 100
     federation
     organization
     factory :home do
@@ -140,7 +141,7 @@ FactoryGirl.define do
 
   factory :teardown do
     teardownable
-    appointed_at DateTime.now
+    performed_at DateTime.now
   end
 
   factory :teardownable, parent: :competition do
