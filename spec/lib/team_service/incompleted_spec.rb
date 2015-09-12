@@ -1,4 +1,5 @@
 require_relative '../../../lib/team_service/incompleted'
+require_relative '../../../lib/team_structure'
 
 describe TeamService::Incompleted do
 
@@ -11,11 +12,11 @@ describe TeamService::Incompleted do
     allow(TeamService::Needs)
       .to receive(:new)
       .with(id: 1, date: date)
-      .and_return double(players?: false)
+      .and_return double(players: TeamStructure.new(0,0,0,0))
     allow(TeamService::Needs)
       .to receive(:new)
       .with(id: 2, date: date)
-      .and_return double(players?: true)
+      .and_return double(players: TeamStructure.new(1,1,1,1))
     expect(incompleted.teams).to eq [2]
   end
 end

@@ -10,11 +10,11 @@ describe TeamService::PlayerExchangeRound do
   it "places and negotiates offers for the needs of all teams" do
     expect(TeamService::OffersForNeeds)
       .to receive(:new)
-      .with(team_id: 1, contract_start: :date)
+      .with(id: 1, contract_start: :date)
       .and_return double("Players", players: [1,3])
     expect(TeamService::OffersForNeeds)
       .to receive(:new)
-      .with(team_id: 2, contract_start: :date)
+      .with(id: 2, contract_start: :date)
       .and_return double("Players", players: [2,3])
     expect(PlayerService::SelectOfferAndContract)
       .to receive(:new)

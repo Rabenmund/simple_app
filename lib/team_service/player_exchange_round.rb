@@ -27,7 +27,7 @@ module TeamService
 
     def offer_for_player_needs(team_id)
       TeamService::OffersForNeeds
-        .new(team_id: team_id, contract_start: contract_start).players
+        .new(id: team_id, contract_start: contract_start).players
     end
 
     def create_contract_for(player_id)

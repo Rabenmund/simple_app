@@ -16,7 +16,11 @@ module TeamService
     attr_reader :ids, :date
 
     def needs_player?(id)
-      TeamService::Needs.new(id: id, date: date).players?
+      needed_structure(id).size > 0
+    end
+
+    def needed_structure(id)
+      TeamService::Needs.new(id: id, date: date).players
     end
   end
 end
