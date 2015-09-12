@@ -17,10 +17,10 @@ describe GameEventer do
   #   expect(game.home_goals).to eq 1
   # end
 
-  it "performs a game event with no goal" do
-    allow(home).to receive(:attacking).and_return 0
-    allow(guest).to receive(:defending).and_return 100
-    allow(event).to receive(:goal_for_home?).and_return false
-    expect(event.goal_event).to eq nil
-  end
+  # it "performs a game event with no goal" do
+  #   allow(home).to receive(:attacking).and_return 0
+  #   allow(guest).to receive(:defending).and_return 100
+  #   allow(event).to receive(:goal_for_home?).and_return false
+  #   expect(event.goal_event).to eq nil
+  # end
 end

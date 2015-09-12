@@ -12,11 +12,11 @@ describe TeamService::Incompleted do
     allow(TeamService::Needs)
       .to receive(:new)
       .with(id: 1, date: date)
-      .and_return double(players: TeamStructure.new(0,0,0,0))
+      .and_return double(team_structure: TeamStructure.new(0,0,0,0))
     allow(TeamService::Needs)
       .to receive(:new)
       .with(id: 2, date: date)
-      .and_return double(players: TeamStructure.new(1,1,1,1))
+      .and_return double(team_structure: TeamStructure.new(1,1,1,1))
     expect(incompleted.teams).to eq [2]
   end
 end

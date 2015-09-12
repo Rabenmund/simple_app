@@ -20,7 +20,7 @@ module TeamService
     end
 
     def needed_structure(id)
-      TeamService::Needs.new(id: id, date: date).players
+      TeamService::Needs.new(id: id, date: date).team_structure
     end
   end
 end
