@@ -17,4 +17,8 @@ RSpec.describe PlayerRepository::Adapter do
     closed = create :offer, player: player, negotiated: true
     expect(adapter.offer_reputations).to eq [[offer.id, offer.reputation]]
   end
+
+  it "retires a player" do
+    expect{adapter.retire!}.to change{player.reload.retired}.from(false).to(true)
+  end
 end

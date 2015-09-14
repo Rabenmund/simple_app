@@ -1,21 +1,19 @@
 module PlayerRepository
-  class Age
-    def initialize(year:)
-      @year = year
-    end
+  module Age
+    class << self
 
-    def old
-      Player
-        .joins(:human)
-        .where("humen.birthday < ?", Date.new(old_age))
-    end
+      def old_players(birthyear:)
+        Player
+          .joins(:human)
+          .where("humen.birthday < ?", Date.new(birthyear))
+          .ids
+      end
 
-    private
+      def years_over(id:, birthyear:)
+        over = birthyear - Player.find(id).birthday.year
+        over > 0 ? over : 0
+      end
 
-    attr_reader :year
-
-    def old_age
-      year - 30
     end
   end
 end

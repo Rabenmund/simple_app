@@ -16,5 +16,10 @@ module PlayerRepository
         .open
         .pluck(:id, :reputation)
     end
+
+    def retire!
+      player
+        .update!(retired: true)
+    end
   end
 end

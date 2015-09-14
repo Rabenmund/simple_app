@@ -211,6 +211,7 @@ ActiveRecord::Schema.define(version: 20150718074324) do
     t.integer  "defense",    default: 0
     t.integer  "midfield",   default: 0
     t.integer  "attack",     default: 0
+    t.boolean  "retired",    default: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
