@@ -15,8 +15,8 @@ RSpec.describe ContractRepository::Create do
 
   it "creates a contract with valid data" do
    contract  = ContractRepository::Create.new(
-     team_id: team.id,
-     player_id: player.id,
+     team: team,
+     player: player,
      from: Date.new(2011,7,1),
      to: Date.new(2012,6,30)
    ).create
@@ -25,8 +25,8 @@ RSpec.describe ContractRepository::Create do
 
   it "does not create a contract if another is already existing" do
    expect{ContractRepository::Create.new(
-     team_id: team.id,
-     player_id: player.id,
+     team: team,
+     player: player,
      from: Date.new(2010,7,1),
      to: Date.new(2012,6,30)
    ).create}
@@ -35,8 +35,8 @@ RSpec.describe ContractRepository::Create do
 
   it "does not create a contract if to < from" do
    expect{ContractRepository::Create.new(
-     team_id: team.id,
-     player_id: player.id,
+     team: team,
+     player: player,
      from: Date.new(2012,7,1),
      to: Date.new(2011,6,30)
    ).create}

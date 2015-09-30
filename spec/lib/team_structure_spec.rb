@@ -21,6 +21,11 @@ RSpec.describe TeamStructure do
       .to raise_error TeamStructure::CannotSubtractClassError
   end
 
+  it "sets a type to a count" do
+    team_structure.type_count(:attackers, 1)
+    expect(team_structure).to eq TeamStructure.new(3,8,8,1)
+  end
+
   it "has a size" do
     expect(team_structure.size).to eq 23
   end

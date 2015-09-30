@@ -1,6 +1,6 @@
-module TeamRepository
+module TeamUseCase
   class Reputation
-    def initialize(id)
+    def initialize(team)
       @team = Team.find(id)
     end
 

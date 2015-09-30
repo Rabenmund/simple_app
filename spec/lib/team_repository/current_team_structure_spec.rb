@@ -3,7 +3,8 @@ require 'spec_helper'
 RSpec.describe TeamRepository::CurrentTeamStructure do
   subject(:current_team_structure) do
     TeamRepository::CurrentTeamStructure
-      .current_team_structure(id: team.id, date: date)
+      .new(team: team)
+      .team_structure_at(date)
   end
 
   let(:team) { create :team }

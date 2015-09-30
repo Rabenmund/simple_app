@@ -43,17 +43,8 @@ class Team < ActiveRecord::Base
       order("sum DESC")
   end
 
-  def players_at(date)
-    players
-      .where("contracts.from <= ? AND contracts.to >= ?", date, date)
-  end
-
   def open_offers
     offers.open
-  end
-
-  def strength
-    players.strength
   end
 
   def best_lineup
@@ -85,33 +76,15 @@ class Team < ActiveRecord::Base
     Game.where("games.home_id = #{id} OR games.guest_id = #{id}")
   end
 
-  def player_need
-    MAX_PLAYERS - players.size
-  end
-
-  def needs(type)
-    (FORMATION[type.to_sym]*2) - send(type.to_s).size
-  end
-
-  MAX_PLAYERS = 23
-
-  FORMATION={
-    keepers: 1.5,
-    defenders: 4,
-    midfielders: 4,
-    attackers: 2
-  }
-
-  def formation(type)
-    FORMATION[type.to_sym]
-  end
-
   LEAGUE = {
     1 => 150,
     2 => 100,
     3 => 50,
   }
 
+  # TODO move that to a repository class
+  # keep the business logic in a use case class
+  # see. there should be one.
   def update_reputation!
     update!(reputation: calculate_reputation)
   end

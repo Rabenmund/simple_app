@@ -1,16 +1,15 @@
 module TeamService
   class BestOffer
-    def initialize(id:, date:)
-      @reputation = TeamRepository::Reputation.new(id).reputation
+    def initialize(team:, date:)
       @date = date
-      @id = id
+      @team = team
     end
 
     def offer_player(type:)
       OfferRepository::Create.create(
-        player_id: best_player(type).id,
-        team_id: id,
-        reputation: reputation,
+        player: best_player(type),
+        team: team,
+        reputation: team.reputation,
         start_date: date,
         end_date: end_date
       )
@@ -22,19 +21,19 @@ module TeamService
 
     private
 
-    attr_reader :reputation, :type, :date, :id
+    attr_reader :date, :team
 
     def best_player(type)
       PlayerRepository::BestPlayer.new(
-        team_id: id,
+        team: team,
         type: type,
         date: date,
-        reputation: reputation
+        reputation: team.reputation
       ).best_player
     end
 
     def end_date
-      TeamService::EndDate.new(start_date: date).end_date
+      PlayerUseCase::ContractEndDate.new(start_date: date).end_date
     end
   end
 end

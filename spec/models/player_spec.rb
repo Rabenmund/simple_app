@@ -111,4 +111,16 @@ describe Player do
     end
   end
 
+  it "has a main strength" do
+    player.update!(keeper: 101, defense: 100, midfield: 102, attack: 102)
+    player.reload
+    expect(player.main_strength).to eq 102
+  end
+
+  it "has a main type" do
+    player.update!(keeper: 101, defense: 100, midfield: 102, attack: 102)
+    player.reload
+    expect(player.main_type).to eq :midfielder
+  end
+
 end

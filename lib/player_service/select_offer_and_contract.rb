@@ -2,15 +2,15 @@ require 'offer_repository/adapter'
 require 'offer_repository/accept'
 require 'contract_repository/create'
 require 'player_repository/close_all_offers'
-require 'player_service/find_best_offer'
+require 'use_cases/player_use_case/find_best_offer'
 
 module PlayerService
   class NoBestOfferToContractError < StandardError; end
 
   class SelectOfferAndContract
 
-    def initialize(id:)
-      @id = id
+    def initialize(player:)
+      @player = player
       @offer = best_offer
     end
 
@@ -18,13 +18,13 @@ module PlayerService
       # remove accepted and negotiated attributes
       # then delete all offers after create a new contract
 
-      OfferRepository::Accept.new(id: offer.id).accept!
+      OfferRepository::Accept.new(offer: offer).accept!
 
-      PlayerRepository::CloseAllOffers.new(id: id).close
+      PlayerRepository::CloseAllOffers.new(player: player).close
 
       ContractRepository::Create.new(
-        player_id: id,
-        team_id: offer.team_id,
+        player: player,
+        team: offer.team,
         from: offer.start_date,
         to: offer.end_date
       ).create
@@ -32,14 +32,10 @@ module PlayerService
 
     private
 
-    attr_reader :id, :offer
+    attr_reader :player, :offer
 
     def best_offer
-      OfferRepository::Adapter.new(id: best_offer_id).offer
-    end
-
-    def best_offer_id
-      PlayerService::FindBestOffer.new(id: id).offer ||
+      PlayerUseCase::FindBestOffer.new(player: player).find ||
         fail(NoBestOfferToContractError)
     end
   end

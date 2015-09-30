@@ -7,9 +7,9 @@ module ContractRepository
   class WrongDateError < StandardError; end
 
   class Create
-    def initialize(team_id:, player_id:, from:, to:)
-      @team_id = team_id
-      @player_id = player_id
+    def initialize(team:, player:, from:, to:)
+      @team = team
+      @player = player
       @from = from
       @to = to
       validate_no_existing_contract
@@ -18,8 +18,8 @@ module ContractRepository
 
     def create
       Contract.create(
-        organization: organization(team_id),
-        human: human(player_id),
+        organization: team.organization,
+        human: player.human,
         from: from,
         to: to
       )
@@ -27,28 +27,21 @@ module ContractRepository
 
     private
 
-    attr_reader :team_id, :player_id, :from, :to
+    attr_reader :team, :player, :from, :to
 
     def validate_no_existing_contract
       fail DoubleContractError unless existing_contracts.empty?
     end
 
+    # TODO: move to ContractRepo
     def existing_contracts
       Contract
-        .where(human_id: human(player_id).id)
+        .where(human: player.human)
         .where.not("contracts.to < ?", from)
     end
 
     def validate_from_before_to
       fail WrongDateError unless from <= to
-    end
-
-    def organization(team_id)
-      TeamRepository::Adapter.new(id: team_id).organization
-    end
-
-    def human(player_id)
-      @human ||= PlayerRepository::Adapter.new(id: player_id).human
     end
   end
 end

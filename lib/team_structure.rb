@@ -10,6 +10,10 @@ class TeamStructure < Struct.new :keepers, :defenders, :midfielders, :attackers
     return self
   end
 
+  def type_count(type, count)
+    send(type.to_s + "=", count)
+  end
+
   def size
     self.keepers + self.defenders + self.midfielders + self.attackers
   end

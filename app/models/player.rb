@@ -89,14 +89,32 @@ class Player < ActiveRecord::Base
     nearby(main_strength, attack)
   end
 
+  def main_strength
+    Array.new(strengths.map{|type| send(type)}).max
+    # [keeper, defense, midfield, attack].max
+  end
+
+  def main_type
+    strengths.each do |strength|
+      if is_main_strength?(send(strength))
+        return STRENGTH[strength].to_s.singularize.to_sym
+      end
+    end
+    strengths.first
+  end
+
   private
+
+  def strengths
+    [:keeper, :defense, :midfield, :attack]
+  end
 
   def nearby(main, strength)
     strength > main * 0.9
   end
 
-  def main_strength
-    [keeper, defense, midfield, attack].max
+  def is_main_strength?(strength)
+    strength == main_strength
   end
 
 end
