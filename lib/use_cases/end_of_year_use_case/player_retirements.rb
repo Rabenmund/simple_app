@@ -27,8 +27,8 @@ module EndOfYearUseCase
 
     def retire?(player)
       PlayerUseCase::Retirement
-        .new(player: player)
-        .retire?(birthyear: year)
+        .new(player: player, year: year)
+        .retire?
     end
   end
 end

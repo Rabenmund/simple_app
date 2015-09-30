@@ -1,6 +1,3 @@
-require 'team_repository/adapter'
-require 'player_repository/adapter'
-
 module ContractRepository
 
   class DoubleContractError < StandardError; end

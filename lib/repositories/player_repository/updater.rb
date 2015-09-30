@@ -2,8 +2,8 @@ module PlayerRepository
   class Updater
     attr_reader :player
 
-    def initialize(id:)
-      @player = Player.find(id)
+    def initialize(player: player)
+      @player = player
     end
 
     def retire!

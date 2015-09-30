@@ -1,6 +1,3 @@
-require 'repositories/player_repository/adapter'
-require 'repositories/player_repository/age'
-
 module PlayerUseCase
   class Retirement
     def initialize(player:, year:)
