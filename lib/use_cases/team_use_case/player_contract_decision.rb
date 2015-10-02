@@ -35,19 +35,19 @@ module TeamUseCase
 
     def type_avg
       @type_avg ||= TeamRepository::PlayerQuery.new(team: team)
-        .type_avg_at(date, player.type)
+        .type_avg_at(date, player.main_type)
     end
 
     def expected_player_strength
-      @expected_player_strength ||= player.strength * (1 + youth_factor)
+      @expected_player_strength ||= player.main_strength * (1 + youth_factor)
     end
 
     def youth_factor
-      0.05 * youth
+      youth > 0 ? 0.05 * youth : 0
     end
 
     def youth
-      25 - player.age
+      25 - HumanRepository::Age.new(human: player.human).age_at(date)
     end
 
   end

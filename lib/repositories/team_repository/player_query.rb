@@ -1,13 +1,6 @@
 module TeamRepository
   class PlayerQuery
 
-    STRENGTH = {
-      keepers: :keeper,
-      defenders: :defense,
-      midfielders: :midfield,
-      attackers: :attack
-    }
-
     def initialize(team: team)
       @team = team
     end
@@ -21,7 +14,7 @@ module TeamRepository
     def type_at(date, type)
       team
         .players
-        .where("players.#{STRENGTH[type.to_sym]} > 0", type)
+        .where("players.#{type} > 0", type)
         .where("contracts.from <= ? AND contracts.to >= ?", date, date)
     end
 
@@ -43,7 +36,7 @@ module TeamRepository
       team
         .players
         .where("contracts.from <= ? AND contracts.to >= ?", date, date)
-        .sum("players.#{STRENGTH[type]}", type)
+        .sum("players.#{type}", type)
     end
 
     def avg_at(date)

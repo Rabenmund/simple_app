@@ -9,6 +9,7 @@ module TeamRepository
         .joins(:players)
         .joins(:contracts)
         .where("contracts.to = ?", date)
+        .uniq
     end
 
     private

@@ -2,7 +2,8 @@ module PlayerUseCase
   module ContractEndDate
     class << self
       def call(start_date: start_date, player: player)
-        @age = player.age
+        @age = HumanRepository::Age.new(human: player.human)
+          .age_at(start_date)
         start_date + duration.years - 1.day
       end
 

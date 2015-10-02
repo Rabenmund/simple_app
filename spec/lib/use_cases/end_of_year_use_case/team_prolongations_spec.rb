@@ -16,11 +16,10 @@ RSpec.describe EndOfYearUseCase::TeamProlongations do
     team_prolongations = double "TeamProlongations"
     expect(TeamUseCase::PlayerProlongations)
       .to receive(:new)
-      .with(team: team)
+      .with(team: team, date: date)
       .and_return team_prolongations
     expect(team_prolongations)
-      .to receive(:prolongate_at?)
-      .with(date)
+      .to receive(:prolongate_players)
       .and_return [1,2,3]
     expect(prolongations).to eq [1,2,3]
   end

@@ -1,7 +1,7 @@
 module PlayerRepository
-  module Age
+  module OldPlayers
     class << self
-      def old_players(birthyear:)
+      def find_at(birthyear:)
         Player
           .joins(:human)
           .where("humen.birthday < ?", Date.new(birthyear))

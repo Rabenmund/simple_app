@@ -11,8 +11,8 @@ RSpec.describe EndOfYearUseCase::PlayerRetirements do
   let(:player) { double("Player", id: 1) }
 
   it "asks old players whether to retire" do
-    expect(PlayerRepository::Age)
-      .to receive(:old_players)
+    expect(PlayerRepository::OldPlayers)
+      .to receive(:find_at)
       .with(birthyear: 2000)
       .and_return [player]
     retire = double "Retire"
@@ -20,7 +20,7 @@ RSpec.describe EndOfYearUseCase::PlayerRetirements do
       .to receive(:new)
       .with(player: player, year: 2000)
       .and_return(double("Retirement", retire?: true))
-    expect(retirements.ask_for_decisions).to eq [1]
+    expect(retirements.decisions).to eq [1]
   end
 
 end

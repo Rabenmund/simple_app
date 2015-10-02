@@ -9,6 +9,7 @@ module TeamAdapter
         .players
         .joins(:contracts)
         .where("contracts.to = ?", date)
+        .uniq
     end
 
 

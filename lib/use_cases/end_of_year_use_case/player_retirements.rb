@@ -1,4 +1,4 @@
-require 'repositories/player_repository/age'
+require 'repositories/player_repository/old_players'
 require 'use_cases/player_use_case/retirement'
 
 module EndOfYearUseCase
@@ -8,7 +8,7 @@ module EndOfYearUseCase
       @year = year
     end
 
-    def ask_for_decisions
+    def decisions
       retired_players = []
       old_players.each do |player|
         retired_players << player.id if retire?(player)
@@ -21,8 +21,8 @@ module EndOfYearUseCase
     attr_reader :year
 
     def old_players
-      PlayerRepository::Age
-        .old_players(birthyear: year)
+      PlayerRepository::OldPlayers
+        .find_at(birthyear: year)
     end
 
     def retire?(player)

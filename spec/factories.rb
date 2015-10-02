@@ -62,6 +62,7 @@ FactoryGirl.define do
 
   factory :human do
     sequence(:name) { |n| "Spieler ##{n}" }
+    birthday Date.new(1969,3,31)
   end
 
   factory :contract do

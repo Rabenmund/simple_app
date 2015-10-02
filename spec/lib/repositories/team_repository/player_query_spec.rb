@@ -17,11 +17,11 @@ describe TeamRepository::PlayerQuery do
   end
 
   it "has a type at a date" do
-    expect(query.type_at(date, :keepers)).to include player
+    expect(query.type_at(date, :keeper)).to include player
   end
 
   it "has a type count at a date" do
-    expect(query.type_count_at(date, :keepers)).to eq 1
+    expect(query.type_count_at(date, :keeper)).to eq 1
   end
 
   it "does not have former players" do
@@ -36,7 +36,7 @@ describe TeamRepository::PlayerQuery do
   end
 
   it "has a type strength at a date" do
-    expect(query.type_strength_at(date, :keepers)).to eq 42
+    expect(query.type_strength_at(date, :keeper)).to eq 42
   end
 
   it "has a strength average at a date" do
@@ -44,7 +44,7 @@ describe TeamRepository::PlayerQuery do
   end
 
   it "has a type strength average at a date" do
-    expect(query.type_avg_at(date, :keepers)).to eq 42
+    expect(query.type_avg_at(date, :keeper)).to eq 42
   end
 
 end

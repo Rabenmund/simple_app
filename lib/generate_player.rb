@@ -65,7 +65,8 @@ class GeneratePlayer
   end
 
   def age
-    @age ||= human.age
+    # TODO: inject a valid date here
+    @age ||= HumanRepository::Age.new(human: human).days_at(Date.today)
   end
 
   def strength

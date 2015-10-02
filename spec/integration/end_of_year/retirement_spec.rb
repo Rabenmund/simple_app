@@ -11,7 +11,7 @@ RSpec.describe EndOfYearUseCase::PlayerRetirements do
     human2 = create :human, birthday: Date.new(1969,3,31)
     old = create :player, human: human2
 
-    expect(subject.ask_for_decisions).to eq [old.id]
+    expect(subject.decisions).to eq [old.id]
   end
 
 end

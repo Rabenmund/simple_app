@@ -89,11 +89,13 @@ class Player < ActiveRecord::Base
     nearby(main_strength, attack)
   end
 
+  # TODO: move to seperate repo class
   def main_strength
     Array.new(strengths.map{|type| send(type)}).max
     # [keeper, defense, midfield, attack].max
   end
 
+  # TODO: move to seperate repo class
   def main_type
     strengths.each do |strength|
       if is_main_strength?(send(strength))
