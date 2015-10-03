@@ -1,5 +1,6 @@
 module EndOfYearUseCase
   class PlayerOfferDecision
+    # date?
     def initialize(date:)
       @date = date
     end
@@ -7,7 +8,7 @@ module EndOfYearUseCase
     def decisions
       PlayerRepository::OpenOffers.all.each do |player|
         # should not accept when retirement planned
-        PlayerUseCase::DecideOffer.new(player: player).decide!
+        PlayerUseCase::DecideOffers.new(player: player).decide!
       end
     end
 

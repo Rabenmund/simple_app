@@ -4,8 +4,10 @@ module PlayerUseCase
       @player = player
     end
 
-    def acceptable?
-      true
+    def acceptable?(offer)
+      # TODO: more sophisticated later
+      return false if player.retired?
+      rand(3) > 0
     end
 
     private

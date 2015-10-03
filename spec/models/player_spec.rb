@@ -33,6 +33,12 @@ describe Player do
     expect(defender).to_not be_midfielder
   end
 
+  it "is retired?" do
+    player.retired = true
+    player.save
+    expect(player.retired?).to eq true
+  end
+
   context ".active" do
     it "is active" do
       expect(Player.active).to include player

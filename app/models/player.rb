@@ -89,6 +89,10 @@ class Player < ActiveRecord::Base
     nearby(main_strength, attack)
   end
 
+  def retired?
+    retired == true
+  end
+
   # TODO: move to seperate repo class
   def main_strength
     Array.new(strengths.map{|type| send(type)}).max
