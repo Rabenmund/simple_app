@@ -8,7 +8,7 @@ module EndOfYearUseCase
       def call(year: year)
         PlayerRetirements.new(year: year).decisions
         TeamProlongations.new(date: end_date(year)).decisions
-        PlayerOfferDecision.new(date: end_date(year)).decisions
+        PlayerUseCase::AllDecideOffers.decisions
         # GenerateNewPlayers for next year
       end
 
