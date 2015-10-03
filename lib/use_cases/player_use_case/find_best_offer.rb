@@ -1,10 +1,17 @@
 require 'repositories/player_repository/offer_query'
 
 module PlayerUseCase
+  class NoBestOfferToContractError < StandardError; end
+
   class FindBestOffer
     def initialize(player: player)
       @player = player
+      @offers = id_and_reputations
       @tickets = buy_tickets_per_reputation
+    end
+
+    def find!
+      find || fail(NoBestOfferToContractError)
     end
 
     def find
@@ -13,9 +20,9 @@ module PlayerUseCase
 
     private
 
-    attr_reader :player, :tickets
+    attr_reader :player, :tickets, :offers
 
-    def offers
+    def id_and_reputations
       PlayerRepository::OfferQuery.new(player: player).id_and_reputations
     end
 

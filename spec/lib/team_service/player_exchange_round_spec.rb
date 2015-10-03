@@ -8,6 +8,9 @@ describe TeamService::PlayerExchangeRound do
   end
 
   it "places and negotiates offers for the needs of all teams" do
+    allow(Player).to receive(:find).with(1).and_return(:player1)
+    allow(Player).to receive(:find).with(2).and_return(:player2)
+    allow(Player).to receive(:find).with(3).and_return(:player3)
     expect(TeamService::OffersForNeeds)
       .to receive(:new)
       .with(id: 1, contract_start: :date)
@@ -16,18 +19,18 @@ describe TeamService::PlayerExchangeRound do
       .to receive(:new)
       .with(id: 2, contract_start: :date)
       .and_return double("Players", players: [2,3])
-    expect(PlayerService::SelectOfferAndContract)
+    expect(PlayerUseCase::DecideOffers)
       .to receive(:new)
-      .with(id: 1)
-      .and_return double("Selection", create_contract!: true)
-    expect(PlayerService::SelectOfferAndContract)
+      .with(player: :player1)
+      .and_return double("DecideOffers", accept_best_offer: true)
+    expect(PlayerUseCase::DecideOffers)
       .to receive(:new)
-      .with(id: 2)
-      .and_return double("Selection", create_contract!: true)
-    expect(PlayerService::SelectOfferAndContract)
+      .with(player: :player2)
+      .and_return double("DecideOffers", accept_best_offer: true)
+    expect(PlayerUseCase::DecideOffers)
       .to receive(:new)
-      .with(id: 3)
-      .and_return double("Selection", create_contract!: true)
+      .with(player: :player3)
+      .and_return double("DecideOffers", accept_best_offer: true)
     round.execute
   end
 end

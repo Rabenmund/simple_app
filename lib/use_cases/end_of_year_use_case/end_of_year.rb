@@ -8,13 +8,14 @@ module EndOfYearUseCase
       def call(year: year)
         PlayerRetirements.new(year: year).decisions
         TeamProlongations.new(date: end_date(year)).decisions
+        PlayerOfferDecision.new(date: end_date(year)).decisions
         # GenerateNewPlayers for next year
       end
 
       private
 
       def end_date(year)
-        Date.new((year + 1),6,30)
+        @end_date ||= Date.new((year + 1),6,30)
       end
     end
   end

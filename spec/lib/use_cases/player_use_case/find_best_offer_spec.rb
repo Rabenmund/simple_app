@@ -10,7 +10,7 @@ RSpec.describe PlayerUseCase::FindBestOffer do
       .with(player: player)
       .and_return double(
         "PlayerRepo", id_and_reputations: [[1, 100],[2,101],[3,99]])
-      expect([1,2,3]).to include offer.find
+      expect([1,2,3]).to include offer.find!
   end
 
   it "returns nil if no offer is given" do
@@ -19,7 +19,8 @@ RSpec.describe PlayerUseCase::FindBestOffer do
       .with(player: player)
       .and_return double(
         "PlayerRepo", id_and_reputations: [])
-      expect(offer.find).to eq nil
+      expect{offer.find!}
+        .to raise_error PlayerUseCase::NoBestOfferToContractError
   end
 
 end

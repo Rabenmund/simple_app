@@ -1,5 +1,4 @@
 require 'team_service/offers_for_needs'
-require 'player_service/select_offer_and_contract'
 
 module TeamService
   class PlayerExchangeRound
@@ -31,7 +30,11 @@ module TeamService
     end
 
     def create_contract_for(player_id)
-      PlayerService::SelectOfferAndContract.new(id: player_id).create_contract!
+      # TODO: do not use Player model here
+      # inject objects to class
+      PlayerUseCase::DecideOffers
+        .new(player: Player.find(player_id))
+        .accept_best_offer
     end
   end
 end
