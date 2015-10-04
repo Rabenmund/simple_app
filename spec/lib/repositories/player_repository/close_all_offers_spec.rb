@@ -2,7 +2,7 @@ require 'spec_helper'
 
 RSpec.describe PlayerRepository::CloseAllOffers do
   subject(:close) do
-    PlayerRepository::CloseAllOffers.new(id: player.id)
+    PlayerRepository::CloseAllOffers.new(player: player)
   end
   let(:player) { create :player }
 

@@ -6,11 +6,11 @@ module PlayerUseCase
 
     def accept_acceptable_offer
       accept_best_offer if acceptable?(best_offer)
+      PlayerRepository::CloseAllOffers.new(player: player).close
     end
 
     def accept_best_offer
       OfferRepository::Accept.new(offer: best_offer).accept!
-      PlayerRepository::CloseAllOffers.new(player: player).close
       ContractRepository::Create.new(
         player: player,
         team: best_offer.team,

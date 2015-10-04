@@ -3,7 +3,9 @@ module PlayerUseCase
     class << self
       def decisions
         PlayerRepository::OpenOffers.all.each do |player|
-          PlayerUseCase::DecideOffers.new(player: player).decide!
+          PlayerUseCase::DecideOffers
+            .new(player: player)
+            .accept_acceptable_offer
         end
       end
     end

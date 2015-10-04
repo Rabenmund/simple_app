@@ -1,7 +1,7 @@
 module OfferRepository
   class Accept
-    def initialize(id:)
-      @offer = Offer.find(id)
+    def initialize(offer:)
+      @offer = offer
     end
 
     def accept!

@@ -12,11 +12,11 @@ RSpec.describe PlayerUseCase::AllDecideOffers do
     expect(PlayerUseCase::DecideOffers)
       .to receive(:new)
       .with(player: :player1)
-      .and_return double("Decision", decide!: true)
+      .and_return double("Decision", accept_acceptable_offer: true)
     expect(PlayerUseCase::DecideOffers)
       .to receive(:new)
       .with(player: :player2)
-      .and_return double("Decision", decide!: true)
+      .and_return double("Decision", accept_acceptable_offer: true)
     decision
   end
 end

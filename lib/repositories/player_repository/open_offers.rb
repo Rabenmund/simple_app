@@ -6,6 +6,7 @@ module PlayerRepository
         Player
           .joins(:offers)
           .where(offers: {accepted: false} )
+          .uniq
       end
 
     end

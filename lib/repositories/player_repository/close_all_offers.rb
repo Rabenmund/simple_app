@@ -1,7 +1,7 @@
 module PlayerRepository
   class CloseAllOffers
-    def initialize(id:)
-      @player = Player.find(id)
+    def initialize(player: player)
+      @player = player
     end
 
     def close

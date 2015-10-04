@@ -28,7 +28,7 @@ RSpec.describe PlayerUseCase::DecideOffers do
       .to receive(:new)
       .with(player: player, team: :team, from: :start, to: :end)
       .and_return double("Contract", create: :created)
-    expect(decision.accept_acceptable_offer).to eq :created
+    decision.accept_acceptable_offer
   end
 
   it "does not accept a non-acceptable offer" do
@@ -40,6 +40,12 @@ RSpec.describe PlayerUseCase::DecideOffers do
       .to receive(:new)
       .with(player: player)
       .and_return double("Offer", find!: offer)
-    expect(decision.accept_acceptable_offer).to eq nil
+    expect(PlayerRepository::CloseAllOffers)
+      .to receive(:new)
+      .with(player: player)
+      .and_return double("Closer", close: true)
+    expect(ContractRepository::Create)
+      .to_not receive(:new)
+    decision.accept_acceptable_offer
   end
 end

@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 RSpec.describe OfferRepository::Accept do
-  subject(:repo) { OfferRepository::Accept.new(id: offer.id) }
+  subject(:repo) { OfferRepository::Accept.new(offer: offer) }
   let(:offer) { create :offer }
 
   it "accepts an offer" do
