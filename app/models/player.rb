@@ -52,7 +52,6 @@ class Player < ActiveRecord::Base
             "OR offers.id IS NULL ", reputation)
   end
 
-
   def self.strength
     sum("players.keeper + players.defense + players.midfield + players.attack")
   end

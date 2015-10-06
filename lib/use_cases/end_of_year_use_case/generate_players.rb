@@ -6,6 +6,12 @@ module EndOfYearUseCase
 
     def generate
       # generate new young players to replace retirees
+      #
+      # bedarf?
+      # anzahl teams pro saison * 25
+      # anzahl spieler dieser teams mit vertrag zum saisonende
+      # anzahl spieler ohne vertrag zum saisonende
+      #
     end
 
     private

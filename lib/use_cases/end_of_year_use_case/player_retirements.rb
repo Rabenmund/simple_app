@@ -10,10 +10,18 @@ module EndOfYearUseCase
 
     def decisions
       retired_players = []
+
       old_players.each do |player|
-        retired_players << player.id if retire?(player)
+        retired = retirement(player).retire?
+        retired_players << player.id if retired
       end
-      retired_players
+
+      unwanted_players.each do |player|
+        retirement(player).retire!
+        retired_players << player.id
+      end
+
+      retired_players.uniq
     end
 
     private
@@ -22,13 +30,16 @@ module EndOfYearUseCase
 
     def old_players
       PlayerRepository::OldPlayers
-        .find_at(birthyear: year)
+        .active_and_born_in(birthyear: year)
     end
 
-    def retire?(player)
-      PlayerUseCase::Retirement
-        .new(player: player, year: year)
-        .retire?
+    def unwanted_players
+      PlayerRepository::UnwantedPlayers
+        .without_contract_since(Date.new(year-2, 7, 1))
+    end
+
+    def retirement(player)
+      PlayerUseCase::Retirement.new(player: player, year: year)
     end
   end
 end

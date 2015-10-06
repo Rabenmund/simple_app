@@ -9,7 +9,7 @@ RSpec.describe PlayerRepository::OldPlayers do
     old = create :player, human: old_human
     young_human = create :human, birthday: Date.new(year)
     young = create :player, human: young_human
-    expect(old_players.find_at(birthyear: year)).to eq [old]
+    expect(old_players.active_and_born_in(birthyear: year)).to eq [old]
   end
 
 end
