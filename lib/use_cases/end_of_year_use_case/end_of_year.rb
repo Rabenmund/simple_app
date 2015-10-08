@@ -9,7 +9,8 @@ module EndOfYearUseCase
         PlayerRetirements.new(year: year).decisions
         TeamProlongations.new(date: end_date(year)).decisions
         PlayerUseCase::AllDecideOffers.decisions
-        # GenerateNewPlayers for next year
+        # TODO: move that to season teardown before final negotiation round
+        EnsureHavingEnoughPlayers.at(Date.new(year+1, 7, 1))
       end
 
       private

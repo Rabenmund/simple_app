@@ -15,9 +15,12 @@ RSpec.describe EndOfYearUseCase::EndOfYear do
         double("PlayerRetirements", decisions: :ids_of_retired_players))
     expect(PlayerUseCase::AllDecideOffers)
       .to receive(:decisions)
+    allow(EndOfYearUseCase::EnsureHavingEnoughPlayers)
+      .to receive(:at)
+      .with(Date.new(2016,7,1))
     end_of_year
   end
 
-  it "generates new players"
+  it "ensures having enough player for next season"
 
 end
