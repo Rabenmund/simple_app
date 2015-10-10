@@ -14,7 +14,7 @@ module EndOfYearUseCase
       end
 
       def active_teams_at(date)
-        TeamRepository::ActiveCounter.at(date)
+        TeamRepository::Active.count_at(date)
       end
 
       def needed_players_at(date)
