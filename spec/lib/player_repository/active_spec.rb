@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe PlayerRepository::ContractableFinder do
+RSpec.describe PlayerRepository::Active do
   let(:date) { Date.new(2015,7,1) }
 
   before do
@@ -13,8 +13,8 @@ RSpec.describe PlayerRepository::ContractableFinder do
       to: date
   end
 
-  it "finds all contractable players at a date" do
-    expect(PlayerRepository::ContractableFinder.at(date))
-      .to eq [@player3]
+  it "counts the active players at a date" do
+    expect(PlayerRepository::Active.at(date))
+      .to eq [@player1, @player3]
   end
 end

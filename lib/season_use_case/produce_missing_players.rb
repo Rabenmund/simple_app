@@ -1,3 +1,4 @@
+# TODO: move that to another namespace - without season
 module SeasonUseCase
   module ProduceMissingPlayers
     class << self
@@ -10,11 +11,11 @@ module SeasonUseCase
       private
 
       def active_players_at(date)
-        PlayerRepository::ActiveCounter.at(date)
+        PlayerRepository::Active.at(date).count
       end
 
       def active_teams_at(date)
-        TeamRepository::ActiveCounter.at(date)
+        TeamRepository::Active.at(date).count
       end
 
       def needed_players_at(date)

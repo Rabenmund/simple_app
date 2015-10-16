@@ -1,7 +1,3 @@
-require 'repositories/player_repository/ending_contracts'
-require 'use_cases/team_use_case/player_contract_decision'
-require 'use_cases/team_use_case/create_player_offer'
-
 module TeamUseCase
   class PlayerProlongations
 

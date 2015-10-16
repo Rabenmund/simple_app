@@ -2,7 +2,7 @@ module PlayerRepository
   module ContractableFinder
     class << self
       def at(date)
-        ContractedFinder.at(date)
+        PlayerRepository::NotContractedFinder.at(date)
           .where(retired: false)
       end
     end
