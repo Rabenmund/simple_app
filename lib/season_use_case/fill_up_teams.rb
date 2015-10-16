@@ -1,7 +1,3 @@
-require 'season_repository/adapter'
-require 'league_service/fill_up_teams'
-require 'team_service/fill_up'
-
 module SeasonService
   class FillUpTeams
     def initialize(id:)

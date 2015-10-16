@@ -1,4 +1,4 @@
-module SeasonService
+module SeasonUseCase
   class SeasonTearUp
     def initialize(id:)
       @id = id

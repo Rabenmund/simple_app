@@ -24,7 +24,16 @@ FactoryGirl.define do
 
   factory :season do
     sequence(:year) { |n| 2009+n }
-    start_date Date.today
+    sequence(:start_date) { |n| Date.new(2009+n, 6, 30) }
+    sequence(:end_date) { |n| Date.new(2010+n, 7, 1) }
+  end
+
+  factory :season_event do
+    season
+  end
+
+  factory :half_time, class: SeasonEventing::HalfTime do
+    season
   end
 
   factory :federation do

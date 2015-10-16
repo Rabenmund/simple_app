@@ -22,37 +22,36 @@ describe Matchday do
     expect(Matchday.unfinished).to eq [game.matchday]
   end
 
-  it "perform!" do
-    game
-    expect(matchday.perform!).to eq true
-  end
+  # it "perform!" do
+  #   game
+  #   expect(matchday.perform!).to eq true
+  # end
 
   it "has games" do
     game
     expect(matchday.has_games?).to eq true
   end
 
-  it "has a next appointment" do
-    game
-    another_game = create :game, matchday: matchday
-    expect(matchday.next_appointable).to eq game
-  end
+  # it "has a next appointment" do
+  #   game
+  #   another_game = create :game, matchday: matchday
+  #   expect(matchday.next_appointable).to eq game
+  # end
 
-  it "has the next appointment date as current date time" do
-    game
-    expect(matchday.current_date_time).to eq game.appointment.appointed_at
-  end
+  # it "has the next appointment date as current date time" do
+  #   game
+  #   expect(matchday.current_date_time).to eq game.appointment.appointed_at
+  # end
 
-  it "has the latest game date as current date time" do
-    game
-    game.appointment.delete
-    game.update_attributes(second: 60)
-    expect(matchday.current_date_time).to eq game.performed_at+60
-  end
+  # it "has the latest game date as current date time" do
+  #   game
+  #   game.update_attributes(second: 60)
+  #   expect(matchday.current_date_time).to eq game.performed_at+60
+  # end
 
-  it "has its start date as current date time" do
-    expect(matchday.current_date_time).to eq matchday.start
-  end
+  # it "has its start date as current date time" do
+  #   expect(matchday.current_date_time).to eq matchday.start
+  # end
 
   it "is not finished without games" do
     expect(matchday.finished?).to eq false

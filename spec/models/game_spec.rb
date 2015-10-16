@@ -112,7 +112,6 @@ describe Game do
       allow(game).to receive(:additional_time?).and_return true
       game.perform!
       expect(game.finished).to eq false
-      expect(game.reload.appointment).to_not be_nil
     end
   end
 

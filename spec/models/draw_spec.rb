@@ -23,6 +23,7 @@ describe Draw do
   end
 
   it "destroys its appointment if finishing" do
+    create :appointment, appointable: draw
     expect{draw.finish!}.to change{draw.reload.appointment}.from(draw.appointment).to nil
   end
 

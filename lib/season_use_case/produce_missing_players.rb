@@ -1,4 +1,4 @@
-module EndOfYearUseCase
+module SeasonUseCase
   module ProduceMissingPlayers
     class << self
       def at(date)
@@ -14,7 +14,7 @@ module EndOfYearUseCase
       end
 
       def active_teams_at(date)
-        TeamRepository::Active.count_at(date)
+        TeamRepository::ActiveCounter.at(date)
       end
 
       def needed_players_at(date)

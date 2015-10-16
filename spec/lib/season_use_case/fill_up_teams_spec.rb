@@ -1,4 +1,4 @@
-require_relative '../../../lib/season_service/fill_up_teams'
+require_relative '../../../lib/season_use_case/fill_up_teams'
 
 RSpec.describe SeasonService::FillUpTeams do
   subject(:fill_up) { SeasonService::FillUpTeams.new(id: 1) }

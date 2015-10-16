@@ -1,7 +1,7 @@
 require "repositories/team_repository/ending_contracts.rb"
 require "use_cases/team_use_case/player_prolongations.rb"
 
-module EndOfYearUseCase
+module SeasonUseCase
   module TeamProlongations
     class << self
 

@@ -1,7 +1,4 @@
-require 'repositories/player_repository/old_players'
-require 'use_cases/player_use_case/retirement'
-
-module EndOfYearUseCase
+module SeasonUseCase
   class PlayerRetirements
 
     def initialize(year:)

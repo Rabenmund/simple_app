@@ -16,6 +16,7 @@ class Draw < ActiveRecord::Base
 
   def finish!
     update_attributes(finished: true)
+    # TODO fragwuerdig. move to finisher.
     appointment.destroy if appointment
   end
 

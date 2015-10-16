@@ -1,8 +1,8 @@
-require_relative '../../../../lib/use_cases/end_of_year_use_case/team_prolongations'
+require_relative '../../../lib/season_use_case/team_prolongations'
 
-RSpec.describe EndOfYearUseCase::TeamProlongations do
+RSpec.describe SeasonUseCase::TeamProlongations do
   subject(:prolongations) do
-    EndOfYearUseCase::TeamProlongations.decisions(date: date)
+    SeasonUseCase::TeamProlongations.decisions(date: date)
   end
 
   let(:date) { Date.new(2016,6,30) }

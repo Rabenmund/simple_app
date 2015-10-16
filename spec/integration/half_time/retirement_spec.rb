@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-RSpec.describe EndOfYearUseCase::PlayerRetirements do
+RSpec.describe SeasonUseCase::PlayerRetirements do
   subject do
-    EndOfYearUseCase::PlayerRetirements.new(year: 2015)
+    SeasonUseCase::PlayerRetirements.new(year: 2015)
   end
 
   let(:date) { Date.new(2015,7,1) }

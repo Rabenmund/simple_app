@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-RSpec.describe EndOfYearUseCase::TeamProlongations do
+RSpec.describe SeasonUseCase::TeamProlongations do
   subject do
-    EndOfYearUseCase::TeamProlongations
+    SeasonUseCase::TeamProlongations
   end
 
   let(:team) { create :team }

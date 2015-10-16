@@ -1,8 +1,8 @@
 require 'spec_helper' # don't know where to find rails class for + years
 
-RSpec.describe EndOfYearUseCase::PlayerRetirements do
+RSpec.describe SeasonUseCase::PlayerRetirements do
   subject(:retirements) do
-    EndOfYearUseCase::PlayerRetirements.new(year: 2015)
+    SeasonUseCase::PlayerRetirements.new(year: 2015)
   end
 
   let(:date) { Date.new(2015,7,1) }

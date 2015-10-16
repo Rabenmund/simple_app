@@ -18,27 +18,28 @@ class Matchday < ActiveRecord::Base
   validates :competition,
     presence: true
 
-  def next_appointable
-    next_appointment.try(:appointable)
-  end
+  # def next_appointable
+  #   next_appointment.try(:appointable)
+  # end
 
-  def next_appointment
-    @appointment ||= appointments.
-      order(appointed_at: :asc).
-      first
-  end
+  # def next_appointment
+  #   @appointment ||= appointments.
+  #     order(appointed_at: :asc).
+  #     first
+  # end
 
-  def current_date_time
-    next_appointment.
-      try(:appointed_at) ||
-    games.
-      order(performed_at: :desc, second: :desc).
-      first.try(:current_date_time) ||
-    start
-  end
+  # def current_date_time
+  #   next_appointment.
+  #     try(:appointed_at) ||
+  #   games.
+  #     order(performed_at: :desc, second: :desc).
+  #     first.try(:current_date_time) ||
+  #   start
+  # end
 
   def perform!
-    next_appointable.perform!
+    # TODO: find a better way to perform a matchday...:-)
+    # next_appointable.perform!
   end
 
   def has_games?
