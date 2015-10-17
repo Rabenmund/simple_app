@@ -1,4 +1,4 @@
-require_relative '../../../../lib/use_cases/player_use_case/all_decide_offers'
+require_relative '../../../lib/player_use_case/all_decide_offers'
 
 RSpec.describe PlayerUseCase::AllDecideOffers do
   subject(:decision) do

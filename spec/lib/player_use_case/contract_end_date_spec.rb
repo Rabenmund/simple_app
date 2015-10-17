@@ -1,6 +1,4 @@
-# require_relative "../../../../lib/use_cases/player_use_case/contract_end_date"
-# require "active_support/core_ext/integer/time"
-require 'spec_helper' # don't know where to find rails class for + years
+require 'spec_helper'
 
 RSpec.describe PlayerUseCase::ContractEndDate do
   subject(:end_date) do

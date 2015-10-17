@@ -1,4 +1,4 @@
-require_relative '../../../../lib/use_cases/player_use_case/retirement'
+require_relative '../../../lib/player_use_case/retirement'
 
 RSpec.describe PlayerUseCase::Retirement do
   subject(:retirement) do

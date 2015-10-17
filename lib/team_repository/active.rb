@@ -5,10 +5,9 @@ module TeamRepository
         Team
           .joins(:competitions)
           .joins(:seasons)
-          .where(
-            "seasons.start_date <= ? AND seasons.end_date >= ?",
-            date, date
-          )
+          .where("seasons.start_date <= ? AND seasons.end_date >= ?",
+                 date, date)
+          .uniq
       end
     end
   end

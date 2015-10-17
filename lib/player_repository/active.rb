@@ -1,10 +1,12 @@
 module PlayerRepository
   module Active
     class << self
-      def at(date)
+      def for_teams_at(teams:, date:)
         PlayerRepository::ContractableFinder.at(date) +
-          ContractedFinder.at(date)
+          PlayerRepository::ContractedFinder
+          .for_teams_at(teams: teams, date: date)
       end
+
     end
   end
 end

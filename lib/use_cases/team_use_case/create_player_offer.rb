@@ -1,6 +1,3 @@
-require 'use_cases/player_use_case/contract_end_date'
-require 'repositories/offer_repository/create'
-
 module TeamUseCase
   module CreatePlayerOffer
     class << self

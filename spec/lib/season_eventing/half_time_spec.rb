@@ -28,9 +28,10 @@ RSpec.describe SeasonEventing::HalfTime do
         double("PlayerRetirements", decisions: :ids_of_retired_players))
     expect(PlayerUseCase::AllDecideOffers)
       .to receive(:decisions)
-    expect(SeasonUseCase::ProduceMissingPlayers)
-      .to receive(:at)
+    expect(PlayerUseCase::MissingPlayerDetector)
+      .to receive(:new)
       .with(event.season.end_date+1.day)
+      .and_return double("Detector", generate_players: true)
     event.call
   end
 end

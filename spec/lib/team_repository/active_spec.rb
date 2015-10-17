@@ -21,8 +21,9 @@ RSpec.describe TeamRepository::Active do
     league.teams << active2
   end
 
-  it "provides the count of all active teams at a date" do
-    expect(actives.at(Date.new(2015,12,1))).to eq [active1, active2]
+  it "provides all active teams at a date" do
+    expect(actives.at(Date.new(2015,12,1))).to include active1
+    expect(actives.at(Date.new(2015,12,1))).to include active2
   end
 
 end

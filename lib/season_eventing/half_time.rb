@@ -11,9 +11,9 @@ module SeasonEventing
       PlayerUseCase::AllDecideOffers
         .decisions
       # TODO: move that to season teardown before final negotiation round
-      # TODO: move that under another namespace - not season related
-      SeasonUseCase::ProduceMissingPlayers
-        .at(season.end_date+1.day)
+      PlayerUseCase::MissingPlayerDetector
+        .new(season.end_date+1.day)
+        .generate_players
     end
   end
 end
