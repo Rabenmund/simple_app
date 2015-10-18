@@ -1,8 +1,9 @@
-require_relative '../../../lib/season_use_case/season_tearup'
+require_relative '../../../lib/season_use_case/tear_up'
 
-RSpec.describe SeasonUseCase::SeasonTearUp do
-  subject(:tear_up) { SeasonUseCase::SeasonTearUp.new(id: 1) }
+RSpec.describe SeasonUseCase::TearUp do
+  subject(:tear_up) { SeasonUseCase::TearUp.new(id: 1) }
 
-  it "does anything..."
+  it "invokes the season event plan"
+  it "invokes the competition plans"
 
 end
