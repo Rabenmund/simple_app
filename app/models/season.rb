@@ -1,15 +1,15 @@
 class Season < ActiveRecord::Base
   validates :year, numericality: true, presence: true
-  has_and_belongs_to_many :federations
+  # has_and_belongs_to_many :federations
   has_many :season_events
-  has_many :appointments, through: :season_events
+  # has_many :appointments, through: :season_events
   has_many :competitions
-  has_many :matchdays, through: :competitions
-  has_many :games, through: :matchdays
-  has_many :results, through: :leagues
+  # has_many :matchdays, through: :competitions
+  # has_many :games, through: :matchdays
+  # has_many :results, through: :leagues
   has_many :leagues
-  has_many :cups
-  has_many :relegations
+  # has_many :cups
+  # has_many :relegations
   has_many :teams, -> { uniq }, through: :competitions
 
   def self.tearup!(year = (LogicalDate.year+1))
