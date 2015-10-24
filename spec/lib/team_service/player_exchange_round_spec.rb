@@ -1,24 +1,23 @@
 require_relative '../../../lib/team_service/player_exchange_round'
+require_relative '../../../lib/team_service/offers_for_needs'
+require_relative '../../../lib/player_use_case/decide_offers'
 
 describe TeamService::PlayerExchangeRound do
 
   subject(:round) do
     TeamService::PlayerExchangeRound
-      .new(team_ids: [1,2], contract_start: :date)
+      .new(teams: [:team1,:team2], contract_start: :date)
   end
 
   it "places and negotiates offers for the needs of all teams" do
-    allow(Player).to receive(:find).with(1).and_return(:player1)
-    allow(Player).to receive(:find).with(2).and_return(:player2)
-    allow(Player).to receive(:find).with(3).and_return(:player3)
     expect(TeamService::OffersForNeeds)
       .to receive(:new)
-      .with(id: 1, contract_start: :date)
-      .and_return double("Players", players: [1,3])
+      .with(team: :team1, contract_start: :date)
+      .and_return double("Players", players: [:player1, :player2])
     expect(TeamService::OffersForNeeds)
       .to receive(:new)
-      .with(id: 2, contract_start: :date)
-      .and_return double("Players", players: [2,3])
+      .with(team: :team2, contract_start: :date)
+      .and_return double("Players", players: [:player2, :player3])
     expect(PlayerUseCase::DecideOffers)
       .to receive(:new)
       .with(player: :player1)

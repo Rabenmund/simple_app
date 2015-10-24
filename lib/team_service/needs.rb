@@ -1,11 +1,8 @@
-require 'team_repository/current_team_structure'
-require 'team_structure'
-
 module TeamService
   class Needs
-    def initialize(id:, date:)
+    def initialize(team:, date:)
       @date = date
-      @id = id
+      @team = team
     end
 
     def team_structure
@@ -14,7 +11,7 @@ module TeamService
 
     private
 
-    attr_reader :id, :date
+    attr_reader :team, :date
 
     def goal_team_structure
       TeamStructure.new(3,8,8,4)
@@ -22,7 +19,7 @@ module TeamService
 
     def current_team_structure
       TeamRepository::CurrentTeamStructure
-        .current_team_structure(id: id, date: date)
+        .current_team_structure(team: team, date: date)
     end
 
   end

@@ -1,26 +1,24 @@
-require 'team_service/needs'
-
 module TeamService
   class Incompleted
-    def initialize(ids:, date:)
-      @ids = ids
+    def initialize(teams:, date:)
+      @teams = teams
       @date = date
     end
 
-    def teams
-      ids.keep_if {|id| needs_player? id }
+    def need_players
+      teams.keep_if {|team| needs_player? team }
     end
 
     private
 
-    attr_reader :ids, :date
+    attr_reader :teams, :date
 
-    def needs_player?(id)
-      needed_structure(id).size > 0
+    def needs_player?(team)
+      needed_structure(team).size > 0
     end
 
-    def needed_structure(id)
-      TeamService::Needs.new(id: id, date: date).team_structure
+    def needed_structure(team)
+      TeamService::Needs.new(team: team, date: date).team_structure
     end
   end
 end

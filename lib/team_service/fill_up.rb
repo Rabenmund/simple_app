@@ -1,35 +1,34 @@
 module TeamService
   class FillUp
-    def initialize(ids:, start_date:)
-      @ids = ids
+    def initialize(teams:, start_date:)
+      @teams = teams
       @start_date = start_date
     end
 
     def fill_up
-      exchange_players_for incompleted_teams(ids)
-      return ids
+      exchange_players_for incompleted_teams(teams)
     end
 
     private
 
-    attr_reader :ids, :start_date
+    attr_reader :teams, :start_date
 
     # Recursive
-    def exchange_players_for(team_ids)
-      return true if team_ids.empty?
+    def exchange_players_for(teams)
+      return true if teams.empty?
 
       TeamService::PlayerExchangeRound.new(
-        team_ids: team_ids,
+        teams: teams,
         contract_start: start_date
       ).execute
 
-      exchange_players_for incompleted_teams(team_ids)
+      exchange_players_for incompleted_teams(teams)
     end
 
-    def incompleted_teams(team_ids)
+    def incompleted_teams(teams)
       TeamService::Incompleted
-        .new(ids: team_ids, date: start_date)
-        .teams
+        .new(teams: teams, date: start_date)
+        .need_players
     end
   end
 end

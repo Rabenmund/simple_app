@@ -1,39 +1,35 @@
-require 'team_service/offers_for_needs'
-
 module TeamService
   class PlayerExchangeRound
 
-    def initialize(team_ids:, contract_start:)
-      @team_ids = team_ids
+    def initialize(teams:, contract_start:)
+      @teams = teams
       @contract_start = contract_start
     end
 
     def execute
-      player_ids = Array.new
+      players = Array.new
 
-      team_ids.each do |team_id|
-        player_ids.concat offer_for_player_needs(team_id)
+      teams.each do |team|
+        players.concat offer_for_player_needs(team)
       end
 
-      player_ids.uniq.each do |player_id|
-        create_contract_for player_id
+      players.uniq.each do |player|
+        create_contract_for player
       end
     end
 
     private
 
-    attr_reader :team_ids, :contract_start
+    attr_reader :teams, :contract_start
 
-    def offer_for_player_needs(team_id)
+    def offer_for_player_needs(team)
       TeamService::OffersForNeeds
-        .new(id: team_id, contract_start: contract_start).players
+        .new(team: team, contract_start: contract_start).players
     end
 
-    def create_contract_for(player_id)
-      # TODO: do not use Player model here
-      # inject objects to class
+    def create_contract_for(player)
       PlayerUseCase::DecideOffers
-        .new(player: Player.find(player_id))
+        .new(player: player)
         .accept_best_offer
     end
   end
