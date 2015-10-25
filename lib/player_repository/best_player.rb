@@ -10,11 +10,11 @@ module PlayerRepository
       attacker: :attack
     }
 
-    def initialize(type:, date:, reputation:, team_id:)
+    def initialize(type:, date:, reputation:, team:)
       @strength = STRENGTH[type.to_sym]
       @date = date
       @reputation = reputation
-      @team_id = team_id
+      @team = team
       @best_player = player
       validate_player_existing
     end
@@ -23,7 +23,7 @@ module PlayerRepository
 
     private
 
-    attr_reader :strength, :date, :reputation, :team_id
+    attr_reader :strength, :date, :reputation, :team
 
     def validate_player_existing
       best_player || raise(NoBestPlayerFoundError)
@@ -32,7 +32,7 @@ module PlayerRepository
     def player
       Player
         .active
-        .without_offer_by(team_id, date)
+        .without_offer_by(team.id, date)
         .without_contract_at(date)
         .without_too_many_hard_competitors(reputation)
         .where.not(strength => 0)

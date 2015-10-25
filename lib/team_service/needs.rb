@@ -19,7 +19,8 @@ module TeamService
 
     def current_team_structure
       TeamRepository::CurrentTeamStructure
-        .current_team_structure(team: team, date: date)
+        .new(team: team)
+        .team_structure_at(date)
     end
 
   end

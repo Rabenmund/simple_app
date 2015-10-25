@@ -20,30 +20,18 @@ RSpec.describe SeasonEventing::FinishPlayerExchange do
     cup.teams << team3
   end
 
-  it "fills up all teams with players by league" do
-    allow(TeamService::FillUp)
+  it "fills up all teams with players by league and without" do
+    expect(TeamService::FillUp)
       .to receive(:new)
+      .with(teams: [team1], start_date: season.start_date)
       .and_return double fill_up: true
-    expect(LeagueService::FillUpTeams)
+    expect(TeamService::FillUp)
       .to receive(:new)
-      .with(league: league1)
-      .and_return double("FillUp", fill_up: true)
-    expect(LeagueService::FillUpTeams)
-      .to receive(:new)
-      .with(league: league2)
-      .and_return double("FillUp", fill_up: true)
-    finisher.call
-  end
-
-  it "fills up all teams with players despite league" do
-    expect(season.teams.count).to eq 3
-    expect(Team.all.count).to eq 4
+      .with(teams: [team2], start_date: season.start_date)
+      .and_return double fill_up: true
     expect(TeamService::FillUp)
       .to receive(:new)
       .with(teams: season.teams, start_date: season.start_date)
-      .and_return double("FillUp", fill_up: true)
-    allow(LeagueService::FillUpTeams)
-      .to receive(:new)
       .and_return double fill_up: true
     finisher.call
   end

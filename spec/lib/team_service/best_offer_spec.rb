@@ -19,9 +19,9 @@ RSpec.describe TeamService::BestOffer do
         reputation: 100)
       .and_return double("BestPlayer", best_player: best_player)
     allow(PlayerUseCase::ContractEndDate)
-      .to receive(:new)
-      .with(start_date: date)
-      .and_return double("EndDate", end_date: :end_date)
+      .to receive(:call)
+      .with(start_date: date, player: best_player)
+      .and_return :end_date
 
     expect(OfferRepository::Create)
       .to receive(:create)

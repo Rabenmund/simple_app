@@ -6,12 +6,13 @@ module TeamService
     end
 
     def offer_player(type:)
+      player = best_player(type)
       OfferRepository::Create.create(
-        player: best_player(type),
+        player: player,
         team: team,
         reputation: team.reputation,
         start_date: date,
-        end_date: end_date
+        end_date: end_date_for(player)
       )
     end
 
@@ -32,8 +33,8 @@ module TeamService
       ).best_player
     end
 
-    def end_date
-      PlayerUseCase::ContractEndDate.new(start_date: date).end_date
+    def end_date_for(player)
+      PlayerUseCase::ContractEndDate.call(start_date: date, player: player)
     end
   end
 end

@@ -3,7 +3,11 @@ require 'spec_helper'
 RSpec.describe PlayerRepository::BestPlayer do
   subject(:players) do
     PlayerRepository::BestPlayer
-      .new(type: :keeper, date: Date.today, reputation: 100, team_id: 1)
+      .new(type: :keeper,
+           date: Date.today,
+           reputation: 100,
+           team: double("Team", id: 1)
+          )
   end
 
   it "queries the best player" do
