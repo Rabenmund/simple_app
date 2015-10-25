@@ -8,8 +8,6 @@ RSpec.describe SeasonUseCase::EventPlanner do
     allow(SeasonEventing::TearDownCreator).to receive :for_season
   end
 
-  it "creates a finish player exchange event"
-
   it "creates a half time event" do
     expect(SeasonEventing::HalfTimeCreator)
       .to receive(:for_season)

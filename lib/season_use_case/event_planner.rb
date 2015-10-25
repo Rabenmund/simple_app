@@ -5,7 +5,6 @@ module SeasonUseCase
     end
 
     def call
-      # create finish player exchange event
       SeasonEventing::FinishPlayerExchangeCreator.for_season(season)
       SeasonEventing::HalfTimeCreator.for_season(season)
       SeasonEventing::TearDownCreator.for_season(season)

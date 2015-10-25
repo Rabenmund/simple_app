@@ -17,10 +17,9 @@ module TeamService
     def exchange_players_for(teams)
       return true if teams.empty?
 
-      TeamService::PlayerExchangeRound.new(
-        teams: teams,
-        contract_start: start_date
-      ).execute
+      TeamService::PlayerExchangeRound
+        .new(teams: teams, contract_start: start_date)
+        .execute
 
       exchange_players_for incompleted_teams(teams)
     end
