@@ -2,13 +2,17 @@ module SeasonEventing
   class TearDown < SeasonEvent
 
     def call
-      SeasonUseCase::TearUp.new(season: next_season).invoke
+      SeasonUseCase::TearUp
+        .new(season: next_season)
+        .invoke
     end
 
     private
 
     def next_season
-      SeasonRepository::NextSeasonCreator.new(season: season).create
+      SeasonRepository::SeasonCreator
+        .new(previous: season)
+        .create_with_competitions
     end
   end
 end

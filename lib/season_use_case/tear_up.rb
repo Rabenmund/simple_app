@@ -8,12 +8,8 @@ module SeasonUseCase
       # no event / not appointed - will be called by tear down event
 
       # create season events
+      #  TODO: move to seasoncreator
       EventPlanner.new(season: season).call
-      # create competitions according federation plans
-      # federations.each { |f| CompetitionPlanner(federation: f).new.call }
-      # oder
-      # DFBCompetitionPlanner.new(season: season).call
-      # UEFACompetitionPlanner ...
     end
 
     private

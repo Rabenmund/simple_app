@@ -40,6 +40,15 @@ FactoryGirl.define do
     sequence(:name) { |n| "Verband ##{n}" }
   end
 
+  factory :competition_plan do
+    federation
+    type 'DFBPlan'
+  end
+
+  factory :dfb_plan, class: CompetitionPlanning::DfbPlan do
+    federation
+  end
+
   factory :team do
     sequence(:name) { |n| "Mannschaft ##{n}" }
     sequence(:short_name) { |n| "MSV ##{n}" }

@@ -1,6 +1,6 @@
 class Season < ActiveRecord::Base
   validates :year, numericality: true, presence: true
-  # has_and_belongs_to_many :federations # vielleicht nötig
+  has_and_belongs_to_many :federations
   has_many :season_events
   has_many :competitions
   has_many :leagues # nötig?

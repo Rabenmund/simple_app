@@ -8,5 +8,9 @@ class Federation < ActiveRecord::Base
   has_many :relegations
   has_many :leagues
 
+  has_one :competition_plan
+
   validates :name, uniqueness: true
+
+
 end
