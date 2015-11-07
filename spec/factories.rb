@@ -165,4 +165,18 @@ FactoryGirl.define do
 
   factory :teardownable, parent: :competition do
   end
+
+  factory :result do
+    team
+    league
+    points 50
+    goals 100
+    against 80
+    diff 20
+    win 10
+    draw 20
+    lost 4
+    level 1
+    rank 1
+  end
 end

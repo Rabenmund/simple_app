@@ -64,27 +64,27 @@ RSpec.describe LeagueRepository::LeagueCreator do
     previous_second.teams <<
       @team5 << @team6 << @team7 << @team8 << @team9 << @team10
 
-    allow(LeagueRepository::Remainers)
+    allow(LeagueUseCase::Remainers)
       .to receive(:new)
       .with(league: previous_first)
       .and_return(double("RemainersInFirst", between: [@team1]))
-    allow(LeagueRepository::Remainers)
+    allow(LeagueUseCase::Remainers)
       .to receive(:new)
       .with(league: previous_second)
       .and_return(double("RemainersInSecond", between: []))
-    allow(LeagueRepository::Promoters)
+    allow(LeagueUseCase::Promoters)
       .to receive(:new)
       .with(league: previous_first)
       .and_return(double("PromotersToFirst", first: [@team5, @team6, @team7]))
-    allow(LeagueRepository::Promoters)
+    allow(LeagueUseCase::Promoters)
       .to receive(:new)
       .with(league: previous_second)
       .and_return(double("PromotersToSecond", first: [@team11, @team12, @team13]))
-    allow(LeagueRepository::Relegators)
+    allow(LeagueUseCase::Relegators)
       .to receive(:new)
       .with(league: previous_first)
       .and_return(double("RelegatorsToFirst", last: []))
-    allow(LeagueRepository::Relegators)
+    allow(LeagueUseCase::Relegators)
       .to receive(:new)
       .with(league: previous_second)
       .and_return(double("RelegatorsToSecond", last: [@team2, @team3, @team4]))
@@ -130,6 +130,8 @@ RSpec.describe LeagueRepository::LeagueCreator do
     expect(teams).to include @team15
     expect(teams).to include @team0
   end
+
+  it "creates matchdays, games and appointments....somewhere"
 
   it "should be refactored"
 
