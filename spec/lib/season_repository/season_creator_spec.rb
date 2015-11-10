@@ -18,11 +18,11 @@ RSpec.describe SeasonRepository::SeasonCreator do
 
   it "creates the next season according to competition plans" do
     allow(previous).to receive(:next_one).and_return nil
-    expect(LeagueRepository::LeagueCreator)
+    expect(LeagueUseCase::LeaguePlanner)
       .to receive(:new)
       .with(season: season, previous: previous, federation: fed1)
       .and_return double("Creator", by_plan: true)
-    expect(LeagueRepository::LeagueCreator)
+    expect(LeagueUseCase::LeaguePlanner)
       .to receive(:new)
       .with(season: season, previous: previous, federation: fed2)
       .and_return double("Creator", by_plan: true)

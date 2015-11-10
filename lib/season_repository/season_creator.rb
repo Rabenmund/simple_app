@@ -9,7 +9,7 @@ module SeasonRepository
     def create_with_competitions
       fail SeasonAlreadyCreatedError if previous.next_one
       previous.federations.each do |federation|
-        LeagueRepository::LeagueCreator
+        LeagueUseCase::LeaguePlanner
           .new(season: season, previous: previous, federation: federation)
           .by_plan(federation.competition_plan.leagues)
         CupRepository::CupCreator
