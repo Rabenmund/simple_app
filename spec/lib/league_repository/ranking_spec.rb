@@ -25,6 +25,6 @@ RSpec.describe LeagueRepository::Ranking do
   end
 
   it "finds teams from..to a specific ranking place" do
-    expect(ranking.between(2,2)).to eq [team2]
+    expect(ranking.from(2,1)).to eq [team2]
   end
 end

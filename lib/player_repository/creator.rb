@@ -7,5 +7,3 @@ module PlayerRepository
     end
   end
 end
-
-

@@ -9,7 +9,7 @@ RSpec.describe LeagueUseCase::Promoters do
   let(:sub2) { double "Subleague 2" }
 
   it "asks for the teams being no promoter or relgator" do
-    ranker = double "Ranker"
+    ranker = double "Ranker", first: [:team]
     expect(LeagueRepository::Ranking)
       .to receive(:new)
       .with(league: sub1)
@@ -18,9 +18,6 @@ RSpec.describe LeagueUseCase::Promoters do
       .to receive(:new)
       .with(league: sub2)
       .and_return ranker
-    allow(ranker)
-      .to receive(:first)
-      .and_return :team
     allow(LeagueRepository::Subleagues)
       .to receive(:find_all_for)
       .with(league)

@@ -10,7 +10,6 @@ module LeagueRepository
         .joins(:results)
         .order("results.rank")
         .first(no)
-
     end
 
     def last(no = 1)
@@ -19,22 +18,18 @@ module LeagueRepository
         .joins(:results)
         .order("results.rank")
         .last(no)
-
     end
 
-    def between(from, to)
+    def from(from, size)
       league
         .teams
         .joins(:results)
         .order("results.rank")
-        .where("results.rank" => from..to)
-
+        .where("results.rank" => from..(from+size - 1))
     end
 
     private
 
     attr_reader :league
-
   end
-
 end

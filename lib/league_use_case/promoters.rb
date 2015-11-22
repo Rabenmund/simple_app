@@ -10,17 +10,19 @@ module LeagueUseCase
       subleagues = LeagueRepository::Subleagues
         .find_all_for league
 
-      # funktioniert nur mit einem Aufsteiger pro subleague
-      unless promoters_no == subleagues.size
+      # funktioniert nur mit einem Aufsteiger pro subleague oder 1 subleague
+      unless promoters_no == subleagues.size || subleagues.size < 2
         fail SubleaguesDoNotMatchPromotersNumberError
       end
 
       # array/hash/enum.inject(initialize memo) {|memo, v/k,v/v} returns memo
-      subleagues.inject([]) do |memo, subleague|
-        memo << LeagueRepository::Ranking
+      memo = subleagues.inject([]) do |memo, subleague|
+        ranks = LeagueRepository::Ranking
           .new(league: subleague)
-          .first
+          .first(promoters_no)
+        memo.concat ranks
       end
+      memo
     end
 
     private

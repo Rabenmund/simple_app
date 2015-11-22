@@ -6,11 +6,22 @@ module LeagueRepository
       @league = League.new(attributes)
     end
 
-    def invoke_with_teams(teams)
-      league.save!
-      # Create matchdays and games
+    def add_teams(teams)
       teams.each {|team| league.teams << team }
-      league
+    end
+
+    def ensure_team_size(size)
+      LeagueUseCase::FillUpWithTeams
+        .new(league: league, size: size)
+        .random
+    end
+
+    def save!
+      league.save!
+    end
+
+    def plan_games_for(teams)
+      LeagueUseCase::GamesPlanner.new(league: league).call
     end
   end
 end

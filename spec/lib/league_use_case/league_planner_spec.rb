@@ -31,104 +31,80 @@ RSpec.describe LeagueUseCase::LeaguePlanner do
       level: 2,
       federation: federation
   end
+  let(:previous_third) do
+    create :league,
+      season: previous_season,
+      name: "3.Bundesliga",
+      level: 3,
+      federation: federation
+  end
   let(:federation) { create :federation }
   let(:first) { create :league, season: season }
   let(:plan) do
     double("Plan", leagues: [
       MethodicalHash.new({ name: "Bundesliga",
         level: 1,
-        promoters_no: 3,
-        relegators_no: 0,
-        teams_no: 4 }),
+        promoted_from_sub: 3,
+        teams_no: 18 }),
       MethodicalHash.new({ name: "2.Bundesliga",
         level: 2,
-        promoters_no: 3,
-        relegators_no: 3,
-        teams_no: 6 }),
+        promoted_from_sub: 3,
+        teams_no: 18 }),
       MethodicalHash.new({ name: "3.Bundesliga",
         level: 3,
-        promoters_no: 3,
-        relegators_no: 0,
-        teams_no: 6 })
+        promoted_from_sub: 3,
+        teams_no: 18 })
     ])
   end
 
-  def create_team(n)
+  def create_team(n, m=n, league=nil)
     eval "@team#{n} = create :team, federation: federation"
+    if league
+      eval "league.teams << @team#{n}"
+      eval "create :result, team: @team#{n}, league: league, rank: #{m}"
+    end
   end
 
   before do
     previous_season.federations << federation
-    16.times {|n| create_team n }
-    previous_first.teams << @team1 << @team2 << @team3 << @team4
-    previous_second.teams <<
-      @team5 << @team6 << @team7 << @team8 << @team9 << @team10
-
-    allow(LeagueUseCase::Remainers)
-      .to receive(:new)
-      .with(league: previous_first)
-      .and_return(double("RemainersInFirst", between: [@team1]))
-    allow(LeagueUseCase::Remainers)
-      .to receive(:new)
-      .with(league: previous_second)
-      .and_return(double("RemainersInSecond", between: []))
-    allow(LeagueUseCase::Promoters)
-      .to receive(:new)
-      .with(league: previous_first)
-      .and_return(double("PromotersToFirst", first: [@team5, @team6, @team7]))
-    allow(LeagueUseCase::Promoters)
-      .to receive(:new)
-      .with(league: previous_second)
-      .and_return(double("PromotersToSecond", first: [@team11, @team12, @team13]))
-    allow(LeagueUseCase::Relegators)
-      .to receive(:new)
-      .with(league: previous_first)
-      .and_return(double("RelegatorsToFirst", last: []))
-    allow(LeagueUseCase::Relegators)
-      .to receive(:new)
-      .with(league: previous_second)
-      .and_return(double("RelegatorsToSecond", last: [@team2, @team3, @team4]))
+    18.times {|n| create_team n + 1, n + 1, previous_first }
+    18.times {|n| create_team (n + 1 + 18), n + 1, previous_second }
+    18.times {|n| create_team (n + 1 + 36), n + 1, previous_third }
+    3.times {|n| create_team (n + 1 + 54) }
   end
 
   it "creates a first league with promoters" do
-    creator.by_plan(plan.leagues)
+    creator.with_plan(plan.leagues)
     expect(season.leagues.reload.count).to eq 3
     first = season.leagues.find_by(name: "Bundesliga")
     expect(first.level).to eq 1
     teams = first.teams
-    expect(teams.size).to eq 4
-    expect(teams).to include @team1
-    expect(teams).to include @team5
-    expect(teams).to include @team6
-    expect(teams).to include @team7
-  end
+    expect(teams.size).to eq 18
+    expect(teams).to contain_exactly(
+      @team1, @team2, @team3, @team4, @team5, @team6,
+      @team7, @team8, @team9, @team10, @team11, @team12,
+      @team13, @team14, @team15, @team19, @team20, @team21
+    )
 
-  it "creates a second league with relegators and promoters" do
-    creator.by_plan(plan.leagues)
     second = season.leagues.find_by(name: "2.Bundesliga")
     expect(second.level).to eq 2
     teams = second.teams
-    expect(teams.size).to eq 6
-    expect(teams).to include @team2
-    expect(teams).to include @team3
-    expect(teams).to include @team4
-    expect(teams).to include @team11
-    expect(teams).to include @team12
-    expect(teams).to include @team13
-  end
+    expect(teams.size).to eq 18
+    expect(teams).to contain_exactly(
+      @team16, @team17, @team18, @team22, @team23, @team24,
+      @team25, @team26, @team27, @team28, @team29, @team30,
+      @team31, @team32, @team33, @team37, @team38, @team39
+    )
 
-  it "creates a league without promoters" do
-    creator.by_plan(plan.leagues)
     third = season.leagues.find_by(name: "3.Bundesliga")
     expect(third.level).to eq 3
     teams = third.teams
-    expect(teams.size).to eq 6
-    expect(teams).to include @team8
-    expect(teams).to include @team9
-    expect(teams).to include @team10
-    expect(teams).to include @team14
-    expect(teams).to include @team15
-    expect(teams).to include @team0
+    expect(teams.size).to eq 18
+    expect(teams).to contain_exactly(
+      @team34, @team35, @team36, @team40, @team41, @team42,
+      @team43, @team44, @team45, @team46, @team47, @team48,
+      @team49, @team50, @team51, @team55, @team56, @team57
+    )
   end
 
   it "should be refactored"

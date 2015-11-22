@@ -12,8 +12,8 @@ RSpec.describe LeagueUseCase::Remainers do
       .with(league: league)
       .and_return ranker
     expect(ranker)
-      .to receive(:from_to)
-      .with(666, 42)
-    remainers.between promoters_no: 666, relegators_no: 42
+      .to receive(:from)
+      .with(4, 12)
+    remainers.from promoters_no: 3, size: 12
   end
 end
