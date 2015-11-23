@@ -105,8 +105,7 @@ RSpec.describe LeagueUseCase::LeaguePlanner do
       @team43, @team44, @team45, @team46, @team47, @team48,
       @team49, @team50, @team51, @team55, @team56, @team57
     )
+
+    expect(first.games.count).to eq 306
   end
-
-  it "should be refactored"
-
 end

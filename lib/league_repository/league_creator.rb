@@ -21,7 +21,7 @@ module LeagueRepository
     end
 
     def plan_games_for(teams)
-      LeagueUseCase::GamesPlanner.new(league: league).call
+      CompetitionUseCase::GamesPlanner.new(competition: league, type: :league).call
     end
   end
 end

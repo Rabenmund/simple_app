@@ -1,8 +1,10 @@
 require 'spec_helper'
 
-RSpec.describe LeagueUseCase::GamesPlanner do
-  subject(:planner) { LeagueUseCase::GamesPlanner.new(league: league) }
-  let(:league) { double("League") }
+RSpec.describe CompetitionUseCase::GamesPlanner do
+  subject(:planner) do
+    CompetitionUseCase::GamesPlanner.new(competition: league, type: :league)
+  end
+  let(:league) { double("League", id: 42) }
   let(:calender) do
     double("Calender",
            matchdays: [matchday, matchday]
@@ -12,7 +14,7 @@ RSpec.describe LeagueUseCase::GamesPlanner do
     double("Matchday",
            id: 1,
            games: [game, game],
-           attributes: :attributes
+           attributes: {attributes: :attributes}
           )
   end
   let(:game) do
@@ -23,13 +25,13 @@ RSpec.describe LeagueUseCase::GamesPlanner do
   end
 
   it "calls the game and matchday creators according GamePlanCalender" do
-    expect(LeagueUseCase::GamePlanCalender)
+    expect(CompetitionUseCase::GamePlanCalender)
       .to receive(:new)
-      .with(league: league)
+      .with(competition: league, type: :league)
       .and_return calender
     expect(MatchdayRepository::MatchdayCreator)
       .to receive(:create)
-      .with(:attributes)
+      .with({attributes: :attributes, competition_id: 42})
       .exactly(2).times
       .and_return matchday
     expect(GameRepository::GameCreator)

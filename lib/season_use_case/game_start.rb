@@ -144,7 +144,6 @@ module SeasonUseCase
         }
       }
 
-      # TODO struct!
       def date_time(type:, level: 1, matchday_start:, number:)
         date_time = date_time_for type, level, number
         new_date = matchday_start + date_time[0].days

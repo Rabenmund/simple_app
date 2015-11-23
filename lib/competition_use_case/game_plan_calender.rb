@@ -1,4 +1,4 @@
-module LeagueUseCase
+module CompetitionUseCase
   class TeamsSizeError < StandardError; end
 
   class GamePlanCalender
@@ -23,10 +23,11 @@ module LeagueUseCase
       [[1,9],[16,8],[15,7],[14,6],[13,5],[12,4],[11,3],[10,2],[17,18]],
     ]}
 
-    def initialize(league: league)
-      @league = league
-      @league_start = SeasonUseCase::CompetitionStart
-        .date_for(year: league.season.year)
+    def initialize(competition:, type:)
+      @competition = competition
+      @type = type
+      @competition_start = SeasonUseCase::CompetitionStart
+        .date_for(year: competition.season.year)
     end
 
     def matchdays
@@ -34,11 +35,11 @@ module LeagueUseCase
       PLAN[number_of_matchdays].each_with_index do |plan, number|
 
         matchday = PlanMatchday.new(
-          type: :league,
+          type: type,
           start: matchday_start(number),
-          number: number,
+          number: number+1,
           plan: plan,
-          level: league.level
+          level: competition.level
         )
         matchdays_enum << matchday
       end
@@ -46,17 +47,17 @@ module LeagueUseCase
     end
 
     private
-    attr_reader :league, :league_start
+    attr_reader :competition, :competition_start, :type
 
     MATCHDAY_NUMBER = {18 => 34}
 
     def number_of_matchdays
       fail TeamsSizeError unless MATCHDAY_NUMBER.keys.include? teams_size
-      MATCHDAY_NUMBER[league.teams.size]
+      MATCHDAY_NUMBER[competition.teams.size]
     end
 
     def teams_size
-      @teams_size ||= league.teams.size
+      @teams_size ||= competition.teams.size
     end
 
     def date
@@ -65,11 +66,11 @@ module LeagueUseCase
 
     def matchday_start(number)
       SeasonUseCase::MatchdayStart.date_for(
-        type: :league,
+        type: type,
         number_all: number_of_matchdays,
-        competition_start: league_start,
+        competition_start: competition_start,
         number: number,
-        level: league.level
+        level: competition.level
         )
     end
 
@@ -95,7 +96,7 @@ module LeagueUseCase
           game = PlanGame.new(
             home_id: game_ids[0],
             guest_id: game_ids[1],
-            start: SeasonUseCase::GameStart.date_time(type: type, level: level, matchday_start: start, number: index)
+            start: game_start(index)
           )
           games_enum << game
         end
@@ -103,28 +104,34 @@ module LeagueUseCase
 
       end
 
-
       private
       attr_reader :start, :number, :plan, :type, :level
 
-      # TODO struct and attributes
-      class PlanGame
-        attr_reader :start
-        def initialize(home_id:, guest_id:, start:)
-          @home_id = home_id
-          @guest_id = guest_id
-          @start = start
-        end
-
-        def attributes
-          { home_id: home_id, guest_id: guest_id }
-        end
-
-        private
-
-        attr_reader :home_id, :guest_id
-
+      def game_start(index)
+        SeasonUseCase::GameStart
+          .date_time(type: type,
+                     level: level,
+                     matchday_start: start,
+                     number: index)
       end
+    end
+
+    class PlanGame
+      attr_reader :start
+
+      def initialize(home_id:, guest_id:, start:)
+        @home_id = home_id
+        @guest_id = guest_id
+        @start = start
+      end
+
+      def attributes
+        { home_id: home_id, guest_id: guest_id }
+      end
+
+      private
+
+      attr_reader :home_id, :guest_id
 
     end
   end
