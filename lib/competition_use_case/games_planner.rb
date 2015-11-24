@@ -6,15 +6,12 @@ module CompetitionUseCase
     end
 
     def call
-      puts "GPlanner: #{competition.inspect}"
       calender.matchdays.each_with_index do |plan_matchday|
 
         matchday = MatchdayRepository::MatchdayCreator
           .create(plan_matchday
                     .attributes
                     .merge({competition_id: competition.id}))
-
-        puts "GP matchday: #{matchday.inspect}"
 
         plan_matchday.games.each_with_index do |plan_game, index|
           GameRepository::GameCreator.with_appointment(

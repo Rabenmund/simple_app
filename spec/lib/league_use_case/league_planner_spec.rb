@@ -107,5 +107,10 @@ RSpec.describe LeagueUseCase::LeaguePlanner do
     )
 
     expect(first.games.count).to eq 306
+    expect(second.games.count).to eq 306
+    expect(third.games.count).to eq 306
+    expect(Appointment.all.count).to eq 918
+
+    first.games.each {|m| puts "#{m.appointed_at.inspect}, #{m.home_id}, #{m.guest_id}" }
   end
 end

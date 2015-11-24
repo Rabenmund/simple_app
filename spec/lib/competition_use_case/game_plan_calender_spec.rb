@@ -9,7 +9,7 @@ RSpec.describe CompetitionUseCase::GamePlanCalender do
 
   it "has a number of planned matchdays" do
     matchdays = calender.matchdays
-    expect(matchdays.size).to eq 17
+    expect(matchdays.size).to eq 34
   end
 
   it "misses some tests"
