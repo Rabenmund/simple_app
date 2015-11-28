@@ -14,4 +14,8 @@ RSpec.describe CompetitionPlanning::DfbPlan do
   it "has cups" do
     expect(plan.cups.size).to eq 1
   end
+
+  it "has qualifies" do
+    expect(plan.cups.first.qualified.leagues[4]).to eq 10
+  end
 end

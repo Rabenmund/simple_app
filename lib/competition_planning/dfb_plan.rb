@@ -31,6 +31,8 @@ module CompetitionPlanning
       [
         MethodicalHash.new({
           level: 1,
+          qualified: MethodicalHash.new(
+            leagues: {1 => 18, 2 => 18, 3 => 18, 4 => 10}),
           name: "DFB Pokal",
           teams_no: 64
         }),

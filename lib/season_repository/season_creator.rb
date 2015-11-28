@@ -11,10 +11,10 @@ module SeasonRepository
       previous.federations.each do |federation|
         LeagueUseCase::LeaguePlanner
           .new(season: season, previous: previous, federation: federation)
-          .by_plan(federation.competition_plan.leagues)
-        CupRepository::CupCreator
+          .with_plan(federation.competition_plan.leagues)
+        CupUseCase::CupPlanner
           .new(season: season, previous: previous, federation: federation)
-          .by_plan(federation.competition_plan.cups)
+          .with_plan(federation.competition_plan.cups)
       end
       season
     end

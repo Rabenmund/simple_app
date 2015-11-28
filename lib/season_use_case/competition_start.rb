@@ -3,7 +3,7 @@ module SeasonUseCase
     class << self
 
       def date_for(year:)
-        earliest_start = Date.new(year,8,2)
+        earliest_start = Date.new(year-1,8,2)
         earliest_start + days_between(earliest_start.wday, saturday)
       end
 

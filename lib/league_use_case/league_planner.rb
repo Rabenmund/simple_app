@@ -42,7 +42,7 @@ module LeagueUseCase
     private
 
     attr_reader :season, :previous, :federation
-    attr_accessor :teams, :relegators, :promoters, :candidates
+    # attr_accessor :teams, :relegators, :promoters, :candidates
 
     def previous_league_for(name)
       previous_league = LeagueRepository::Finder

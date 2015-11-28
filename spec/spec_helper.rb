@@ -21,6 +21,8 @@ require 'capybara/rails'
 Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 Dir[Rails.root.join("spec/models/shared_examples/**/*.rb")].each {|f| require f}
 
+include SupportTeamCreator
+
 RSpec.configure do |config|
   config.include Capybara::DSL
   config.include FactoryGirl::Syntax::Methods

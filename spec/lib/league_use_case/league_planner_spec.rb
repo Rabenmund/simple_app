@@ -57,14 +57,6 @@ RSpec.describe LeagueUseCase::LeaguePlanner do
     ])
   end
 
-  def create_team(n, m=n, league=nil)
-    eval "@team#{n} = create :team, federation: federation"
-    if league
-      eval "league.teams << @team#{n}"
-      eval "create :result, team: @team#{n}, league: league, rank: #{m}"
-    end
-  end
-
   before do
     previous_season.federations << federation
     18.times {|n| create_team n + 1, n + 1, previous_first }
@@ -111,6 +103,6 @@ RSpec.describe LeagueUseCase::LeaguePlanner do
     expect(third.games.count).to eq 306
     expect(Appointment.all.count).to eq 918
 
-    first.games.each {|m| puts "#{m.appointed_at.inspect}, #{m.home_id}, #{m.guest_id}" }
+    # first.games.each {|m| puts "#{m.appointed_at.inspect}, #{m.home_id}, #{m.guest_id}" }
   end
 end

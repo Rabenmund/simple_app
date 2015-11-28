@@ -10,7 +10,17 @@ RSpec.describe CompetitionUseCase::GamePlanCalender do
   it "has a number of planned matchdays" do
     matchdays = calender.matchdays
     expect(matchdays.size).to eq 34
+    expect(matchdays.first.attributes)
+      .to eq(number: 1, start: Date.new(2015,8,8))
+    expect(matchdays.first.games.size).to eq 9
+    expect(matchdays.first.games.first.attributes)
+      .to eq(home_id: 1, guest_id: 10)
   end
 
-  it "misses some tests"
+  it "fails when the number of teams is not valid" do
+    allow(league).to receive(:teams).and_return [:team]
+    expect{ calender.matchdays }
+      .to raise_error CompetitionUseCase::TeamsSizeError
+  end
+
 end
