@@ -1,3 +1,4 @@
+class NotEnoughTeamsError < StandardError; end
 class TeamAdder
   def initialize(teamable:)
     @teamable = teamable
@@ -9,13 +10,23 @@ class TeamAdder
     teamable
   end
 
-  def ranked(league, size)
-    LeagueRepository::Ranking
-      .new(league: league)
-      .first(size)
+  def randomly(teams, size)
+    fail NotEnoughTeamsError if teams.size < size
+    size.times do
+      team = teams[rand(teams.size)]
+      teamable.teams << team
+      teams = teams - [team]
+    end
+    teamable
   end
 
   private
 
   attr_reader :teamable
+
+  def ranked(league, size)
+    LeagueRepository::Ranking
+      .new(league: league)
+      .first(size)
+  end
 end

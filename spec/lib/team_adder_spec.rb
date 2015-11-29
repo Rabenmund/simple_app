@@ -18,4 +18,26 @@ RSpec.describe TeamAdder do
     expect(teamable.teams).to contain_exactly(@team1, @team2, @team4, @team5)
   end
 
+  it "randomly adds missing teams" do
+    adder.from_leagues(season, 3, 2)
+    adder.randomly([@team3, @team6, @team7],3)
+    expect(cup.teams.size).to eq 7
+    expect(cup.teams).to contain_exactly(
+      @team1, @team2, @team3, @team4, @team5, @team6, @team7
+    )
+  end
+
+  it "fails without enough teams to randomly add" do
+    plan = MethodicalHash.new({
+          level: 1,
+          qualified: MethodicalHash.new(
+            leagues: {1 => 18, 2 => 18 }),
+          name: "DFB Pokal",
+          teams_no: 41
+        })
+    expect{adder.randomly([1], 2)}
+      .to raise_error NotEnoughTeamsError
+  end
+
+
 end

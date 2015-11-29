@@ -36,7 +36,7 @@ RSpec.describe CupUseCase::CupPlanner do
           qualified: MethodicalHash.new(
             leagues: {1 => 18, 2 => 2, 3 => 18, 4 => 10}),
           name: "DFB Pokal",
-          teams_no: 18
+          teams_no: 24
         })
     ])
   end
@@ -45,6 +45,7 @@ RSpec.describe CupUseCase::CupPlanner do
     previous_season.federations << federation
     18.times {|n| create_team n + 1, n + 1, previous_first }
     3.times {|n| create_team (n + 1 + 18), n + 1, previous_second }
+    3.times {|n| create_team (n + 1 + 21), n + 1 }
     league = create(:league,
                     level: 1,
                     season: previous_season,
@@ -55,6 +56,6 @@ RSpec.describe CupUseCase::CupPlanner do
   it "creates cups by plan" do
     planner.with_plan(plan.cups)
     expect(Cup.count).to eq 1
-    expect(Cup.last.teams.size).to eq 20
+    expect(Cup.last.teams.uniq.size).to eq 24
   end
 end
