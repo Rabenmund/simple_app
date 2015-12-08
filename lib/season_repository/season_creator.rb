@@ -24,7 +24,7 @@ module SeasonRepository
     attr_reader :previous
 
     def season
-      @new ||= create_season
+      @new_season ||= create_season
     end
 
     def create_season

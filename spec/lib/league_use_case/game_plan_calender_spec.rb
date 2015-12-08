@@ -1,7 +1,7 @@
 require 'spec_helper'
 
-RSpec.describe CompetitionUseCase::GamePlanCalender do
-  subject(:calender) { described_class.new(competition: league, type: :league) }
+RSpec.describe LeagueUseCase::GamePlanCalender do
+  subject(:calender) { described_class.new(league: league) }
   let(:league) { double "League", season: season, teams: teams, level: 1 }
   let(:season) { double "Season", year: 2016 }
   let(:teams) { [:t1, :t2, :t3, :t4, :t5, :t6, :t7, :t8, :t9, :t10, :t11,
@@ -20,7 +20,7 @@ RSpec.describe CompetitionUseCase::GamePlanCalender do
   it "fails when the number of teams is not valid" do
     allow(league).to receive(:teams).and_return [:team]
     expect{ calender.matchdays }
-      .to raise_error CompetitionUseCase::TeamsSizeError
+      .to raise_error LeagueUseCase::TeamsSizeError
   end
 
 end

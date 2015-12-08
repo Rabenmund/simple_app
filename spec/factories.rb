@@ -15,11 +15,8 @@ FactoryGirl.define do
   end
 
   factory :appointment do
-    appointable
+    association :appointable, factory: :game
     appointed_at DateTime.now
-  end
-
-  factory :appointable, class: Game do
   end
 
   factory :season do
@@ -34,6 +31,16 @@ FactoryGirl.define do
 
   factory :half_time, class: SeasonEventing::HalfTime do
     season
+  end
+
+  factory :game_event, class: SeasonEventing::GameEvent do
+    season
+    association :eventable, factory: :game_eventable
+  end
+
+  factory :draw_event, class: SeasonEventing::DrawEvent do
+    season
+    association :eventable, factory: :draw_eventable
   end
 
   factory :federation do
@@ -105,6 +112,8 @@ FactoryGirl.define do
   end
 
   factory :game do
+    factory :game_eventable do
+    end
     performed_at DateTime.now
     home
     guest
@@ -147,6 +156,8 @@ FactoryGirl.define do
     cup
     before :create do |draw|
       draw.matchday = create(:matchday, competition: draw.competition)
+    end
+    factory :draw_eventable do
     end
   end
 

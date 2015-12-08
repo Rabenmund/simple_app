@@ -38,6 +38,12 @@ module PlayerRepository
       Birthday.random(date: date, min: min, max: max)
     end
 
+    # TODO Refactor that
+    # no instance caching here
+    # otherwise you can't create a factory and produce in this factory instance
+    # as much as you want.
+    # currently you can produce one piece per factory only
+    #
     def create_human
       @human ||= HumanRepository::Creator.create(
         name: params[:name] || name,
@@ -59,6 +65,11 @@ module PlayerRepository
       "#{Name.prename} #{Name.family}"
     end
 
+    # TODO Refactor
+    # this is the reason for the instance caching above
+    # does not belong here
+    # looks like an own context. class probably
+    #
     def strength(should)
       should == type ? strength_by_age : 0
     end

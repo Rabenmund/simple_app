@@ -5,6 +5,7 @@ class Matchday < ActiveRecord::Base
   belongs_to :competition
   has_many :games, dependent: :destroy
   has_many :appointments, through: :games
+  has_one :season, through: :competition
   has_one :draw # optional - cup matchdays only
 
   scope :unfinished,

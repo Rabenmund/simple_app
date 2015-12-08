@@ -33,5 +33,6 @@ RSpec.describe SeasonEventing::HalfTime do
       .with(event.season.end_date+1.day)
       .and_return double("Detector", generate_players: true)
     event.call
+    puts event.season.season_events.first.inspect
   end
 end

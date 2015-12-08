@@ -179,6 +179,7 @@ ActiveRecord::Schema.define(version: 20151027064159) do
   create_table "matchdays", force: :cascade do |t|
     t.integer  "number",         null: false
     t.datetime "start",          null: false
+    t.string   "name"
     t.integer  "competition_id", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -272,11 +273,15 @@ ActiveRecord::Schema.define(version: 20151027064159) do
   add_index "results", ["team_id"], name: "index_results_on_team_id", using: :btree
 
   create_table "season_events", force: :cascade do |t|
-    t.string   "type",       null: false
-    t.integer  "season_id",  null: false
+    t.string   "type"
+    t.integer  "season_id",      null: false
+    t.integer  "eventable_id"
+    t.string   "eventable_type"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "season_events", ["eventable_type", "eventable_id"], name: "index_season_events_on_eventable_type_and_eventable_id", using: :btree
 
   create_table "seasons", force: :cascade do |t|
     t.integer  "year",       null: false

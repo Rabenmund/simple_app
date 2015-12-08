@@ -4,12 +4,12 @@ class Season < ActiveRecord::Base
   has_many :season_events
   has_many :competitions
   has_many :leagues # nötig?
+  has_many :cups
 
   # has_many :appointments, through: :season_events
   # has_many :matchdays, through: :competitions
   # has_many :games, through: :matchdays
   # has_many :results, through: :leagues
-  # has_many :cups
   # has_many :relegations
   has_many :teams, -> { uniq }, through: :competitions
 

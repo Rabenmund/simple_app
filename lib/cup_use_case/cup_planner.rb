@@ -9,12 +9,15 @@ module CupUseCase
     end
 
     def with_plan(plans)
-      plans.each do |plan|
-        CupRepository::CupCreator
+      cups = []
+      creator = CupRepository::CupCreator
           .new(season: season, previous: previous, federation: federation)
-          .by_plan(plan)
+
+      plans.each do |plan|
+          cups << creator.by_plan(plan)
       end
 
+      return cups
     end
 
     private

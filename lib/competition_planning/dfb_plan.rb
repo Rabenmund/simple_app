@@ -7,22 +7,19 @@ module CompetitionPlanning
           level: 1,
           name: "Bundesliga",
           teams_no: 18,
-          relegators_no: 3,
-          promoters_no: 0
+          promoted_from_sub: 3,
         }),
         MethodicalHash.new({
           level: 2,
           name: "2.Bundesliga",
           teams_no: 18,
-          relegators_no: 3,
-          promoters_no: 3
+          promoted_from_sub: 3,
         }),
         MethodicalHash.new({
           level: 3,
           name: "3.Bundesliga",
           teams_no: 18,
-          relegators_no: 3,
-          promoters_no: 3
+          promoted_from_sub: 3,
         }),
       ]
     end

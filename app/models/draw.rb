@@ -1,6 +1,6 @@
 class Draw < ActiveRecord::Base
 
-  include Appointable
+  include SeasonEventable
 
   belongs_to :cup
   belongs_to :matchday
@@ -16,8 +16,11 @@ class Draw < ActiveRecord::Base
 
   def finish!
     update_attributes(finished: true)
-    # TODO fragwuerdig. move to finisher.
-    appointment.destroy if appointment
+  end
+
+  def undrawed_teams
+    # TODO move that to undrawed teams class (cup use case) -> access to draw/cup
+    drawable_teams - cup.drawed_teams_at(matchday)
   end
 
   def perform_until_finished!
@@ -72,12 +75,13 @@ class Draw < ActiveRecord::Base
     return home, guest
   end
 
-  def undrawed_teams
-    winning_teams - cup.drawed_teams_at(matchday)
+  def drawable_teams
+    # TODO move to cup use case -> winning teams
+    @drawable_teams ||= matchday.number == 1 ? cup.teams : winning_teams
   end
 
   def winning_teams
-    @winning_teams ||= matchday.number == 1 ? cup.teams : cup.winning_teams_at(matchday.previous)
+    matchday.previous ? cup.winning_teams_at(matchday.previous) : []
   end
 
   def random_until(size, ignore=nil)

@@ -33,7 +33,7 @@ class Cup < Competition
             start,
             draw_days_since_start(number)
           ).start_date_extra_time(180),
-       matchday: matchday
+        matchday: matchday
       )
     end
   end

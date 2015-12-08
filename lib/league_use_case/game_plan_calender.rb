@@ -1,4 +1,4 @@
-module CompetitionUseCase
+module LeagueUseCase
   class TeamsSizeError < StandardError; end
 
   class GamePlanCalender
@@ -23,11 +23,10 @@ module CompetitionUseCase
       [[17,18],[1,9],[16,8],[15,7],[14,6],[13,5],[12,4],[11,3],[10,2]],
     ]}
 
-    def initialize(competition:, type:)
-      @competition = competition
-      @type = type
-      @competition_start = SeasonUseCase::CompetitionStart
-        .date_for(year: competition.season.year)
+    def initialize(league:)
+      @league = league
+      @league_start = SeasonUseCase::CompetitionStart
+        .date_for(year: league.season.year)
     end
 
     def matchdays
@@ -36,21 +35,21 @@ module CompetitionUseCase
 
         # Hinrunde
         matchday = PlanMatchday.new(
-          type: type,
+          type: :league,
           start: matchday_start(number+1),
           number: number+1,
           plan: plan,
-          level: competition.level
+          level: league.level
         )
         matchdays_enum << matchday
 
         # Rueckrunde
         matchday = PlanMatchday.new(
-          type: type,
+          type: :league,
           start: matchday_start(number+18),
           number: number+18,
           plan: plan,
-          level: competition.level,
+          level: league.level,
           invers: true
         )
         matchdays_enum << matchday
@@ -59,17 +58,17 @@ module CompetitionUseCase
     end
 
     private
-    attr_reader :competition, :competition_start, :type
+    attr_reader :league, :league_start
 
     MATCHDAY_NUMBER = {18 => 34}
 
     def number_of_matchdays
       fail TeamsSizeError unless MATCHDAY_NUMBER.keys.include? teams_size
-      MATCHDAY_NUMBER[competition.teams.size]
+      MATCHDAY_NUMBER[league.teams.size]
     end
 
     def teams_size
-      @teams_size ||= competition.teams.size
+      @teams_size ||= league.teams.size
     end
 
     def date
@@ -78,11 +77,11 @@ module CompetitionUseCase
 
     def matchday_start(number)
       SeasonUseCase::MatchdayStart.date_for(
-        type: type,
+        type: :league,
         number_all: number_of_matchdays,
-        competition_start: competition_start,
+        competition_start: league_start,
         number: number,
-        level: competition.level
+        level: league.level
         )
     end
 

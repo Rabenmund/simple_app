@@ -4,7 +4,7 @@ describe Draw do
   let(:draw) { create :draw }
 
   let(:testable) { draw }
-  it_behaves_like Appointable
+  it_behaves_like SeasonEventable
 
   it "is valid" do
     expect(draw).to be_valid
@@ -20,11 +20,6 @@ describe Draw do
 
   it "finishes the draw" do
     expect{draw.finish!}.to change{draw.finished}.from(false).to(true)
-  end
-
-  it "destroys its appointment if finishing" do
-    create :appointment, appointable: draw
-    expect{draw.finish!}.to change{draw.reload.appointment}.from(draw.appointment).to nil
   end
 
   it "is finished" do

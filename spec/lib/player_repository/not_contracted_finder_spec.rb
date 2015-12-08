@@ -15,7 +15,7 @@ RSpec.describe PlayerRepository::NotContractedFinder do
 
   it "finds all players not being contracted at a date" do
     expect(PlayerRepository::NotContractedFinder.at(date))
-      .to eq [@player1, @player2]
+      .to contain_exactly @player1, @player2
   end
 end
 

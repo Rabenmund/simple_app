@@ -110,7 +110,7 @@ s = f.seasons.create(
 
 c = f.cups.create(name: "DFB Pokal", level: 1, start: s.start_date, season: s)
 c.teams << f.teams.where(id: [1..64])
-s.cups << c
+# s.cups << c
 c.prepare!
 Appointment.destroy_all # ueberfluessige draw appointments
 
@@ -342,16 +342,6 @@ create_league_results(l6a, f, RESULTS6A)
 l6b = League.create(name: "6.Bundesliga B", level: 6, federation: f, season: s, start: s.start_date)
 create_league_results(l6b, f, RESULTS6B)
 
-puts ""
-puts "-"*120
-puts "Erschaffe eine neue Spielzeit"
-puts "-"*120
-puts ""
-
-s = Season.last
-s.teardown! if s
-
-# Seed strengths for new season
 s = Season.last
 
 puts ""
@@ -360,76 +350,30 @@ puts "Erschaffe Spieler"
 puts "-"*120
 puts ""
 
-# def create_players(t, base, o)
-#   [1,12,23].each do |p|
-#     create_player(
-#       name: "#{t.name} Torwart ##{p}",
-#       organization: o,
-#       keeper: strength(base)
-#     )
-#   end
-#   [2,3,4,5,13,14,15,16].each do |p|
-#     create_player(
-#       name: "#{t.name} Verteidiger ##{p}",
-#       organization: o,
-#       defense: strength(base)
-#     )
-#   end
-#   [6,7,8,10,17,18,19,20].each do |p|
-#     create_player(
-#       name: "#{t.name} Mittelfeldspieler ##{p}",
-#       organization: o,
-#       midfield: strength(base)
-#     )
-#   end
-#   [9,11,20,21].each do |p|
-#     create_player(
-#       name: "#{t.name} Stürmer ##{p}",
-#       organization: o,
-#       attack: strength(base)
-#     )
-#   end
-# end
-
-# def strength(base)
-#   rand((base*0.8).to_int..base)
-# end
-
-# def create_player(
-#       name: "",
-#       organization: nil,
-#       keeper: 0,
-#       defense: 0,
-#       midfield: 0,
-#       attack: 0
-#     )
-#   h = Human.create(name: name)
-
-#   # contract_start = "01.07.2009".to_datetime
-#   # contract_end = @season.end_date + rand(3).years
-#   # h.contracts.create(
-#   #   organization: organization,
-#   #   from: contract_start,
-#   #   to: contract_end,
-#   # )
-
-#   p = Player.create(
-#     human: h,
-#     keeper: keeper,
-#     defense: defense,
-#     midfield: midfield,
-#     attack: attack
-#   )
-#   puts "#{p.human.name}: #{p.keeper}, #{p.defense}, #{p.midfield}, #{p.attack}"
-# end
-
+date = Date.new(2010, 6, 30)
 (Team.count*30).times do
-  player = GeneratePlayer.new(birthday: Birthday.random(max: 33, min: 17)).random
-  puts "##{player.id} #{player.name} (*#{player.age}), #{player.keeper}/#{player.defense}/#{player.midfield}/#{player.attack}"
+  player = PlayerRepository::Factory
+    .new(date: date, age: :random)
+    .create
+  puts "##{player.id} #{player.name} (*#{HumanRepository::Age.new(human: player.human).age_at(date)}), #{player.keeper}/#{player.defense}/#{player.midfield}/#{player.attack}"
 end
 
-@season = s
-s.leagues.each do |l|
+# Teardown and Up
+puts ""
+puts "-"*120
+puts "Erschaffe eine neue Spielzeit"
+puts "-"*120
+puts ""
+
+# add a competition plan to federation
+CompetitionPlanning::DfbPlan.create(federation: f)
+
+new_season = SeasonRepository::SeasonCreator
+  .new(previous: s)
+  .create_with_competitions
+
+puts new_season.inspect
+new_season.leagues.each do |l|
   puts "Liga: #{l.name}"
   l.teams.each do |t|
     t.create_organization
@@ -437,11 +381,12 @@ s.leagues.each do |l|
     puts "#{t.reputation} #{t.name}"
   end
 end
-(Team.all - Team.with_league_in(s)).each do |t|
+(Team.all - Team.with_league_in(new_season)).each do |t|
   t.create_organization
   t.update_reputation!
   puts "#{t.reputation} #{t.name}"
 end
 
-puts "Verhandlungen..."
-SeasonService::FillUpTeams.new(id: 2).fill_up
+# season.teardown
+# create newseason tearup event
+# run it

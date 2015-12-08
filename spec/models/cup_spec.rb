@@ -34,11 +34,11 @@ describe Cup do
     end
 
     it "has winning teams for a matchday" do
-      expect(cup.winning_teams_at @matchday).to eq [@team2, @team5]
+      expect(cup.winning_teams_at @matchday).to contain_exactly @team2, @team5
     end
 
     it "has drawed teams at matchday" do
-      expect(cup.drawed_teams_at @matchday).to eq [@team2, @team3, @team4, @team5]
+      expect(cup.drawed_teams_at @matchday).to contain_exactly @team2, @team3, @team4, @team5
     end
   end
 end

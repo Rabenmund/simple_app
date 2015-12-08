@@ -2,60 +2,26 @@ require 'spec_helper'
 
 RSpec.describe CupUseCase::CupPlanner do
   subject(:planner) { described_class.new(season: season, previous: previous_season, federation: federation) }
-  let(:season) do
-    create :season,
-      year: 2016,
-      start_date: Date.new(2015, 7, 1),
-      end_date: Date.new(2016, 6, 30)
-  end
-  let(:previous_season) do
-    create :season,
-      year: 2015,
-      start_date: Date.new(2014, 7, 1),
-      end_date: Date.new(2015, 6, 30)
-  end
-  let(:previous_first) do
-    create :league,
-      season: previous_season,
-      name: "Bundesliga",
-      level: 1,
-      federation: federation
-  end
-  let(:previous_second) do
-    create :league,
-      season: previous_season,
-      name: "2.Bundesliga",
-      level: 2,
-      federation: federation
-  end
-  let(:federation) { create :federation }
-  let(:plan) do
-    double("Plan", cups: [
-        MethodicalHash.new({
-          level: 1,
-          qualified: MethodicalHash.new(
-            leagues: {1 => 18, 2 => 2, 3 => 18, 4 => 10}),
-          name: "DFB Pokal",
-          teams_no: 24
-        })
-    ])
-  end
 
-  before do
-    previous_season.federations << federation
-    18.times {|n| create_team n + 1, n + 1, previous_first }
-    3.times {|n| create_team (n + 1 + 18), n + 1, previous_second }
-    3.times {|n| create_team (n + 1 + 21), n + 1 }
-    league = create(:league,
-                    level: 1,
-                    season: previous_season,
-                    federation: federation
-                   )
-  end
+  let(:season) { double "Season" }
+  let(:previous_season) { double "Previous" }
+  let(:federation) { double "Federation" }
+  let(:creator) { double "Creator" }
 
-  it "creates cups by plan" do
-    planner.with_plan(plan.cups)
-    expect(Cup.count).to eq 1
-    expect(Cup.last.teams.uniq.size).to eq 24
+  it "calls the cup creator per plan" do
+    expect(CupRepository::CupCreator)
+      .to receive(:new)
+      .with(season: season, previous: previous_season, federation: federation)
+      .and_return creator
+    expect(creator)
+      .to receive(:by_plan)
+      .with(:plan1)
+      .and_return :cup1
+    expect(creator)
+      .to receive(:by_plan)
+      .with(:plan2)
+      .and_return :cup2
+    expect(planner.with_plan([:plan1, :plan2]))
+      .to eq [:cup1, :cup2]
   end
 end

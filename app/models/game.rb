@@ -9,8 +9,7 @@ class Game < ActiveRecord::Base
     def attackers; []; end
   end
 
-
-  include Appointable
+  include SeasonEventable
 
   END_FIRST = 2700
   START_SECOND = 3600
@@ -72,7 +71,7 @@ class Game < ActiveRecord::Base
     return true if finished?
     self.finished = true
     save
-    appointment.destroy if appointment
+    # appointment.destroy if appointment
     calculate_points
   end
 
@@ -89,10 +88,16 @@ class Game < ActiveRecord::Base
 
   attr_accessor :sec
 
+  def call
+    # called by game event
+    perform!
+  end
+
   def perform!
     return false if finished?
     tearup unless started?
-    appointment.update_attributes(appointed_at: appointment.appointed_at+60) if appointment
+    # TODO nogo
+    # appointment.update_attributes(appointed_at: appointment.appointed_at+60) if appointment
     @sec = second
     perform
     save

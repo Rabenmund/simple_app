@@ -6,10 +6,10 @@ namespace :simple_app do
   end
 
   def run
-    Season.order(:year).last.teardown!
+    # Season.order(:year).last.teardown!
     puts "Season: ", Season.order(:year).last.year
     puts "-"*120
-    puts "Ereignisse: #{Appointment.all.size}"
+    puts "Ereignisse: #{SeasonEvent.all.size}"
     puts ""
     puts "########### #{Time.now-@start} ###########"
     get_and_perform
@@ -27,21 +27,21 @@ namespace :simple_app do
     puts "get and perform: appointment # #{appointment.try(:id)}"
     puts "---------- #{Time.now-@start} ----------"
     return false unless appointment
-    puts "Appointment: #{appointment.appointable.performed_at}"
-    puts "matchday id: #{appointment.appointable.matchday.number}"
-    puts "competition: #{appointment.appointable.matchday.competition.name}"
+    puts "Date: #{appointment.appointed_at}"
+    puts "Type: #{appointment.appointable.eventable_type}"
+    puts "matchday: #{appointment.appointable.eventable.try(:matchday).try(:name)}"
+    puts "competition: #{appointment.appointable.eventable.try(:competition).try(:name)}: #{appointment.appointable.eventable.try(:name)}"
     perform appointment
     get_and_perform
   end
 
   def perform(appointment)
     puts "perform: appointment # #{appointment.id}"
+    puts "-> #{appointment.appointable.eventable.season_event.inspect}"
     puts "++++++++++ #{Time.now-@start} ++++++++++"
-    return false unless appointment
-    puts "---> appointable: #{appointment.appointable.class.name}"
-    return false unless appointment.appointable.perform_until_finished!
+    appointment.appointable.eventable.season_event.call_until_end
     puts "********** #{Time.now-@start} **********"
-    perform appointment
-    puts ".......... #{Time.now-@start} .........."
+    # perform appointment
+    # puts ".......... #{Time.now-@start} .........."
   end
 end

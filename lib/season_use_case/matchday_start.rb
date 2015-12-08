@@ -50,7 +50,8 @@ module SeasonUseCase
       }
 
       def date_for(type:, number_all:, competition_start:, number:, level: 1)
-        competition_start + DAYS_SINCE_START[type][level][number_all][number-1]
+        competition_start +
+          DAYS_SINCE_START[type][level][number_all][number-1].days
       end
 
     end

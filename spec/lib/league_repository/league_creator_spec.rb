@@ -29,9 +29,9 @@ RSpec.describe LeagueRepository::LeagueCreator do
 
   it "plans the games according to the teams" do
     new_league = creator.league
-    expect(CompetitionUseCase::GamesPlanner)
+    expect(LeagueUseCase::GamesPlanner)
       .to receive(:new)
-      .with(competition: new_league, type: :league)
+      .with(league: new_league)
       .and_return(double("GamePlanner", call: true))
     new_league = creator.plan_games_for([team1, team2])
   end

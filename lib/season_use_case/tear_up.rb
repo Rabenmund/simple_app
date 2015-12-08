@@ -7,8 +7,8 @@ module SeasonUseCase
     def invoke
       # no event / not appointed - will be called by tear down event
 
-      # create season events
-      #  TODO: move to seasoncreator
+      # TODO calculate reputation missing
+
       EventPlanner.new(season: season).call
     end
 

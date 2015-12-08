@@ -9,7 +9,7 @@ describe Game do
     create :guest_lineup, game: game, team: game.guest
   end
 
-  it_behaves_like Appointable
+  it_behaves_like SeasonEventable
 
   it "is valid" do
     expect(game).to be_valid
@@ -26,7 +26,6 @@ describe Game do
   it "finishes" do
     game.finish!
     expect(game.finished).to eq true
-    expect(game.reload.appointment).to eq nil
   end
 
   it "does not finish a game having no goals" do
@@ -104,7 +103,7 @@ describe Game do
       game.update_attributes(second: 7000)
       game.perform!
       expect(game.finished).to eq true
-      expect(game.reload.appointment).to be_nil
+      # expect(game.reload.appointment).to be_nil
     end
 
     it "does not finish a game that's second half is not finished" do

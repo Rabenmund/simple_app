@@ -6,12 +6,12 @@ RSpec.describe GameRepository::GameCreator do
   let(:attributes) { game.attributes }
   let(:date) { Date.new(2015,7,1) }
 
-  it "creates a game including the appointment" do
-    game = creator.with_appointment(date: date, attributes: attributes)
+  it "creates a game including the game event" do
+    game = creator.create(date: date, attributes: attributes)
     expect(game).to be_a Game
     expect(game).to be_valid
-    expect(game.appointment).to be_a Appointment
-    expect(game.appointment.appointed_at).to eq date
-    expect(Appointment.all.count).to eq 1
+    expect(game.season_event).to be_a SeasonEvent
+    expect(game.season_event.appointed_at).to eq date
+    expect(SeasonEvent.all.count).to eq 1
   end
 end
