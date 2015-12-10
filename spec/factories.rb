@@ -36,6 +36,7 @@ FactoryGirl.define do
   factory :game_event, class: SeasonEventing::GameEvent do
     season
     association :eventable, factory: :game_eventable
+    appointment
   end
 
   factory :draw_event, class: SeasonEventing::DrawEvent do
@@ -145,6 +146,7 @@ FactoryGirl.define do
   factory :cup do
     season
     federation
+    level 1
     sequence(:name) { |n| "Cup ##{n}" }
     start DateTime.now
   end
@@ -154,11 +156,9 @@ FactoryGirl.define do
     name 'Auslosung'
     performed_at DateTime.now
     cup
-    before :create do |draw|
-      draw.matchday = create(:matchday, competition: draw.competition)
-    end
-    factory :draw_eventable do
-    end
+    # before :create do |draw|
+    #   draw.matchday = create(:matchday, competition: draw.competition)
+    # end
   end
 
   factory :offer do

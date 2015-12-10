@@ -274,6 +274,7 @@ ActiveRecord::Schema.define(version: 20151027064159) do
 
   create_table "season_events", force: :cascade do |t|
     t.string   "type"
+    t.datetime "performed_at"
     t.integer  "season_id",      null: false
     t.integer  "eventable_id"
     t.string   "eventable_type"

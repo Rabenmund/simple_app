@@ -13,12 +13,14 @@ module SeasonEventing
 
     private
 
+    attr_accessor :undrawed_teams
+
     def draw
       eventable
     end
 
     def undrawed
-      draw.undrawed_teams
+      @undrawed_teams ||= draw.undrawed_teams
     end
 
     def drawable?
@@ -35,19 +37,36 @@ module SeasonEventing
     end
 
     def all_steps
-      return true unless step
+      result = step
+      return eventable.games unless result
       all_steps
     end
 
-    def game_with(home, guest)
-      GameRepository::GameCreator
-        .create(date: GameStart.date,
-                attributes: {
-                 home: home,
-                  guest: guest,
-                  decision: true
-                })
-        return home, guest
+    def game_with(attr)
+      home = attr[0]
+      guest = attr[1]
+      game = GameRepository::GameCreator
+        .create(
+          date: game_start,
+          attributes: {
+            home: home,
+            guest: guest,
+            matchday: draw.matchday,
+            decision: true
+          }
+      )
+      @undrawed_teams -=  [home, guest]
+      return home, guest
+    end
+
+    def game_start
+      SeasonUseCase::GameStart
+        .date_time(type: :cup,
+                   level: draw.cup.level,
+                   matchday_start: draw.matchday.start,
+                   md_number: draw.matchday.number,
+                   g_number: (draw.matchday.games.count + 1)
+                  )
     end
 
     def random_teams(teams = undrawed)
@@ -56,8 +75,8 @@ module SeasonEventing
     end
 
     def random_numbers(size:)
-      first = random_number(size: teams.size) - 1
-      second = random_number(size: teams.size, ignore: first) - 1
+      first = random_number(size: size) - 1
+      second = random_number(size: size, ignore: first + 1) - 1
       return first, second
     end
 
@@ -70,7 +89,8 @@ module SeasonEventing
       # TODO move to Teams use case
       home = teams[first]
       guest = teams[second]
-      guest.current_level < home.current_level ? [guest, home] : [home, guest]
+      return guest, home if guest.current_level > home.current_level
+      return home, guest
     end
   end
 end

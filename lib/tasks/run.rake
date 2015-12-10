@@ -39,7 +39,7 @@ namespace :simple_app do
     puts "perform: appointment # #{appointment.id}"
     puts "-> #{appointment.appointable.eventable.season_event.inspect}"
     puts "++++++++++ #{Time.now-@start} ++++++++++"
-    appointment.appointable.eventable.season_event.call_until_end
+    appointment.appointable.eventable.season_event.perform
     puts "********** #{Time.now-@start} **********"
     # perform appointment
     # puts ".......... #{Time.now-@start} .........."
