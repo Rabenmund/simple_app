@@ -48,11 +48,6 @@ describe Game do
       expect{game.perform!}.to change{game.second}.by(60)
     end
 
-    it "calls the Eventer" do
-      expect(GameEventer).to receive(:new).and_return double(goal_event: :evented)
-      game.perform!
-    end
-
     it "does not call the Eventer is the is paused in first half" do
       game.update_attributes(second: 3300, half_second: 2700)
       expect(GameEventer).to_not receive(:new)

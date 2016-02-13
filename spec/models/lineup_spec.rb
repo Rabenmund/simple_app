@@ -21,7 +21,7 @@ describe Lineup do
   end
 
   it "sets up a lineup" do
-    lineup.set!
+    lineup.start!
     expect(lineup.actors.count).to eq 11
     expect(lineup.initiative).to eq 1500
     expect(lineup.defending).to eq 1800
@@ -30,17 +30,17 @@ describe Lineup do
 
   it "sets up less than needed players" do
     Player.last.delete
-    lineup.set!
+    lineup.start!
     expect(lineup.players.count).to eq 10
   end
 
   it "multiple calls of set reset actors entirely" do
     Player.last.delete
-    lineup.set!
+    lineup.start!
     create :player
     lineup.reload
     allow(lineup).to receive(:players).and_return Player.all
-    lineup.set!
+    lineup.reset!
     expect(lineup.players.count).to eq 11
   end
 

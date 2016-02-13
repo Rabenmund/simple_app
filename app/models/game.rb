@@ -58,6 +58,7 @@ class Game < ActiveRecord::Base
     return home_lineup if guest_goals > home_goals
   end
 
+  # TODO call a LineUp Finder
   def home_lineup
     lineups.find_by(team_id: home_id)
   end
@@ -80,7 +81,7 @@ class Game < ActiveRecord::Base
   end
 
   def perform_until_finished!
-    tearup unless started?
+    start! unless started?
     @sec = second
     perform
     perform_until_finished! unless finished?
@@ -95,7 +96,7 @@ class Game < ActiveRecord::Base
 
   def perform!
     return false if finished?
-    tearup unless started?
+    start! unless started?
     # TODO nogo
     # appointment.update_attributes(appointed_at: appointment.appointed_at+60) if appointment
     @sec = second
@@ -146,13 +147,30 @@ class Game < ActiveRecord::Base
     second > 0
   end
 
+  def start!
+    start_lineup(home_id, guest_id)
+  end
+
   private
 
-  def tearup
-    lineups.create(team_id: home_id) unless home_lineup
-    lineups.create(team_id: guest_id) unless guest_lineup
-    home_lineup.set!
-    guest_lineup.set!
+  def start_lineup(*ids)
+    ids.each {|id| lineup(id).start! }
+  end
+
+  # def tearup
+  #   start! # TODO remove
+  # end
+
+  def lineup(id)
+    find_lineup(id) || create_lineup(id)
+  end
+
+  def find_lineup(id)
+    lineups.find_by(team_id: id)
+  end
+
+  def create_lineup(id)
+    lineups.create(team_id: id)
   end
 
   def calculate_points

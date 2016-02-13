@@ -8,12 +8,21 @@ class Lineup < ActiveRecord::Base
   has_many :attackers, -> { where type: "Attacker" }
   has_many :players, through: :actors, source: :actorable, source_type: "Player"
 
-  def set!
+  def reset!
     lineup!
     calculate_strength
   end
 
+  def start!
+    lineup! unless linedup?
+    calculate_strength
+  end
+
   private
+
+  def linedup?
+    actors.any?
+  end
 
   def lineup!
     actors.delete_all
@@ -27,7 +36,10 @@ class Lineup < ActiveRecord::Base
   # TODO put that into a seperate and specific strength/system class
 
   def best_players(role, value)
-    team.players.linable.send(role.to_s).first(value)
+    team.players
+      .linable
+      .send(role.to_s)
+      .first(value)
   end
 
   def tactic
@@ -40,7 +52,7 @@ class Lineup < ActiveRecord::Base
       midfielders: 4,
       attackers: 2
     }
-    # [4,4,2] # will be instantiated later
+    # TODO: parameterize later
   end
 
   def calculate_strength
