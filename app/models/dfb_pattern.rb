@@ -104,7 +104,6 @@ class DFBPattern
 
   def fill_with_random_teams(no, all_teams, selected_teams)
     no.times do
-      puts "-> #{@dfb.teams.count} - #{selected_teams.size} - #{previous_teams.count}"
       rest = @dfb.teams - selected_teams - previous_teams
       selected_teams << rest[Random.rand(1...rest.count)-1]
     end
