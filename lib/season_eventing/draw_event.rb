@@ -6,7 +6,7 @@ module SeasonEventing
     end
 
     def step
-      return false unless drawable?
+      return false unless performable?
       appointment.add_a_minute!
       game_with random_teams
     end
@@ -23,9 +23,9 @@ module SeasonEventing
       @undrawed_teams ||= draw.undrawed_teams
     end
 
-    def drawable?
+    def performable?
       finish! if undrawed.size < 2
-      draw.finished? ? false : true
+      !draw.finished?
     end
 
     def finish!
@@ -37,8 +37,7 @@ module SeasonEventing
     end
 
     def all_steps
-      result = step
-      return eventable.games unless result
+      return eventable.games unless step
       all_steps
     end
 
@@ -55,7 +54,7 @@ module SeasonEventing
             decision: true
           }
       )
-      @undrawed_teams -=  [home, guest]
+      @undrawed_teams -= [home, guest]
       return home, guest
     end
 
