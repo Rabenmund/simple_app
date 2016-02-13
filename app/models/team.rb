@@ -99,7 +99,7 @@ class Team < ActiveRecord::Base
   end
 
   def current_level
-    current_league.level
+    current_league ? current_league.level : 99 # is amateur
   end
 
   def previous_league
