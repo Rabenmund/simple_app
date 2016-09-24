@@ -388,5 +388,4 @@ end
 end
 
 # create newseason tearup event inside teardown event
-# season.teardown
-# run it
+s.teardown!
