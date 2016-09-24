@@ -240,7 +240,7 @@ DEPENDENCIES
   jquery-rails
   launchy
   pg (~> 0.17.1)
-  rails
+  rails (< 5)
   rspec-rails
   sass-rails
   show_for
@@ -250,3 +250,6 @@ DEPENDENCIES
   uglifier
   unicorn
   will_paginate
+
+BUNDLED WITH
+   1.12.5

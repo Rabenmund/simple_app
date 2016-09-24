@@ -5,10 +5,6 @@ module SeasonEventing
       perform! { all_steps }
     end
 
-    def step
-      perform! { steps(10) }
-    end
-
     private
 
     STEP_TIME = 6
@@ -36,27 +32,6 @@ module SeasonEventing
       all_steps
     end
 
-    def steps(times)
-      times.times do |time|
-        finish! if to_be_finished?
-        break if finished?
-        add_step_time
-        # probably:
-        # have a scene: contains positions (players and ball)
-        # have an action function to create events and returns a new scene
-        # game_scene.perform
-      end
-    end
-
-    # TODO: find another name and class
-    def game_scene
-      @game_scene ||= GameScene.new(
-        game: game,
-        home_lineup: game.home_lineup,
-        guest_lineup: game.guest_lineup
-      )
-    end
-
     def add_step_time
       game.second = game.second + STEP_TIME
     end
@@ -72,5 +47,53 @@ module SeasonEventing
     def finish!
       game.finish!
     end
+
+    attr_writer :snapshot
+
+    def snapshot
+      @snapshot ||= Snapshot.new(game)
+    end
+
+    def steps(times)
+      times.times do |time|
+        finish! if to_be_finished?
+        break if finished?
+        add_step_time
+        snapshot = GameMover.move(snapshot)
+      end
+    end
+
   end
+end
+
+
+class GameMover
+  def self.move(snapshot)
+    # entscheidungen:
+    # ball_position -> field_position
+    # ball_owner -> team
+    # home_formation -> formation
+    # guest_formation -> formation
+    # home_ofcon -> ofcon
+    # guest_ofcon -> ofcon
+    #
+    # effects:
+    # events
+    #
+    # use:
+    #
+
+  end
+end
+
+class Snapshot
+  attr_reader :game
+
+  def initialize(game)
+    @game = game
+  end
+
+
+
+
 end

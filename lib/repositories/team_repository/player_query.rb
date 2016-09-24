@@ -1,7 +1,7 @@
 module TeamRepository
   class PlayerQuery
 
-    def initialize(team: team)
+    def initialize(team:)
       @team = team
     end
 

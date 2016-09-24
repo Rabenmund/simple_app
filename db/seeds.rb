@@ -387,6 +387,6 @@ end
   puts "#{t.reputation} #{t.name}"
 end
 
+# create newseason tearup event inside teardown event
 # season.teardown
-# create newseason tearup event
 # run it

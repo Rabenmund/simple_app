@@ -59,10 +59,39 @@ RSpec.describe LeagueUseCase::LeaguePlanner do
 
   before do
     previous_season.federations << federation
-    18.times {|n| create_team n + 1, n + 1, previous_first }
-    18.times {|n| create_team (n + 1 + 18), n + 1, previous_second }
-    18.times {|n| create_team (n + 1 + 36), n + 1, previous_third }
-    3.times {|n| create_team (n + 1 + 54) }
+    18.times do |n|
+      create_team(
+        number: n + 1,
+        rank: n + 1,
+        federation: federation,
+        league: previous_first
+      )
+    end
+
+    18.times do |n|
+      create_team(
+        number: (n + 1 + 18),
+        rank: n + 1,
+        federation: federation,
+        league: previous_second
+      )
+    end
+
+    18.times do |n|
+      create_team(
+        number: (n + 1 + 36),
+        rank: n + 1,
+        federation: federation,
+        league: previous_third
+      )
+    end
+
+    3.times do |n|
+      create_team(
+       number: (n + 1 + 54),
+       federation: federation
+      )
+    end
   end
 
   it "creates a first league with promoters" do

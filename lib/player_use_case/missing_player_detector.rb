@@ -1,7 +1,7 @@
 module PlayerUseCase
   class MissingPlayerDetector
 
-    def initialize(date: date)
+    def initialize(date:)
       @date = date
     end
 

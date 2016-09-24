@@ -7,7 +7,8 @@ module SeasonRepository
     end
 
     def create_with_competitions
-      fail SeasonAlreadyCreatedError if previous.next_one
+      return previous.next_one if previous.next_one
+
       previous.federations.each do |federation|
         LeagueUseCase::LeaguePlanner
           .new(season: season, previous: previous, federation: federation)

@@ -1,7 +1,7 @@
 module PlayerRepository
   class OfferQuery
 
-    def initialize(player: player)
+    def initialize(player:)
       @player = player
     end
 

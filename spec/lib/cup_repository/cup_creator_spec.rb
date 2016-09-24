@@ -46,9 +46,30 @@ RSpec.describe CupRepository::CupCreator do
   end
 
   before do
-    18.times {|n| create_team n + 1, n + 1, previous_first }
-    18.times {|n| create_team (n + 1 + 18), n + 1, previous_second }
-    28.times {|n| create_team (n + 1 + 36) }
+    18.times do |n|
+      create_team(
+        number: n + 1,
+        rank: n + 1,
+        federation: federation,
+        league: previous_first
+      )
+    end
+
+    18.times do |n|
+      create_team(
+        number: (n + 1 + 18),
+        rank: n + 1,
+        federation: federation,
+        league: previous_second
+      )
+    end
+
+    28.times do |n|
+      create_team(
+       number: (n + 1 + 36),
+       federation: federation
+      )
+    end
   end
 
   it "creates a cup" do
@@ -66,4 +87,3 @@ RSpec.describe CupRepository::CupCreator do
     expect(cup.draws.first.name).to eq "Auslosung 1.Runde"
   end
 end
-

@@ -1,6 +1,6 @@
 module PlayerRepository
   class CloseAllOffers
-    def initialize(player: player)
+    def initialize(player:)
       @player = player
     end
 

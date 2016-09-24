@@ -11,11 +11,6 @@ RSpec.describe SeasonEventing::GameEvent do
     expect(event).to be_valid
   end
 
-  it "performs 10 steps" do
-    game = event.step
-    expect(game.second).to eq 60
-  end
-
   it "performs all steps" do
     TIMES = 10
     total = 0

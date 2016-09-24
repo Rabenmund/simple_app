@@ -2,7 +2,7 @@ module PlayerUseCase
   class NoBestOfferToContractError < StandardError; end
 
   class FindBestOffer
-    def initialize(player: player)
+    def initialize(player:)
       @player = player
     end
 

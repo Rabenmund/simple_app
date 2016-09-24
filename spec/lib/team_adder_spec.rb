@@ -9,8 +9,22 @@ RSpec.describe TeamAdder do
   let(:federation) { create :federation }
 
   before do
-    3.times {|n| create_team n + 1, n + 1, third_1 }
-    4.times {|n| create_team n + 4, n + 1, third_2 }
+    3.times do |n|
+      create_team(
+        number: n + 1,
+        rank: n + 1,
+        league: third_1,
+        federation: federation
+      )
+    end
+    4.times do |n|
+      create_team(
+        number: n + 4,
+        rank: n + 1,
+        league: third_2,
+        federation: federation
+      )
+    end
   end
 
   it "adds teams from leagues by ranking" do

@@ -1,6 +1,6 @@
 module PlayerRepository
   class EndingContracts
-    def initialize(date: date)
+    def initialize(date:)
       @date = date
     end
 

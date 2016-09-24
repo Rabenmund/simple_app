@@ -5,7 +5,7 @@ module SeasonUseCase
   module TeamProlongations
     class << self
 
-      def decisions(date: date)
+      def decisions(date:)
         ids = Array.new
         TeamRepository::EndingContracts.new(date: date).players.each do |team|
           ids.concat TeamUseCase::PlayerProlongations

@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails'
+gem 'rails', '< 5'
 gem 'pg', '~> 0.17.1'# no easy update to 0.18 - check readme or so
 gem 'bcrypt-ruby'
 gem 'jquery-rails'

@@ -1,6 +1,6 @@
 module HumanRepository
   class Age
-    def initialize(human: human)
+    def initialize(human:)
       @human = human
     end
 

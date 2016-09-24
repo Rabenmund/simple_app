@@ -2,7 +2,7 @@ module PlayerRepository
   class Updater
     attr_reader :player
 
-    def initialize(player: player)
+    def initialize(player:)
       @player = player
     end
 

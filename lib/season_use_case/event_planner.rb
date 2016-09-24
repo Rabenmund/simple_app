@@ -1,6 +1,6 @@
 module SeasonUseCase
   class EventPlanner
-    def initialize(season: season)
+    def initialize(season:)
       @season = season
     end
 

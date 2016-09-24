@@ -38,9 +38,9 @@ RSpec.describe SeasonRepository::SeasonCreator do
   end
 
   it "does not create a next season if there is already one" do
-    season
-    expect{creator.create_with_competitions}.to raise_error(
-      SeasonRepository::SeasonAlreadyCreatedError)
+    # expect{creator.create_with_competitions}.to raise_error(
+    #   SeasonRepository::SeasonAlreadyCreatedError)
+    expect(creator.create_with_competitions).to eq season
   end
 
 end

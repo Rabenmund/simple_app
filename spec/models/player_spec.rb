@@ -63,8 +63,11 @@ describe Player do
     end
 
     it "scopes with older offers from team" do
-      create :offer, team_id: 1, player: player
-      expect(Player.without_offer_by 1, date).to include player
+      end_date = date + 1.year - 1.day
+      create :offer,
+          team_id: 1, player: player, start_date: date, end_date: end_date
+
+      expect(Player.without_offer_by 1, date + 1.year).to include player
     end
 
     it "does not scope with an offer by team" do
