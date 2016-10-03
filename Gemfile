@@ -18,6 +18,9 @@ gem 'distribution'
 
 gem "show_for"
 
+gem 'bunny'
+gem 'json'
+
 group :test, :development do
   gem 'rspec-rails'
 end

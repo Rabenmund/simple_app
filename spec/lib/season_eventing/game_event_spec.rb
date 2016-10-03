@@ -11,20 +11,24 @@ RSpec.describe SeasonEventing::GameEvent do
     expect(event).to be_valid
   end
 
-  it "performs all steps" do
-    TIMES = 10
-    total = 0
-    TIMES.times do
-      event = create :game_event
-      start = Time.now
-      game = event.perform
-      expect(game.second).to eq 5400
-      _time = (-(start-Time.now))
-      total = total + _time
-      puts "time-2-end-game: #{_time.to_s}"
-    end
-    puts "average: "+(total / TIMES).to_s
+  it "performs an non finished game" do
+    expect(event.perform)
   end
+
+  # it "performs all steps" do
+  #   TIMES = 10
+  #   total = 0
+  #   TIMES.times do
+  #     event = create :game_event
+  #     start = Time.now
+  #     game = event.perform
+  #     expect(game.second).to eq 5400
+  #     _time = (-(start-Time.now))
+  #     total = total + _time
+  #     puts "time-2-end-game: #{_time.to_s}"
+  #   end
+  #   puts "average: "+(total / TIMES).to_s
+  # end
 
   # it "performs a game scene" do
   #   expect(GameScene).to receive(:new).and_return scene

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe GameRepository::GameCreator do
+RSpec.describe GameCreator do
   subject(:creator) { described_class }
   let(:game) { build :game }
   let(:attributes) { game.attributes }

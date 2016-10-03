@@ -35,7 +35,7 @@ RSpec.describe LeagueUseCase::GamesPlanner do
       .with({attributes: attributes, competition_id: 42})
       .exactly(2).times
       .and_return matchday
-    expect(GameRepository::GameCreator)
+    expect(GameCreator)
       .to receive(:create)
       .with(date: :start,
             attributes: {attributes: attributes, matchday_id: matchday.id})

@@ -44,7 +44,7 @@ module SeasonEventing
     def game_with(attr)
       home = attr[0]
       guest = attr[1]
-      game = GameRepository::GameCreator
+      game = GameCreator
         .create(
           date: game_start,
           attributes: {

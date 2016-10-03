@@ -14,7 +14,7 @@ module LeagueUseCase
 
         plan_matchday.games.each_with_index do |plan_game, index|
           attributes = plan_game.attributes.merge(matchday_id: matchday.id)
-          GameRepository::GameCreator.create(
+          GameCreator.create(
             date: plan_game.start,
             attributes: attributes
           )

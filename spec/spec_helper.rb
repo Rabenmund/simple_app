@@ -18,6 +18,7 @@ require 'capybara/rails'
 # set the number of hash runs to the very minimum to speed up test
 #BCrypt::Engine::DEFAULT_COST = 1
 
+Dir[Rails.root.join("lib/**/*.rb")].each {|f| require f}
 Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 Dir[Rails.root.join("spec/models/shared_examples/**/*.rb")].each {|f| require f}
 
