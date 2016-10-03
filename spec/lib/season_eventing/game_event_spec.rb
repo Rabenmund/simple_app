@@ -12,7 +12,19 @@ RSpec.describe SeasonEventing::GameEvent do
   end
 
   it "performs an non finished game" do
-    expect(event.perform)
+    expect(GamePlayEvent)
+      .to receive(:new)
+      .with(event.eventable)
+      .and_return :game_play_event
+    expect(GamePublisher)
+      .to receive(:publish)
+      .with(:game_play_event)
+    event.perform
+  end
+
+  it "does not perform an already finished game" do
+    event.eventable.update_attributes(finished: true)
+    expect(event.perform).to eq false
   end
 
   # it "performs all steps" do
